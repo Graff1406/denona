@@ -1,0 +1,57 @@
+@tailwind base;
+
+@layer base {
+  body,
+  html {
+    overflow: hidden;
+    @apply bg-gray-50 tablet:p-1 p-0;
+    @apply text-stone-600;
+    font-family: Bai Jamjuree, Proxima Nova, system-ui, sans-serif;
+    padding: 0;
+    margin: 0;
+  }
+
+  ::-webkit-scrollbar {
+    background-color: width;
+    width: 5px;
+    border-radius: 5px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background-color: #e5e7eb;
+    border-radius: 5px;
+  }
+  .no-select {
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+  .space {
+    @apply p-3;
+  }
+}
+
+@tailwind components;
+
+@layer components {
+  .h-content {
+    height: calc(100vh - 56px);
+  }
+  .icon {
+    @apply w-6 h-6;
+  }
+  .smooth {
+    @apply transition-all duration-300;
+  }
+  @screen tablet {
+    .h-content {
+      height: calc(100vh - 72px);
+    }
+  }
+}
+
+@tailwind utilities;
