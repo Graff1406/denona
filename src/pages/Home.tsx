@@ -22,10 +22,13 @@ const Home: FC = () => {
     <MainLayout
       aside={
         <ul>
-          {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14].map((el) => (
+          {[
+            1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19,
+            20,
+          ].map((el) => (
             <li
               key={el}
-              className="p-2 hover:bg-gray-100 cursor-pointer rounded-md"
+              className="p-2 hover:bg-gray-100 dark:hover:bg-zinc-900 cursor-pointer rounded-md"
             >
               {el} - test
             </li>

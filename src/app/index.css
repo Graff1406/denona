@@ -47,6 +47,9 @@
   .smooth {
     @apply transition-all duration-300;
   }
+  .dark-scrollbar-thumb {
+    @apply bg-zinc-700;
+  }
   @screen tablet {
     .h-content {
       height: calc(100vh - 72px);
