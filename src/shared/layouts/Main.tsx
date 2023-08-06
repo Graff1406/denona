@@ -57,8 +57,8 @@ const MainLayout: FC<Props> = ({
         <title>{title}</title>
         <meta name="description" content={description} />
       </Helmet>
-      <div className="w-screen dark:bg-zinc-900 dark:text-zinc-400">
-        <div className="relative max-w-[900px] tablet:mx-auto tablet:border tablet:rounded-md bg-white dark:bg-zinc-800 dark:border-zinc-700 h-screen">
+      <div className="w-screen h-screen py-2 tablet:flex tablet:flex-col tablet:justify-center tablet:items-center dark:bg-zinc-900 dark:text-zinc-400 transition-all">
+        <div className="relative max-w-[900px] overflow-hidden tablet:border tablet:rounded-md bg-white dark:bg-zinc-800 dark:border-zinc-700">
           <header
             className="border-b dark:border-b-zinc-700 flex justify-between items-center space h-16"
             role="banner"

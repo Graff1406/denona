@@ -9,18 +9,10 @@ function SwitchThemeColor() {
       setTheme("light");
       document.documentElement.classList.remove("dark");
       localStorage.setItem("theme", "light");
-      // document.documentElement.style.setProperty(
-      //   "--webkit-scrollbar-thumb",
-      //   "#e5e7eb"
-      // );
     } else {
       setTheme("dark");
       document.documentElement.classList.add("dark");
       localStorage.setItem("theme", "dark");
-      // document.documentElement.style.setProperty(
-      //   "--webkit-scrollbar-thumb",
-      //   "#3f3f46"
-      // );
     }
   };
 

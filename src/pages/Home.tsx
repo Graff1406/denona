@@ -45,6 +45,10 @@ const Home: FC = () => {
           <p>{description}</p>
           <p>{description}</p>
           <p>{description}</p>
+          <p>{description}</p>
+          <p>{description}</p>
+          <p>{description}</p>
+          <p>{description}</p>
         </>
       }
       headerRight={
