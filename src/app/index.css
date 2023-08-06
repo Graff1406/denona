@@ -46,9 +46,6 @@
   .smooth {
     @apply transition-all duration-300;
   }
-  .dark-scrollbar-thumb {
-    @apply bg-zinc-700;
-  }
 
   .scrollbar::-webkit-scrollbar-thumb {
     @apply bg-zinc-200;
