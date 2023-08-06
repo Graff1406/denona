@@ -5,14 +5,18 @@ function SwitchThemeColor() {
 
   const onSwitchThemeColor = () => {
     const theme = localStorage.getItem("theme");
+    const scrollbars = document.querySelectorAll(".scrollbar");
+
     if (theme === "dark") {
       setTheme("light");
       document.documentElement.classList.remove("dark");
       localStorage.setItem("theme", "light");
+      scrollbars.forEach((el) => el.classList.remove("scrollbar-dark"));
     } else {
       setTheme("dark");
       document.documentElement.classList.add("dark");
       localStorage.setItem("theme", "dark");
+      scrollbars.forEach((el) => el.classList.add("scrollbar-dark"));
     }
   };
 

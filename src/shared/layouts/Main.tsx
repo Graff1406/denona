@@ -57,7 +57,7 @@ const MainLayout: FC<Props> = ({
         <title>{title}</title>
         <meta name="description" content={description} />
       </Helmet>
-      <div className="w-screen h-screen py-2 tablet:flex tablet:flex-col tablet:justify-center tablet:items-center dark:bg-zinc-900 dark:text-zinc-400 transition-all">
+      <div className="w-screen h-screen tablet:py-2.5 tablet:flex tablet:flex-col tablet:justify-center tablet:items-center dark:bg-zinc-900 dark:text-zinc-400 transition-all">
         <div className="relative max-w-[900px] overflow-hidden tablet:border tablet:rounded-md bg-white dark:bg-zinc-800 dark:border-zinc-700">
           <header
             className="border-b dark:border-b-zinc-700 flex justify-between items-center space h-16"
@@ -92,7 +92,7 @@ const MainLayout: FC<Props> = ({
 
           <main className="flex" aria-label="Main Content">
             <aside
-              className={`border-r dark:border-r-zinc-700 overflow-y-auto tablet:w-1/2 h-content transition-all duration-300 tablet:opacity-100 ${
+              className={`scrollbar border-r dark:border-r-zinc-700 overflow-y-auto tablet:w-1/2 h-content transition-all duration-300 tablet:opacity-100 ${
                 open
                   ? "min-w-[320px] w-full opacity-100"
                   : "w-0 min-w-0 opacity-0 overflow-hidden"
@@ -106,13 +106,13 @@ const MainLayout: FC<Props> = ({
             </aside>
             <section className="relative w-full">
               <div
-                className={`absolute inset-0 z-10 bg-zinc-100/80 transition-all duration-300 tablet:hidden ${
+                className={`absolute inset-0 z-10 bg-zinc-100/80 dark:bg-zinc-700/80 transition-all duration-300 tablet:hidden ${
                   open ? "visible opacity-100" : "invisible opacity-0"
                 }`}
                 onClick={handleToggleMenu}
               ></div>
               <div
-                className={`h-content w-full space ${
+                className={`scrollbar h-content w-full space ${
                   open
                     ? "overflow-hidden tablet:overflow-y-auto"
                     : "overflow-y-auto"
