@@ -10,6 +10,7 @@ interface Props {
   areaLabel?: string;
   title?: string;
   cta?: boolean;
+  loading?: boolean;
 }
 
 const ZnButton: FC<Props> = ({
@@ -20,6 +21,7 @@ const ZnButton: FC<Props> = ({
   areaLabel,
   title,
   cta,
+  loading,
   onClick,
 }): ReactElement => {
   let classes = "";
@@ -39,11 +41,18 @@ const ZnButton: FC<Props> = ({
       ].join(" ")}
       aria-label={areaLabel || label}
       title={title || label}
-      disabled={disabled}
+      disabled={disabled || loading}
       onClick={onClick}
     >
-      {icon}
-      {label}
+      {" "}
+      {loading ? (
+        <div className="custom-loader h-6 w-6"></div>
+      ) : (
+        <span className="flex gap-2">
+          {icon}
+          {label}
+        </span>
+      )}
     </button>
   );
 };

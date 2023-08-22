@@ -1,5 +1,6 @@
 import { FC, ReactElement, useState, useEffect } from "react";
 import { Helmet } from "react-helmet-async";
+import { AuthUser } from "@/shared/firebase/public";
 
 // Icons
 
@@ -8,11 +9,14 @@ import { IoMdClose } from "react-icons/io";
 
 // Shared
 
-import { ZnIconButton } from "@/shared/ui";
+import { ZnIconButton, ZnButton } from "@/shared/ui";
+import { signOut } from "@/shared/firebase/auth/public";
+import { useAppSelector, useAppDispatch } from "@/shared/hooks/public";
 
 // Features
 
 import SwitchThemeColor from "@/features/SwitchThemeColor";
+import { resetUser, type UserState } from "@/features/auth/public";
 
 interface Props {
   aside: ReactElement;
@@ -33,10 +37,28 @@ const MainLayout: FC<Props> = ({
   isToggleMenu,
   onToggleMenu = (callback) => callback(),
 }): ReactElement => {
+  // Use
+
+  const user: UserState = useAppSelector((state) => state.user);
+  const dispatch = useAppDispatch();
+
+  // State
+
   const [isMounted, setIsMounted] = useState(false);
   const [open, setOpen] = useState(false);
+  const [spinnerLogout, setSpinnerLogout] = useState(false);
+
+  // methods
 
   const handleToggleMenu = () => onToggleMenu(() => setOpen(!open));
+  const handleLogout = async () => {
+    setSpinnerLogout(() => true);
+    await signOut();
+    dispatch(resetUser());
+    setSpinnerLogout(() => false);
+  };
+
+  // Hooks
 
   useEffect(() => {
     if (open) {
@@ -102,6 +124,16 @@ const MainLayout: FC<Props> = ({
             >
               <nav className="box-border space" role="navigation">
                 {aside}
+                {user.auth && (
+                  <ZnButton
+                    className="w-full flex justify-center mt-2"
+                    label="Logout"
+                    areaLabel="Logout button"
+                    cta
+                    loading={spinnerLogout}
+                    onClick={handleLogout}
+                  />
+                )}
               </nav>
             </aside>
             <section className="relative w-full">

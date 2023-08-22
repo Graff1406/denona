@@ -1,2 +1,1 @@
-export { useAppDispatch, useAppSelector } from "./hooks.private";
-export { store } from "./reducers.private";
+export { store, type RootState, type AppDispatch } from "./reducers.private";
