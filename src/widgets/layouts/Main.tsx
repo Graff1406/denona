@@ -1,6 +1,5 @@
 import { FC, ReactElement, useState, useEffect } from "react";
 import { Helmet } from "react-helmet-async";
-import { AuthUser } from "@/shared/firebase/public";
 
 // Icons
 

@@ -1,5 +1,5 @@
 import { FC, useState } from "react";
-import { AuthUser, signInGoogleWithPopup } from "@/shared/firebase/public";
+import { signInGoogleWithPopup } from "@/shared/firebase/public";
 
 // Shared
 

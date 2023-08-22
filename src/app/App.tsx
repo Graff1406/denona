@@ -21,7 +21,6 @@ function App() {
   useEffect(() => {
     authState((auth: AuthUser | null): void => {
       if (auth) {
-        console.log("🚀 ~ file: App.tsx:24 ~ authState ~ auth:", auth);
         dispatch(setUser(auth));
       }
       setLoadingUser(() => false);
