@@ -10,7 +10,6 @@ import { IoMdClose } from "react-icons/io";
 
 import { ZnIconButton, ZnButton } from "@/shared/ui";
 import { signOut } from "@/shared/firebase";
-import { useAppSelector, useAppDispatch } from "@/shared/hooks";
 
 // Features
 
