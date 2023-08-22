@@ -9,13 +9,13 @@ import { IoMdClose } from "react-icons/io";
 // Shared
 
 import { ZnIconButton, ZnButton } from "@/shared/ui";
-import { signOut } from "@/shared/firebase/auth/public";
-import { useAppSelector, useAppDispatch } from "@/shared/hooks/public";
+import { signOut } from "@/shared/firebase";
+import { useAppSelector, useAppDispatch } from "@/shared/hooks";
 
 // Features
 
-import SwitchThemeColor from "@/features/SwitchThemeColor";
-import { resetUser, type UserState } from "@/features/auth/public";
+import { SwitchThemeColor } from "@/features/theme";
+import { useUserStore } from "@/features/auth";
 
 interface Props {
   aside: ReactElement;
@@ -38,8 +38,7 @@ const MainLayout: FC<Props> = ({
 }): ReactElement => {
   // Use
 
-  const user: UserState = useAppSelector((state) => state.user);
-  const dispatch = useAppDispatch();
+  const { user, dispatchResetUser } = useUserStore();
 
   // State
 
@@ -53,7 +52,7 @@ const MainLayout: FC<Props> = ({
   const handleLogout = async () => {
     setSpinnerLogout(() => true);
     await signOut();
-    dispatch(resetUser());
+    dispatchResetUser();
     setSpinnerLogout(() => false);
   };
 

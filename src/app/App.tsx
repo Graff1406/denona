@@ -2,26 +2,29 @@ import { StrictMode, useState, useEffect } from "react";
 import { HelmetProvider } from "react-helmet-async";
 import Router from "./router";
 
-// Firebase
-
-import { authState, type AuthUser } from "@/shared/firebase/public";
-
-// RTK
-
-import { useAppDispatch } from "@/shared/hooks/public";
-
 // features
 
-import { setUser } from "@/features/auth/public";
+import { useUserStore } from "@/features/auth";
+
+// Shared
+
+import { authState, type AuthUser } from "@/shared/firebase";
 
 function App() {
-  const dispatch = useAppDispatch();
+  // Use
+
+  const { dispatchSetUser } = useUserStore();
+
+  // State
+
   const [loadingUser, setLoadingUser] = useState(true);
+
+  // Hooks
 
   useEffect(() => {
     authState((auth: AuthUser | null): void => {
       if (auth) {
-        dispatch(setUser(auth));
+        dispatchSetUser(auth);
       }
       setLoadingUser(() => false);
     });

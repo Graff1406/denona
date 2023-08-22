@@ -1,15 +1,17 @@
 import { FC, useState } from "react";
-import { signInGoogleWithPopup } from "@/shared/firebase/public";
 
-// Shared
+// Widget
 
 import { MainLayout } from "@/widgets/layouts";
-import { ZnButton, ZnIconButton } from "@/shared/ui";
-import { useAppSelector } from "@/shared/hooks/public";
 
 // Features
 
-import { type UserState } from "@/features/auth/public";
+import { useUserStore } from "@/features/auth";
+
+// Shared
+
+import { ZnButton, ZnIconButton } from "@/shared/ui";
+import { signInGoogleWithPopup } from "@/shared/firebase";
 
 // Icons
 
@@ -21,8 +23,15 @@ const description = `The service should remind, help, suggest, guide in differen
 acceptable philosophy, Facilitate following the chosen path.`;
 
 const Home: FC = () => {
-  const user: UserState = useAppSelector((state) => state.user);
+  // Use
+
+  const { user } = useUserStore();
+
+  // State
+
   const [openMenu, setOpenMenu] = useState(false);
+
+  // Methods
 
   const onToggleMenu = () => setOpenMenu(!openMenu);
   const onAuthByGoogle = () => {

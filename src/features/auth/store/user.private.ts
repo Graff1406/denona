@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
-import { type AuthUser } from "@/shared/firebase/public";
+import { type AuthUser } from "@/shared/firebase";
 
 export type UserState = {
   auth: AuthUser | null;
