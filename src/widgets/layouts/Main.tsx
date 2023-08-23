@@ -6,15 +6,16 @@ import { Helmet } from "react-helmet-async";
 import { BiMenu } from "react-icons/bi";
 import { IoMdClose } from "react-icons/io";
 
-// Shared
-
-import { ZnIconButton, ZnButton } from "@/shared/ui";
-import { signOut } from "@/shared/firebase";
-
 // Features
 
 import { SwitchThemeColor } from "@/features/theme";
 import { useUserStore } from "@/features/auth";
+
+// Shared
+
+import { ZnIconButton, ZnButton } from "@/shared/ui";
+import { signOut } from "@/shared/firebase";
+import { useTranslations } from "@/shared/hooks";
 
 interface Props {
   aside: ReactElement;
@@ -38,6 +39,7 @@ const MainLayout: FC<Props> = ({
   // Use
 
   const { user, dispatchResetUser } = useUserStore();
+  const { $t } = useTranslations();
 
   // State
 
@@ -85,12 +87,12 @@ const MainLayout: FC<Props> = ({
             <div className="flex items-center gap-4">
               <img
                 src="/images/favicon.ico"
-                alt="Logo of Denona"
+                alt={$t.logoImgAltText}
                 width={32}
                 height={32}
               />
               <span className="uppercase font-medium text-xl dark:text-zinc-200">
-                Denona
+                {$t.mainLogo}
               </span>
               <SwitchThemeColor />
             </div>
@@ -103,13 +105,13 @@ const MainLayout: FC<Props> = ({
                     <BiMenu className="icon" />
                   )
                 }
-                areaLabel="Toggle menu"
+                areaLabel={$t.toggleMenuBtnAreaLabel}
                 onClick={handleToggleMenu}
               />
             )}
           </header>
 
-          <main className="flex" aria-label="Main Content">
+          <main className="flex" aria-label={$t.mainContentAreaLabel}>
             <aside
               className={`scrollbar border-r dark:border-r-zinc-700 overflow-y-auto tablet:w-1/2 h-content transition-all duration-300 tablet:opacity-100 ${
                 open
@@ -117,7 +119,7 @@ const MainLayout: FC<Props> = ({
                   : "w-0 min-w-0 opacity-0 overflow-hidden"
               }`}
               role="complementary"
-              aria-label="Sidebar Navigation"
+              aria-label={$t.sidebarNavigationAreaLabel}
             >
               <nav className="box-border space" role="navigation">
                 {aside}
@@ -125,7 +127,7 @@ const MainLayout: FC<Props> = ({
                   <ZnButton
                     className="w-full flex justify-center mt-2"
                     label="Logout"
-                    areaLabel="Logout button"
+                    areaLabel={$t.logoutButtonAreaLabel}
                     cta
                     loading={spinnerLogout}
                     onClick={handleLogout}

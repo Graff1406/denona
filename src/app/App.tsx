@@ -2,6 +2,10 @@ import { StrictMode, useState, useEffect } from "react";
 import { HelmetProvider } from "react-helmet-async";
 import Router from "./router";
 
+// App
+
+import { TranslationsProvider } from "@/app/contexts";
+
 // features
 
 import { useUserStore } from "@/features/auth";
@@ -33,13 +37,15 @@ function App() {
   return (
     <HelmetProvider>
       <StrictMode>
-        {loadingUser ? (
-          <div className="w-screen h-screen flex justify-center items-center">
-            <div className="custom-loader"></div>
-          </div>
-        ) : (
-          <Router />
-        )}
+        <TranslationsProvider>
+          {loadingUser ? (
+            <div className="w-screen h-screen flex justify-center items-center">
+              <div className="custom-loader"></div>
+            </div>
+          ) : (
+            <Router />
+          )}
+        </TranslationsProvider>
       </StrictMode>
     </HelmetProvider>
   );

@@ -5,3 +5,11 @@ export {
   signOut,
   type AuthUser,
 } from "./auth/public";
+
+export {
+  addDocument,
+  deleteDocument,
+  watchCollection,
+  type Translation,
+  type Locales,
+} from "./crud/public";

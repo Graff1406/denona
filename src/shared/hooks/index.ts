@@ -1,1 +1,2 @@
-export { useAppDispatch, useAppSelector } from "./storeHooks.private";
+export { useAppDispatch, useAppSelector } from "./useStoreHooks.private";
+export { default as useTranslations } from "./useTranslations.private";

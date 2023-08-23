@@ -12,20 +12,18 @@ import { useUserStore } from "@/features/auth";
 
 import { ZnButton, ZnIconButton } from "@/shared/ui";
 import { signInGoogleWithPopup } from "@/shared/firebase";
+import { useTranslations } from "@/shared/hooks";
 
 // Icons
 
 import { FcGoogle } from "react-icons/fc";
 import { MdPersonAdd, MdMenu } from "react-icons/md";
 
-const title = "What you focus on determines the quality of your life.";
-const description = `The service should remind, help, suggest, guide in different situations. Keep the user within the chosen values, conform to an
-acceptable philosophy, Facilitate following the chosen path.`;
-
 const Home: FC = () => {
   // Use
 
   const { user } = useUserStore();
+  const { $t } = useTranslations();
 
   // State
 
@@ -51,16 +49,16 @@ const Home: FC = () => {
                 key={el}
                 className="p-2 hover:bg-gray-100 dark:hover:bg-zinc-900 cursor-pointer rounded-md"
               >
-                {el} - test
+                {el}
               </li>
             ))}
           </ul>
         ) : (
           <div className="flex justify-center items-center h-40">
             <ZnButton
-              label="Continue with Google"
-              areaLabel="Use the button for Access to the site"
-              title="Get started to use the site"
+              label={$t.homePageBtnLabelSignInWithGoogle}
+              areaLabel={$t.homePageBtnAreaLabelSignInWithGoogle}
+              title={$t.homePageBtnTitleSignInWithGoogle}
               icon={<FcGoogle className="icon" />}
               onClick={onAuthByGoogle}
             />
@@ -69,18 +67,11 @@ const Home: FC = () => {
       }
       content={
         <>
-          <h1 className="text-xl mb-4">{title}</h1>
-          <h2>{description}</h2>
-          <p>{description}</p>
-          <p>{description}</p>
-          <p>{description}</p>
-          <p>{description}</p>
-          <p>{description}</p>
-          <p>{description}</p>
-          <p>{description}</p>
-          <p>{description}</p>
-          <p>{description}</p>
-          <p>{description}</p>
+          <h1 className="text-xl mb-4">{$t.homePageTitle}</h1>
+          <br />
+          {Array.from({ length: 12 }).map(() => (
+            <p>{$t.homePageDescription}</p>
+          ))}
         </>
       }
       headerRight={
@@ -88,23 +79,23 @@ const Home: FC = () => {
           <ZnIconButton
             className="tablet:hidden"
             icon={<MdMenu className="icon" />}
-            areaLabel="Main mobile menu button"
+            areaLabel={$t.homePageMainBtnMobileMenuToggle}
             onClick={onToggleMenu}
           />
         ) : (
           <ZnButton
             className="tablet:hidden"
-            label="Get started"
-            areaLabel="Use the button for Access to the site"
-            title="Get started to use the site"
+            label={$t.homePageBtnGetStarted}
+            areaLabel={$t.homePageBtnAreaLabelGetStarted}
+            title={$t.homePageBtnTitleGetStarted}
             icon={<MdPersonAdd className="icon" />}
             cta
             onClick={onToggleMenu}
           />
         )
       }
-      title={title}
-      description={description}
+      title={$t.homePageTitle}
+      description={$t.homePageDescription}
       isToggleMenu={openMenu}
     />
   );
