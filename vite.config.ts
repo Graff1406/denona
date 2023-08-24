@@ -48,4 +48,21 @@ export default defineConfig({
       },
     }),
   ],
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          react: [
+            "react",
+            "react-dom",
+            "react-redux",
+            "react-router-dom",
+            "react-icons",
+            "@reduxjs/toolkit",
+            "react-helmet-async",
+          ],
+        },
+      },
+    },
+  },
 });
