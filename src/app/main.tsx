@@ -9,12 +9,12 @@ import { TranslationsProvider } from "./contexts";
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <StrictMode>
-    <Provider store={store}>
-      <TranslationsProvider>
+    <TranslationsProvider>
+      <Provider store={store}>
         <HelmetProvider>
           <App />
         </HelmetProvider>
-      </TranslationsProvider>
-    </Provider>
+      </Provider>
+    </TranslationsProvider>
   </StrictMode>
 );

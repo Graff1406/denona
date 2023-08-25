@@ -2,13 +2,13 @@ import { FC, ReactElement } from "react";
 
 interface Props {
   label: string;
+  areaLabel: string;
+  title: string;
   className?: string;
   active?: boolean;
   disabled?: boolean;
   icon?: ReactElement;
   onClick?: () => void;
-  areaLabel?: string;
-  title?: string;
   cta?: boolean;
   loading?: boolean;
 }
@@ -36,7 +36,7 @@ const ZnButton: FC<Props> = ({
     <button
       className={[
         classes,
-        "flex gap-2 items-center px-3 py-1 rounded-md font-semibold smooth shadow-sm  h-10 no-select",
+        " h-10 min-w-min px-2.5 rounded-md font-semibold smooth shadow-sm box-border no-select dark:hover:bg-zinc-900",
         className,
       ].join(" ")}
       aria-label={areaLabel || label}
@@ -48,7 +48,7 @@ const ZnButton: FC<Props> = ({
       {loading ? (
         <div className="custom-loader h-6 w-6"></div>
       ) : (
-        <span className="flex gap-2">
+        <span className="flex items-center justify-center gap-2">
           {icon}
           {label}
         </span>

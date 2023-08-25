@@ -10,7 +10,7 @@ import { useUserStore } from "@/features/auth";
 
 // Shared
 
-import { ZnButton, ZnIconButton } from "@/shared/ui";
+import { DnButton, DnIconButton } from "@/shared/ui";
 import { signInGoogleWithPopup } from "@/shared/firebase";
 import { useTranslations } from "@/shared/hooks";
 
@@ -55,7 +55,7 @@ const Home: FC = () => {
           </ul>
         ) : (
           <div className="flex justify-center items-center h-40">
-            <ZnButton
+            <DnButton
               label={$t.homePageBtnLabelSignInWithGoogle}
               areaLabel={$t.homePageBtnAreaLabelSignInWithGoogle}
               title={$t.homePageBtnTitleSignInWithGoogle}
@@ -76,14 +76,14 @@ const Home: FC = () => {
       }
       headerRight={
         user.auth ? (
-          <ZnIconButton
+          <DnIconButton
             className="tablet:hidden"
             icon={<MdMenu className="icon" />}
             areaLabel={$t.homePageMainBtnMobileMenuToggle}
             onClick={onToggleMenu}
           />
         ) : (
-          <ZnButton
+          <DnButton
             className="tablet:hidden"
             label={$t.homePageBtnGetStarted}
             areaLabel={$t.homePageBtnAreaLabelGetStarted}

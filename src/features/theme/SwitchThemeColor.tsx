@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { BsFillSunFill, BsFillMoonFill } from "react-icons/bs";
 import { toggleThemeMode } from "@/shared/helpers";
-import { ZnIconButton } from "@/shared/ui";
+import { DnIconButton } from "@/shared/ui";
 
 function SwitchThemeColor() {
   const localStorageThemeMode = localStorage.getItem("theme") ?? "light";
@@ -27,8 +27,14 @@ function SwitchThemeColor() {
 
   return (
     <>
-      <ZnIconButton
-        icon={themeMode === "dark" ? <BsFillSunFill /> : <BsFillMoonFill />}
+      <DnIconButton
+        icon={
+          themeMode === "dark" ? (
+            <BsFillSunFill className="w-6 h-6" />
+          ) : (
+            <BsFillMoonFill className="w-6 h-6" />
+          )
+        }
         areaLabel="Theme toggled"
         onClick={onSwitchThemeColor}
       />

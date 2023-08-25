@@ -1,18 +1,28 @@
-import { ZnButton } from "@/shared/ui";
-import { FC, useState } from "react";
+import { FC, useState, useRef } from "react";
+
+// Shared
+
 import { type Locales } from "@/shared/firebase";
-import { useTranslations } from "@/shared/hooks";
+import { useTranslations, useClickOutside } from "@/shared/hooks";
+import { DnButton, DeMenu } from "@/shared/ui";
 
 const languages: Locales[] = ["en", "de", "ka", "ua", "ru"];
 
 const SwitchLanguage: FC = () => {
   // Use
 
-  const { changeLanguage } = useTranslations();
+  const { $t, changeLanguage } = useTranslations();
+
+  // State
+
   const [open, setOpen] = useState(false);
   const [selectedLanguage, setSelectedLanguage] = useState(
     localStorage.getItem("locale") || ""
   );
+
+  // Ref
+
+  const ref = useRef<HTMLDivElement>(null);
 
   const toggleDropdown = () => {
     setOpen(!open);
@@ -25,40 +35,34 @@ const SwitchLanguage: FC = () => {
     setOpen(false);
   };
 
+  useClickOutside(ref, toggleDropdown);
+
   return (
-    <div className="relative inline-block text-left">
-      <div>
-        <ZnButton
+    <DeMenu
+      closeOnContent
+      activator={
+        <DnButton
           className="w-9 justify-center"
           label={selectedLanguage.toUpperCase()}
+          title={$t.changeLanguageBtnTitle}
+          areaLabel={$t.changeLanguageBtnAreaLabel}
           onClick={toggleDropdown}
         />
-      </div>
-
-      {open && (
-        <div className="origin-top-right absolute right-0 mt-2 min-w-min rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
-          <div
-            className="py-1 w-full"
-            role="menu"
-            aria-orientation="vertical"
-            aria-labelledby="options-menu"
+      }
+    >
+      {languages
+        .filter((loc: Locales) => selectedLanguage !== loc)
+        .map((language) => (
+          <button
+            key={language}
+            onClick={() => handleLanguageSelect(language)}
+            className="block w-full px-4 py-2 text-sm hover:bg-gray-100 hover:text-gray-900 dark:hover:bg-zinc-900 dark:dark:text-zinc-400"
+            role="menuitem"
           >
-            {languages
-              .filter((loc: Locales) => selectedLanguage !== loc)
-              .map((language) => (
-                <button
-                  key={language}
-                  onClick={() => handleLanguageSelect(language)}
-                  className="block w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
-                  role="menuitem"
-                >
-                  {language.toUpperCase()}
-                </button>
-              ))}
-          </div>
-        </div>
-      )}
-    </div>
+            {language.toUpperCase()}
+          </button>
+        ))}
+    </DeMenu>
   );
 };
 

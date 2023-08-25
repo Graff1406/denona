@@ -1,4 +1,4 @@
-import { FC, StrictMode, useState, useEffect } from "react";
+import { FC, useState, useEffect } from "react";
 import Router from "./router";
 
 // features

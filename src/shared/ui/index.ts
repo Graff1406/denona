@@ -1,2 +1,2 @@
-export { default as ZnButton } from "./buttons/Btn.private";
-export { default as ZnIconButton } from "./buttons/IconBtn.private";
+export { DnButton, DnIconButton } from "./buttons/public";
+export { default as DeMenu } from "./DeMenu.private";

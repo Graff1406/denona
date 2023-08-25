@@ -5,6 +5,7 @@ import { Helmet } from "react-helmet-async";
 
 import { BiMenu } from "react-icons/bi";
 import { IoMdClose } from "react-icons/io";
+import { RiLogoutCircleRLine } from "react-icons/ri";
 
 // Features
 
@@ -13,7 +14,7 @@ import { useUserStore } from "@/features/auth";
 
 // Shared
 
-import { ZnIconButton, ZnButton } from "@/shared/ui";
+import { DnIconButton } from "@/shared/ui";
 import { signOut } from "@/shared/firebase";
 import { useTranslations } from "@/shared/hooks";
 
@@ -96,7 +97,7 @@ const MainLayout: FC<Props> = ({
               </span>
             </div>
             {headerRight ?? (
-              <ZnIconButton
+              <DnIconButton
                 icon={
                   open ? (
                     <IoMdClose className="icon" />
@@ -120,22 +121,29 @@ const MainLayout: FC<Props> = ({
               role="complementary"
               aria-label={$t.sidebarNavigationAreaLabel}
             >
-              <nav className="box-border space" role="navigation">
-                <div className="flex gap-2 items-center">
+              <div className="flex items-center justify-between px-3 py-2 border-0 border-b border-b-zinc-200 dark:border-b-zinc-700">
+                <SwitchLanguage />
+                <div className="flex gap-2">
                   <SwitchThemeColor />
-                  <SwitchLanguage />
                   {user.auth && (
-                    <ZnButton
-                      className="w-full flex justify-center mt-2"
-                      label="Logout"
+                    // <DnButton
+                    //   label="Logout"
+                    //   icon={<AiOutlineLogout />}
+                    //   areaLabel={$t.logoutButtonAreaLabel}
+                    //   loading={spinnerLogout}
+                    //   onClick={handleLogout}
+                    // />
+                    <DnIconButton
+                      icon={<RiLogoutCircleRLine className="h-6 w-6" />}
+                      title={$t.logoutButtonAreaLabel}
                       areaLabel={$t.logoutButtonAreaLabel}
-                      cta
                       loading={spinnerLogout}
                       onClick={handleLogout}
                     />
                   )}
                 </div>
-
+              </div>
+              <nav className="box-border space" role="navigation">
                 {aside}
               </nav>
             </aside>

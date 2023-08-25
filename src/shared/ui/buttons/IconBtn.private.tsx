@@ -6,6 +6,7 @@ interface Props {
   title?: string;
   className?: string;
   disabled?: boolean;
+  loading?: boolean;
   onClick?: () => void;
 }
 
@@ -15,12 +16,13 @@ const ZnButton: FC<Props> = ({
   icon,
   areaLabel,
   title,
+  loading,
   onClick,
 }): ReactElement => {
   return (
     <button
       className={[
-        "flex justify-center items-center w-10 h-10 rounded-full hover:bg-stone-100 active:bg-stone-200 smooth no-select",
+        "flex justify-center items-center rounded-full hover:bg-stone-100 dark:hover:bg-zinc-900 active:bg-stone-200 smooth no-select",
         className,
       ].join(" ")}
       aria-label={areaLabel}
@@ -28,7 +30,9 @@ const ZnButton: FC<Props> = ({
       disabled={disabled}
       onClick={onClick}
     >
-      {icon}
+      <span className="flex justify-center items-center w-6 h-6 m-2">
+        {loading ? <div className="custom-loader h-6 w-6"></div> : icon}
+      </span>
     </button>
   );
 };
