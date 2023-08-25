@@ -20,7 +20,7 @@ const ZnButton: FC<Props> = ({
   return (
     <button
       className={[
-        "flex justify-center items-center w-10 h-10 rounded-full hover:bg-stone-50 active:bg-stone-200 smooth no-select",
+        "flex justify-center items-center w-10 h-10 rounded-full hover:bg-stone-100 active:bg-stone-200 smooth no-select",
         className,
       ].join(" ")}
       aria-label={areaLabel}

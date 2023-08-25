@@ -69,8 +69,8 @@ const Home: FC = () => {
         <>
           <h1 className="text-xl mb-4">{$t.homePageTitle}</h1>
           <br />
-          {Array.from({ length: 12 }).map(() => (
-            <p>{$t.homePageDescription}</p>
+          {Array.from({ length: 12 }, (v: undefined, i: number) => (
+            <p key={i}>{$t.homePageDescription}</p>
           ))}
         </>
       }

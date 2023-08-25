@@ -1,10 +1,5 @@
-import { StrictMode, useState, useEffect } from "react";
-import { HelmetProvider } from "react-helmet-async";
+import { FC, StrictMode, useState, useEffect } from "react";
 import Router from "./router";
-
-// App
-
-import { TranslationsProvider } from "@/app/contexts";
 
 // features
 
@@ -13,11 +8,13 @@ import { useUserStore } from "@/features/auth";
 // Shared
 
 import { authState, type AuthUser } from "@/shared/firebase";
+import { useTranslations } from "@/shared/hooks";
 
-function App() {
+const App: FC = () => {
   // Use
 
   const { dispatchSetUser } = useUserStore();
+  const { translationsLoaded } = useTranslations();
 
   // State
 
@@ -35,20 +32,16 @@ function App() {
   }, []);
 
   return (
-    <HelmetProvider>
-      <StrictMode>
-        <TranslationsProvider>
-          {loadingUser ? (
-            <div className="w-screen h-screen flex justify-center items-center">
-              <div className="custom-loader"></div>
-            </div>
-          ) : (
-            <Router />
-          )}
-        </TranslationsProvider>
-      </StrictMode>
-    </HelmetProvider>
+    <>
+      {loadingUser || !translationsLoaded ? (
+        <div className="w-screen h-screen flex justify-center items-center">
+          <div className="custom-loader"></div>
+        </div>
+      ) : (
+        <Router />
+      )}
+    </>
   );
-}
+};
 
 export default App;

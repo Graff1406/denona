@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { BsFillSunFill, BsFillMoonFill } from "react-icons/bs";
 import { toggleThemeMode } from "@/shared/helpers";
+import { ZnIconButton } from "@/shared/ui";
 
 function SwitchThemeColor() {
   const localStorageThemeMode = localStorage.getItem("theme") ?? "light";
@@ -26,12 +27,11 @@ function SwitchThemeColor() {
 
   return (
     <>
-      <button
+      <ZnIconButton
+        icon={themeMode === "dark" ? <BsFillSunFill /> : <BsFillMoonFill />}
+        areaLabel="Theme toggled"
         onClick={onSwitchThemeColor}
-        className="border border-inherit dark:border-zinc-700 p-1.5 rounded-md shadow hover:bg-slate-50 dark:hover:bg-zinc-900"
-      >
-        {themeMode === "dark" ? <BsFillSunFill /> : <BsFillMoonFill />}
-      </button>
+      />
     </>
   );
 }

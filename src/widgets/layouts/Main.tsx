@@ -8,7 +8,7 @@ import { IoMdClose } from "react-icons/io";
 
 // Features
 
-import { SwitchThemeColor } from "@/features/theme";
+import { SwitchLanguage, SwitchThemeColor } from "@/features/theme";
 import { useUserStore } from "@/features/auth";
 
 // Shared
@@ -94,7 +94,6 @@ const MainLayout: FC<Props> = ({
               <span className="uppercase font-medium text-xl dark:text-zinc-200">
                 {$t.mainLogo}
               </span>
-              <SwitchThemeColor />
             </div>
             {headerRight ?? (
               <ZnIconButton
@@ -122,17 +121,22 @@ const MainLayout: FC<Props> = ({
               aria-label={$t.sidebarNavigationAreaLabel}
             >
               <nav className="box-border space" role="navigation">
+                <div className="flex gap-2 items-center">
+                  <SwitchThemeColor />
+                  <SwitchLanguage />
+                  {user.auth && (
+                    <ZnButton
+                      className="w-full flex justify-center mt-2"
+                      label="Logout"
+                      areaLabel={$t.logoutButtonAreaLabel}
+                      cta
+                      loading={spinnerLogout}
+                      onClick={handleLogout}
+                    />
+                  )}
+                </div>
+
                 {aside}
-                {user.auth && (
-                  <ZnButton
-                    className="w-full flex justify-center mt-2"
-                    label="Logout"
-                    areaLabel={$t.logoutButtonAreaLabel}
-                    cta
-                    loading={spinnerLogout}
-                    onClick={handleLogout}
-                  />
-                )}
               </nav>
             </aside>
             <section className="relative w-full">

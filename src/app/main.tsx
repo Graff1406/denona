@@ -1,14 +1,20 @@
-import React from "react";
+import { StrictMode } from "react";
 import ReactDOM from "react-dom/client";
+import { HelmetProvider } from "react-helmet-async";
 import App from "./App.tsx";
 import "./index.css";
 import { store } from "./store/index.ts";
 import { Provider } from "react-redux";
+import { TranslationsProvider } from "./contexts";
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
-  <React.StrictMode>
+  <StrictMode>
     <Provider store={store}>
-      <App />
+      <TranslationsProvider>
+        <HelmetProvider>
+          <App />
+        </HelmetProvider>
+      </TranslationsProvider>
     </Provider>
-  </React.StrictMode>
+  </StrictMode>
 );
