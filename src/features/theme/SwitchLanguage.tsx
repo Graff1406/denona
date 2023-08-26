@@ -58,6 +58,8 @@ const SwitchLanguage: FC = () => {
             onClick={() => handleLanguageSelect(language)}
             className="block w-full px-4 py-2 text-sm hover:bg-gray-100 hover:text-gray-900 dark:hover:bg-zinc-900 dark:dark:text-zinc-400"
             role="menuitem"
+            area-label={language}
+            title={language}
           >
             {language.toUpperCase()}
           </button>
