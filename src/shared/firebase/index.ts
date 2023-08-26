@@ -13,3 +13,5 @@ export {
   type Translation,
   type Locales,
 } from "./crud/public";
+
+export { getFCMToken } from "./FCM/public";
