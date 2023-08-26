@@ -20,6 +20,11 @@ type State = {
   changeLanguage: () => void;
 };
 
+const getLocaleFormLS = (): Locales =>
+  (localStorage?.getItem("locale") || "en") as Locales;
+
+document.documentElement.lang = getLocaleFormLS();
+
 export const TranslationsContext = createContext<State | undefined>(undefined);
 
 export const TranslationsProvider: FC<{ children: React.ReactNode }> = ({
@@ -30,8 +35,7 @@ export const TranslationsProvider: FC<{ children: React.ReactNode }> = ({
   const [translationsLoaded, setTranslationsLoaded] = useState<boolean>(false);
 
   const getTranslationsByLocale = (list: Translation[]): ObjectKeyValue => {
-    const localStorageLocale: Locales = (localStorage?.getItem("locale") ||
-      "en") as Locales;
+    const localStorageLocale = getLocaleFormLS();
     return list.reduce(
       (acc: ObjectKeyValue, item: Translation): ObjectKeyValue => {
         acc[item.id] = item[localStorageLocale] || "XXXXX";
