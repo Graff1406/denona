@@ -17,7 +17,7 @@ const SwitchLanguage: FC = () => {
 
   const [open, setOpen] = useState(false);
   const [selectedLanguage, setSelectedLanguage] = useState(
-    localStorage.getItem("locale") || ""
+    localStorage.getItem("locale") || "en"
   );
 
   // Ref

@@ -14,4 +14,9 @@ export {
   type Locales,
 } from "./crud/public";
 
-export { getFCMToken } from "./FCM/public";
+export {
+  getFCMToken,
+  getMessagingByFCM,
+  messaging,
+  messagingSW,
+} from "./FCM/public";

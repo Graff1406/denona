@@ -21,7 +21,7 @@ export default defineConfig({
         short_name: "Denona",
         description: "What you focus on determines the quality of your life",
         theme_color: "#F6B704",
-        start_url: "https://denona.web.app/",
+        start_url: "/",
         icons: [
           {
             src: "/images/favicon-16x16.png",
