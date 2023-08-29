@@ -14,7 +14,7 @@ export default defineConfig({
       injectRegister: "auto",
       outDir: "dist",
       workbox: {
-        globPatterns: ["**/*.{js,css,html,ico,png,svg}"],
+        globPatterns: ["**/*.{ts.js,css,html,ico,png,svg}"],
       },
       manifest: {
         name: "Denona long name",
