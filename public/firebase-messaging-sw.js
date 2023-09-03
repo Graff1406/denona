@@ -1,15 +1,3 @@
-// self.addEventListener("push", function (event) {
-//   const options = {
-//     body: event.data.text(),
-//     icon: "icon.png",
-//     badge: "badge.png",
-//   };
-
-//   event.waitUntil(
-//     self.registration.showNotification("Заголовок уведомления", options)
-//   );
-// });
-
 importScripts("https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js");
 importScripts(
   "https://www.gstatic.com/firebasejs/8.10.1/firebase-messaging.js"
