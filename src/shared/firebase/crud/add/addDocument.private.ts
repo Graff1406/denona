@@ -3,7 +3,9 @@ import { db } from "../../app/public";
 
 export default async (
   collectionName: string,
-  docData: { [key: string]: string },
+  docData: {
+    [key: string]: string | undefined | { [key: string]: string | undefined };
+  },
   id?: string
 ): Promise<void> => {
   id
