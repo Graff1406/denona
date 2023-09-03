@@ -6,40 +6,56 @@ import { VitePWA } from "vite-plugin-pwa";
 export default defineConfig({
   resolve: {
     alias: [{ find: "@", replacement: path.resolve(__dirname, "src") }],
+    extensions: [".js", ".ts", ".tsx", ".jsx"],
   },
+
   plugins: [
     react(),
     VitePWA({
       registerType: "autoUpdate",
       injectRegister: "auto",
-      outDir: "dist",
+      strategies: "generateSW",
+
       workbox: {
-        globPatterns: ["**/*.{ts.js,css,html,ico,png,svg}"],
+        globPatterns: ["**/*.{ts,js,css,html,ico,png,svg}"],
+        sourcemap: true,
+        importScripts: ["/ws.js"],
+        clientsClaim: true,
+        skipWaiting: true,
+      },
+      devOptions: {
+        enabled: true,
       },
       manifest: {
         name: "Denona long name",
         short_name: "Denona",
         description: "What you focus on determines the quality of your life",
-        theme_color: "#F6B704",
+        theme_color: "#ffffff",
         start_url: "/",
         icons: [
           {
-            src: "/images/favicon-16x16.png",
-            sizes: "16x16",
+            src: "/images/pwa-64x64.png",
+            sizes: "64x64",
             type: "image/png",
           },
           {
-            src: "/images/favicon-32x32.png",
-            sizes: "32x32",
+            src: "/images/apple-touch-icon-180x180.png",
+            sizes: "180x180",
             type: "image/png",
           },
           {
-            src: "/images/android-chrome-192x192.png",
+            src: "/images/pwa-192x192.png",
             sizes: "192x192",
             type: "image/png",
           },
           {
-            src: "/images/android-chrome-512x512.png",
+            src: "/images/pwa-512x512.png",
+            sizes: "512x512",
+            type: "image/png",
+            purpose: "any",
+          },
+          {
+            src: "/images/maskable-icon-512x512.png",
             sizes: "512x512",
             type: "image/png",
             purpose: "any maskable",

@@ -1,7 +1,7 @@
 import { StrictMode } from "react";
 import ReactDOM from "react-dom/client";
 import { HelmetProvider } from "react-helmet-async";
-import { registerSW } from "virtual:pwa-register";
+// import { registerSW } from "virtual:pwa-register";
 import App from "./App.tsx";
 import "./index.css";
 import { store } from "./store/index.ts";
@@ -10,14 +10,9 @@ import { TranslationsProvider } from "./contexts";
 
 // Shared
 
-import { getFCMToken, getMessagingByFCM } from "@/shared/firebase";
+import { getFCMToken } from "@/shared/firebase";
 
-registerSW({
-  onRegistered() {
-    getFCMToken();
-    getMessagingByFCM();
-  },
-});
+getFCMToken();
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <StrictMode>

@@ -27,8 +27,6 @@ export default (): void => {
   Notification.requestPermission()
     .then((permission) => {
       if (permission === "granted") {
-        console.log("permission: ", permission);
-
         getToken(messaging, { vapidKey: VAPID_KEY })
           .then((currentToken: string) => {
             if (currentToken && !deviceNotificationToken) {
