@@ -15,13 +15,19 @@ firebase.initializeApp({
 const messaging = firebase.messaging();
 
 messaging.onBackgroundMessage((payload) => {
-  console.log("onBackgroundMessage-body: ", payload.notification.body);
-  // Customize notification here
+  console.log("onBackgroundMessage: ", payload.notification);
+
+  const { title, options } = getData(payload);
+
+  self.registration.showNotification(title, options);
+});
+
+function getData(payload) {
   const notificationTitle = payload.notification.title;
   const notificationOptions = {
     body: payload.notification.body,
-    icon: "/icon.png",
+    icon: "https://aa10-37-73-86-230.ngrok-free.app/images/pwa-64x64.png",
   };
 
-  self.registration.showNotification(notificationTitle, notificationOptions);
-});
+  return { title: notificationTitle, options: notificationOptions };
+}

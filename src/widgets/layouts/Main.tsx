@@ -11,10 +11,11 @@ import { RiLogoutCircleRLine } from "react-icons/ri";
 
 import { SwitchLanguage, SwitchThemeColor } from "@/features/theme";
 import { useUserStore } from "@/features/auth";
+import { useAppInstallPWA } from "@/features/PWA";
 
 // Shared
 
-import { DnIconButton } from "@/shared/ui";
+import { DnIconButton, DnButton } from "@/shared/ui";
 import { signOut } from "@/shared/firebase";
 import { useTranslations } from "@/shared/hooks";
 
@@ -41,6 +42,7 @@ const MainLayout: FC<Props> = ({
 
   const { user, dispatchResetUser } = useUserStore();
   const { $t } = useTranslations();
+  const { isPWAInstalled, onInstallPWA } = useAppInstallPWA();
 
   // State
 
@@ -57,6 +59,23 @@ const MainLayout: FC<Props> = ({
     dispatchResetUser();
     setSpinnerLogout(() => false);
   };
+
+  // const onSentMessageToSW = () => {
+  //   if ("serviceWorker" in navigator && "MessageChannel" in window) {
+  //     const channel = new MessageChannel();
+  //     navigator.serviceWorker.controller.postMessage(
+  //       {
+  //         data: {
+  //           title: "Test Message",
+  //           body: "It got a message!",
+  //         },
+  //       },
+  //       [channel.port2]
+  //     );
+
+  //     console.log("Sent message to SW");
+  //   }
+  // };
 
   // Hooks
 
@@ -143,6 +162,36 @@ const MainLayout: FC<Props> = ({
                   )}
                 </div>
               </div>
+
+              {/* Install PWA app */}
+
+              {!isPWAInstalled && (
+                <div className="flex items-center justify-center px-3 py-2 border-0 border-b border-b-zinc-200 dark:border-b-zinc-700">
+                  <DnButton
+                    title="Install PWA app"
+                    areaLabel="Button for install PWA app on device"
+                    label="Install on Device"
+                    className="w-full"
+                    cta
+                    onClick={onInstallPWA}
+                  />
+                </div>
+              )}
+
+              {/* Test Btn */}
+
+              {/* <div className="flex items-center justify-center px-3 py-2 border-0 border-b border-b-zinc-200 dark:border-b-zinc-700">
+                <DnButton
+                  title="Install PWA app"
+                  areaLabel="Button for install PWA app on device"
+                  label="Sent message To WS"
+                  className="w-full"
+                  onClick={onSentMessageToSW}
+                />
+              </div> */}
+
+              <div>{`${isPWAInstalled}`}</div>
+
               <nav className="box-border space" role="navigation">
                 {aside}
               </nav>

@@ -8,12 +8,6 @@ import { store } from "./store/index.ts";
 import { Provider } from "react-redux";
 import { TranslationsProvider } from "./contexts";
 
-// Shared
-
-import { getFCMToken } from "@/shared/firebase";
-
-getFCMToken();
-
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <StrictMode>
     <TranslationsProvider>

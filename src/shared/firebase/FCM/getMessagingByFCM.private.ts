@@ -1,13 +1,13 @@
 import { app } from "../app/public";
-import { getMessaging, onBackgroundMessage } from "firebase/messaging/sw";
+import { getMessaging, onMessage } from "firebase/messaging";
 
 const messaging = getMessaging(app);
 
 export default () => {
   console.log("messages");
 
-  onBackgroundMessage(messaging, (payload) => {
-    console.log("Message received. ", payload);
+  onMessage(messaging, (payload) => {
+    console.log("Message received: ", payload);
 
     // ...
   });
