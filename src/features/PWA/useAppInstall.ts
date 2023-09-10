@@ -28,7 +28,6 @@ const addEventListenerBeforeInstallPrompt = () => {
   beforeInstallPrompt = (e: BeforeInstallPromptEvent) => {
     e.preventDefault();
     deferredPrompt = e;
-    console.log("beforeInstallPrompt");
   };
   window.addEventListener("beforeinstallprompt", beforeInstallPrompt);
 };
@@ -66,11 +65,9 @@ export default (): {
   const appInstalled = () => {
     deferredPrompt = null;
     setIsPWAInstalled(true);
-    // console.log("appInstalled");
   };
 
   const checkAppInstalled = () => {
-    console.log("deferredPrompt:", deferredPrompt);
     if (deferredPrompt) window.addEventListener("appinstalled", appInstalled);
     else setIsPWAInstalled(true);
   };
