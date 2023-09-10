@@ -1,9 +1,5 @@
 import { useState, useEffect } from "react";
 
-// Shared
-
-import { getFCMToken } from "@/shared/firebase";
-
 type Mode = "pwa" | "standalone" | "browser";
 
 interface BeforeInstallPromptEvent extends Event {
@@ -58,7 +54,6 @@ export default (): {
 
       if (outcome === "accepted") {
         setIsPWAInstalled(true);
-        getFCMToken();
       } else {
         window.removeEventListener("beforeinstallprompt", beforeInstallPrompt);
         addEventListenerBeforeInstallPrompt();

@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { BsFillSunFill, BsFillMoonFill } from "react-icons/bs";
 import { toggleThemeMode } from "@/shared/helpers";
 import { DnIconButton } from "@/shared/ui";
-import { LS_DEVICE_NOTIFICATION_TOKEN } from "@/shared/constants";
 
 function SwitchThemeColor() {
   const localStorageThemeMode = localStorage.getItem("theme") ?? "light";
@@ -10,11 +9,6 @@ function SwitchThemeColor() {
   const [themeMode, setThemeMode] = useState<string>(localStorageThemeMode);
 
   const onSwitchThemeColor = () => {
-    // Temporary functionality for developers
-    if (localStorage) {
-      localStorage.removeItem(LS_DEVICE_NOTIFICATION_TOKEN);
-    }
-
     if (themeMode === "dark") {
       setThemeMode(() => "light");
       toggleThemeMode("remove");

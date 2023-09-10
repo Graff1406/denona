@@ -13,10 +13,3 @@ export {
   type Translation,
   type Locales,
 } from "./crud/public";
-
-export {
-  getFCMToken,
-  getMessagingByFCM,
-  messaging,
-  messagingSW,
-} from "./FCM/public";
