@@ -28,7 +28,7 @@ const ZnButton: FC<Props> = ({
 
   if (cta)
     classes =
-      "bg-yellow-700 text-white border border-amber-800 hover:bg-amber-800 active:bg-yellow-700";
+      "bg-yellow-700 text-white border border-amber-800 hover:bg-amber-800 active:bg-yellow-700 cursor-not-allowed";
   else
     classes += "border border-primary-dark hover:bg-stone-50 active:bg-white";
 
@@ -37,6 +37,7 @@ const ZnButton: FC<Props> = ({
       className={[
         classes,
         " h-10 min-w-min px-2.5 rounded-md font-semibold smooth shadow-sm box-border no-select dark:hover:bg-zinc-900 overflow-hidden whitespace-nowrap truncate",
+        disabled ? "cursor-not-allowed opacity-40" : "",
         className,
       ].join(" ")}
       aria-label={areaLabel || label}

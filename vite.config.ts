@@ -36,7 +36,7 @@ export default defineConfig({
         name: "Denona long name",
         short_name: "Denona",
         description: "What you focus on determines the quality of your life",
-        theme_color: "#edb798",
+        theme_color: "#ffffff",
         start_url: "/",
         icons: [
           {

@@ -12,7 +12,7 @@ import { useUserStore } from "@/features/auth";
 
 import { DnButton, DnIconButton } from "@/shared/ui";
 import { signInGoogleWithPopup } from "@/shared/firebase";
-import { useTranslations } from "@/shared/hooks";
+import { useTranslations, useOnlineStatus } from "@/shared/hooks";
 
 // Icons
 
@@ -24,6 +24,7 @@ const Home: FC = () => {
 
   const { user } = useUserStore();
   const { $t } = useTranslations();
+  const { appIsOnline } = useOnlineStatus();
 
   // State
 
@@ -60,6 +61,7 @@ const Home: FC = () => {
               areaLabel={$t.homePageBtnAreaLabelSignInWithGoogle}
               title={$t.homePageBtnTitleSignInWithGoogle}
               icon={<FcGoogle className="icon" />}
+              disabled={!appIsOnline}
               onClick={onAuthByGoogle}
             />
           </div>

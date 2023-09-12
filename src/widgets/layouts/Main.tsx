@@ -96,7 +96,7 @@ const MainLayout: FC<Props> = ({
   return (
     <>
       <Helmet>
-        <title>{appIsOnline ? $t.appNoInternetConnection : title}</title>
+        <title>{appIsOnline ? title : $t.appNoInternetConnection}</title>
         <meta name="description" content={description} />
       </Helmet>
       <div className="tablet:flex tablet:flex-col w-full tablet:justify-center tablet:items-center dark:bg-zinc-900 dark:text-zinc-400 transition-all">
