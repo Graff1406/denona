@@ -18,3 +18,11 @@
 //     clearInterval(intervalId);
 //   }, 35000);
 // }
+
+// console.log("sw", Date.now());
+
+// self.addEventListener("fetch", (event) => {
+//   if (!event.request.ok) {
+//     console.log("offline SW");
+//   }
+// });

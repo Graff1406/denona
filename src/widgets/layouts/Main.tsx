@@ -17,7 +17,7 @@ import { useAppInstallPWA } from "@/features/PWA";
 
 import { DnIconButton, DnButton } from "@/shared/ui";
 import { signOut } from "@/shared/firebase";
-import { useTranslations } from "@/shared/hooks";
+import { useTranslations, useOnlineStatus } from "@/shared/hooks";
 
 interface Props {
   aside: ReactElement;
@@ -43,6 +43,7 @@ const MainLayout: FC<Props> = ({
   const { user, dispatchResetUser } = useUserStore();
   const { $t } = useTranslations();
   const { isPWAInstalled, onInstallPWA } = useAppInstallPWA();
+  const { appIsOnline } = useOnlineStatus();
 
   // State
 
@@ -95,11 +96,18 @@ const MainLayout: FC<Props> = ({
   return (
     <>
       <Helmet>
-        <title>{title}</title>
+        <title>{appIsOnline ? $t.appNoInternetConnection : title}</title>
         <meta name="description" content={description} />
       </Helmet>
       <div className="tablet:flex tablet:flex-col w-full tablet:justify-center tablet:items-center dark:bg-zinc-900 dark:text-zinc-400 transition-all">
         <div className="relative max-w-[900px] flex-grow overflow-hidden tablet:border-x bg-white dark:bg-zinc-800 dark:border-zinc-700 h-screen">
+          <div
+            className={`bg-zinc-700 text-white text-xs w-full  flex justify-center items-center leading-6 transition-all duration-300 ${
+              appIsOnline ? "h-0" : "h-6"
+            }`}
+          >
+            {$t.appNoInternetConnection}
+          </div>
           <header
             className="border-b dark:border-b-zinc-700 flex justify-between items-center space h-16"
             role="banner"
@@ -168,9 +176,9 @@ const MainLayout: FC<Props> = ({
               {!isPWAInstalled && (
                 <div className="flex items-center justify-center px-3 py-2 border-0 border-b border-b-zinc-200 dark:border-b-zinc-700">
                   <DnButton
-                    title="Install PWA app"
-                    areaLabel="Button for install PWA app on device"
-                    label="Install on Device"
+                    title={$t.appInstallPWATitle}
+                    areaLabel={$t.appInstallPWAAreaLabel}
+                    label={$t.appInstallPWALabel}
                     className="w-full"
                     cta
                     onClick={onInstallPWA}
@@ -189,8 +197,6 @@ const MainLayout: FC<Props> = ({
                   onClick={onSentMessageToSW}
                 />
               </div> */}
-
-              <div>{`${isPWAInstalled}`}</div>
 
               <nav className="box-border space" role="navigation">
                 {aside}

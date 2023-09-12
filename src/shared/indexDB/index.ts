@@ -1,0 +1,1 @@
+export { indexDB } from "./db";

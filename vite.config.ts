@@ -12,16 +12,22 @@ export default defineConfig({
   plugins: [
     react(),
     VitePWA({
-      registerType: "autoUpdate",
       injectRegister: "auto",
+      registerType: "autoUpdate", // default is "prompt"
       strategies: "generateSW",
 
       workbox: {
-        globPatterns: ["**/*.{ts,js,css,html,ico,png,svg}"],
+        runtimeCaching: [
+          {
+            urlPattern: /\.(?:js|css|html|ico|png|svg)$/,
+            handler: "CacheFirst",
+          },
+        ],
+        globPatterns: ["**/*.{js,css,html,ico,png,svg}"],
         sourcemap: true,
-        importScripts: ["/ws.js"],
+        // importScripts: ["/src/features/PWA/ws.ts"],
         clientsClaim: true,
-        skipWaiting: true,
+        // skipWaiting: true,
       },
       devOptions: {
         enabled: true,
@@ -30,7 +36,7 @@ export default defineConfig({
         name: "Denona long name",
         short_name: "Denona",
         description: "What you focus on determines the quality of your life",
-        theme_color: "#ffffff",
+        theme_color: "#edb798",
         start_url: "/",
         icons: [
           {

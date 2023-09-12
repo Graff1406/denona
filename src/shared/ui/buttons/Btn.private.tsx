@@ -36,7 +36,7 @@ const ZnButton: FC<Props> = ({
     <button
       className={[
         classes,
-        " h-10 min-w-min px-2.5 rounded-md font-semibold smooth shadow-sm box-border no-select dark:hover:bg-zinc-900",
+        " h-10 min-w-min px-2.5 rounded-md font-semibold smooth shadow-sm box-border no-select dark:hover:bg-zinc-900 overflow-hidden whitespace-nowrap truncate",
         className,
       ].join(" ")}
       aria-label={areaLabel || label}

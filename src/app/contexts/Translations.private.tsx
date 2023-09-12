@@ -2,12 +2,13 @@ import { createContext, useState, FC, useEffect } from "react";
 
 // Shared
 
+import { TRANSLATIONS_DENONA } from "@/shared/constants";
+import { indexDB } from "@/shared/indexDB";
 import {
   watchCollection,
   type Translation,
   type Locales,
 } from "@/shared/firebase";
-import { TRANSLATIONS_DENONA } from "@/shared/constants/index";
 
 type ObjectKeyValue = {
   [key: string]: string;
@@ -49,13 +50,68 @@ export const TranslationsProvider: FC<{ children: React.ReactNode }> = ({
     setTranslations(() => getTranslationsByLocale(result));
   };
 
+  const getTranslationsFromIndexDB = async (): Promise<{
+    translations: ObjectKeyValue;
+    items: Translation[];
+    stringified: string;
+  }> => {
+    const { items } = (await indexDB.translations.get(1)) as {
+      id: number;
+      items: Translation[];
+    };
+
+    const translations = getTranslationsByLocale(items);
+    return {
+      translations,
+      items,
+      stringified: JSON.stringify(translations),
+    };
+  };
+
+  const addDataToState = (
+    items: Translation[],
+    translations: ObjectKeyValue
+  ) => {
+    setResult(() => items);
+    setTranslations(translations);
+    setTranslationsLoaded(true);
+  };
+
   useEffect(() => {
+    let indexDBData = {} as {
+      translations: ObjectKeyValue;
+      stringified: string;
+    };
+    getTranslationsFromIndexDB().then((data) => {
+      if (data) {
+        indexDBData = data;
+        addDataToState(data.items, data.translations);
+        // console.log("getTranslationsFromIndexDB", Date.now());
+      }
+    });
+
     const unsubscribe = watchCollection(
       TRANSLATIONS_DENONA,
       (items: Translation[]) => {
-        setResult(() => items);
-        setTranslations(() => getTranslationsByLocale(items));
-        setTranslationsLoaded(true);
+        const translations = getTranslationsByLocale(items);
+        const toStringTranslations = JSON.stringify(translations);
+        // console.log(111, toStringTranslations);
+        // console.log(222, indexDBData.stringified);
+        // console.log(333, toStringTranslations === indexDBData.stringified);
+
+        if (!indexDBData.stringified && toStringTranslations) {
+          indexDB.translations.add({ items });
+          addDataToState(items, translations);
+          // console.log("if");
+        } else if (
+          indexDBData.stringified !== toStringTranslations &&
+          items?.length &&
+          indexDBData.stringified
+        ) {
+          indexDB.translations.put({ id: 1, items });
+          addDataToState(items, translations);
+          // console.log("else");
+        }
       }
     );
 
