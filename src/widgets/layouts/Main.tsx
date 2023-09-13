@@ -61,23 +61,6 @@ const MainLayout: FC<Props> = ({
     setSpinnerLogout(() => false);
   };
 
-  // const onSentMessageToSW = () => {
-  //   if ("serviceWorker" in navigator && "MessageChannel" in window) {
-  //     const channel = new MessageChannel();
-  //     navigator.serviceWorker.controller.postMessage(
-  //       {
-  //         data: {
-  //           title: "Test Message",
-  //           body: "It got a message!",
-  //         },
-  //       },
-  //       [channel.port2]
-  //     );
-
-  //     console.log("Sent message to SW");
-  //   }
-  // };
-
   // Hooks
 
   useEffect(() => {

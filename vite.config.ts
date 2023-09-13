@@ -2,7 +2,6 @@ import * as path from "path";
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import { VitePWA } from "vite-plugin-pwa";
-// https://vitejs.dev/config/
 export default defineConfig({
   resolve: {
     alias: [{ find: "@", replacement: path.resolve(__dirname, "src") }],
@@ -33,7 +32,7 @@ export default defineConfig({
         enabled: true,
       },
       manifest: {
-        name: "Denona long name",
+        name: "Denona",
         short_name: "Denona",
         description: "What you focus on determines the quality of your life",
         theme_color: "#ffffff",

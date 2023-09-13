@@ -9,14 +9,6 @@ import { TranslationsProvider } from "./contexts";
 
 // import { registerSW } from "virtual:pwa-register";
 
-window.addEventListener("online", () => {
-  console.log("online");
-});
-
-window.addEventListener("offline", () => {
-  console.log("offline");
-});
-
 // registerSW({
 //   immediate: true,
 //   // onNeedRefresh() {
