@@ -41,7 +41,7 @@ export default (): {
 } => {
   // State
 
-  const [isPWAInstalled, setIsPWAInstalled] = useState(false);
+  const [isPWAInstalled, setIsPWAInstalled] = useState(true);
   const [displayModePWA, setDisplayModePWA] = useState<Mode>("browser");
 
   // Methods
@@ -54,6 +54,7 @@ export default (): {
       if (outcome === "accepted") {
         setIsPWAInstalled(true);
       } else {
+        setIsPWAInstalled(false);
         window.removeEventListener("beforeinstallprompt", beforeInstallPrompt);
         addEventListenerBeforeInstallPrompt();
       }

@@ -52,12 +52,12 @@ const SwitchLanguage: FC = () => {
     >
       {languages
         .filter((loc: Locales) => selectedLanguage !== loc)
-        .map((language) => (
+        .map((language: Locales, i: number) => (
           <button
             key={language}
             onClick={() => handleLanguageSelect(language)}
             className="block w-full px-4 py-2 text-sm hover:bg-gray-100 hover:text-gray-900 dark:hover:bg-zinc-900 dark:dark:text-zinc-400"
-            role="menuitem"
+            role={`menuitem-${i}`}
             area-label={language}
             title={language}
           >
