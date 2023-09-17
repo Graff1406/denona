@@ -1,6 +1,6 @@
 import { FC, ReactElement, useState, useEffect } from "react";
 import { Helmet } from "react-helmet-async";
-import { Link, Outlet, useLocation } from "react-router-dom";
+import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
 
 // Icons
 
@@ -23,11 +23,14 @@ import { useTranslations, useOnlineStatus } from "@/shared/hooks";
 
 import { FcGoogle } from "react-icons/fc";
 import { VscSettings } from "react-icons/vsc";
+import { MdArrowBackIosNew } from "react-icons/md";
+
+// Helpers
+
+import { getCurrentRouteData } from "./helpers";
 
 interface Props {
   content?: ReactElement;
-  title?: string;
-  description?: string;
   aside?: ReactElement;
   headerRight?: ReactElement;
   isToggleMenu?: boolean;
@@ -38,8 +41,6 @@ const MainLayout: FC<Props> = ({
   headerRight,
   aside,
   content,
-  title,
-  description,
   isToggleMenu,
   onToggleMenu = (callback) => callback(),
 }): ReactElement => {
@@ -50,12 +51,17 @@ const MainLayout: FC<Props> = ({
   const { isPWAInstalled, onInstallPWA } = useAppInstallPWA();
   const { appIsOnline } = useOnlineStatus();
   const location = useLocation();
+  const navigate = useNavigate();
 
   // State
 
   const [isMounted, setIsMounted] = useState(false);
   const [open, setOpen] = useState(false);
   const [spinnerLogout, setSpinnerLogout] = useState(false);
+  const [isHomePage, setIsHomePage] = useState(true);
+
+  // Get helper data
+  const { title, description } = getCurrentRouteData(location.pathname, $t);
 
   // methods
 
@@ -68,6 +74,9 @@ const MainLayout: FC<Props> = ({
   };
   const onAuthByGoogle = () => {
     signInGoogleWithPopup();
+  };
+  const goBack = () => {
+    navigate(-1);
   };
 
   // Hooks
@@ -87,11 +96,8 @@ const MainLayout: FC<Props> = ({
 
   useEffect(() => {
     if (open) setOpen(false);
+    setIsHomePage(location.pathname === "/");
   }, [location]);
-
-  useEffect(() => {
-    console.log(111, isPWAInstalled);
-  }, [isPWAInstalled]);
 
   return (
     <>
@@ -116,21 +122,45 @@ const MainLayout: FC<Props> = ({
         {/* Main Col */}
 
         <div className="h-screen flex-col grow mx-auto max-w-[900px] tablet:border-x dark:border-zinc-700 bg-white dark:bg-zinc-800">
+          {/* Logo, Arrow back, Page Title, right btn */}
+
           <header
-            className="border-b dark:border-b-zinc-700 flex justify-between items-center space h-16"
+            className="border-b dark:border-b-zinc-700 flex justify-between items-center space h-16 overflow-hidden"
             role="banner"
           >
-            <Link to="/" className="flex items-center gap-4">
+            <Link
+              to="/"
+              className={`flex items-center gap-4 min-w-max ${
+                !isHomePage ? "hidden tablet:flex" : ""
+              }`}
+            >
               <img
                 src="/images/favicon.ico"
                 alt={$t.logoImgAltText}
+                title={$t.logoImgAltText}
                 width={32}
                 height={32}
               />
-              <span className="uppercase font-medium text-xl dark:text-zinc-200">
+              <span className="uppercase font-medium text-xl tablet:block dark:text-zinc-200">
                 {$t.mainLogo}
               </span>
             </Link>
+
+            {/* Arrow back, Page title */}
+
+            {!isHomePage && (
+              <div className="flex grow items-center truncate text-ellipsis overflow-hidden max-w-max gap-1 tablet:border-l tablet:border-l-zinc-200 tablet:mx-6 tablet:pl-2">
+                <DnIconButton
+                  icon={<MdArrowBackIosNew className="h-6 w-6" />}
+                  areaLabel="back"
+                  onClick={goBack}
+                />
+                <h2 className="text-lg">{title}</h2>
+              </div>
+            )}
+
+            {/* Right btn */}
+
             {headerRight ?? user.auth ? (
               <DnIconButton
                 className="tablet:hidden"
@@ -239,14 +269,14 @@ const MainLayout: FC<Props> = ({
 
             {/* Page Content */}
 
-            <section className="scrollbar w-full p-3 transition-all duration-300 relative">
+            <section className="scrollbar w-full transition-all duration-300 relative overflow-y-auto">
               <div
-                className={`absolute inset-0 z-10 bg-zinc-100/80 dark:bg-zinc-700/80 transition-all duration-300 tablet:hidden ${
+                className={`fixed w-full h-full bg-zinc-100/80 dark:bg-zinc-700/80 transition-all duration-300 tablet:hidden ${
                   open ? "visible opacity-100" : "invisible opacity-0"
                 }`}
                 onClick={handleToggleMenu}
               ></div>
-              {content ?? <Outlet />}
+              <div className="p-3">{content ?? <Outlet />}</div>
             </section>
           </main>
         </div>

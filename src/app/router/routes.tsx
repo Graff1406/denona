@@ -8,6 +8,10 @@ import { MainLayout } from "@/widgets/layouts";
 
 import { Home, Settings } from "@/pages";
 
+// Shared
+
+import { path } from "@/shared/constants";
+
 interface Route {
   path: string;
   element: ReactElement;
@@ -16,16 +20,16 @@ interface Route {
 
 const routes: Route[] = [
   {
-    path: "/",
+    path: path.home,
     element: <MainLayout />,
     children: [
       {
-        path: "/",
+        path: path.home,
         element: <Home />,
       },
       {
-        path: "/settings",
-        element: Settings,
+        path: path.settings,
+        element: <Settings />,
       },
     ],
   },

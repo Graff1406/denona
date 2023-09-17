@@ -24,4 +24,4 @@ const SetSuspense = (C: any) => {
 // Exports
 
 export { default as Home } from "./Home";
-export const Settings = SetSuspense(S);
+export const Settings = () => SetSuspense(S);
