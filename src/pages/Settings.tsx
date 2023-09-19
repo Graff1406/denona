@@ -1,9 +1,9 @@
-import { FC, useState } from "react";
+import { FC } from "react";
 
 // Shared
 
 import { useTranslations } from "@/shared/hooks";
-import { DeExpand, DeSwitch } from "@/shared/ui";
+// import { DeExpand, DeSwitch } from "@/shared/ui";
 
 const Settings: FC = () => {
   // Use
