@@ -18,6 +18,7 @@ import { useAppInstallPWA } from "@/features/PWA";
 import { DnIconButton, DnButton } from "@/shared/ui";
 import { signOut, signInGoogleWithPopup } from "@/shared/firebase";
 import { useTranslations, useOnlineStatus } from "@/shared/hooks";
+import { path } from "@/shared/constants";
 
 // Icons
 
@@ -138,10 +139,12 @@ const MainLayout: FC<Props> = ({
             <div className="flex gap-1 truncate text-ellipsis overflow-hidden">
               {/* Logo */}
               <Link
-                to="/"
+                to={path.home}
                 className={`flex items-center gap-4 min-w-max ${
                   !isHomePage ? "hidden tablet:flex" : ""
                 }`}
+                aria-label={$t.logoImgAltText}
+                role="link"
               >
                 <img
                   src="/images/favicon.ico"
@@ -163,10 +166,12 @@ const MainLayout: FC<Props> = ({
               >
                 <DnIconButton
                   icon={<MdArrowBackIosNew className="h-6 w-6" />}
-                  areaLabel="back"
+                  areaLabel={$t.appBackArrowLabel}
                   onClick={goBack}
                 />
-                <h2 className="text-lg">{title}</h2>
+                <h2 className="text-lg" role="region">
+                  {title}
+                </h2>
               </div>
             </div>
 
@@ -215,8 +220,8 @@ const MainLayout: FC<Props> = ({
                 <div className="flex gap-2">
                   <DnIconButton
                     icon={<VscSettings className="w-6 h-6" />}
-                    areaLabel="Theme toggled"
-                    to="/settings"
+                    areaLabel={$t.appSettingsButtonOnMenu}
+                    to={path.settings}
                   />
                   <SwitchThemeColor />
                   {user.auth && (

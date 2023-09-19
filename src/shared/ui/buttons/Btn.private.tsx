@@ -11,6 +11,7 @@ interface Props {
   onClick?: () => void;
   cta?: boolean;
   loading?: boolean;
+  tabIndex?: number;
 }
 
 const ZnButton: FC<Props> = ({
@@ -22,6 +23,7 @@ const ZnButton: FC<Props> = ({
   title,
   cta,
   loading,
+  tabIndex = 0,
   onClick,
 }): ReactElement => {
   let classes = "";
@@ -43,6 +45,7 @@ const ZnButton: FC<Props> = ({
       aria-label={areaLabel || label}
       title={title || label}
       disabled={disabled || loading}
+      tabIndex={tabIndex}
       onClick={onClick}
     >
       {" "}

@@ -12,6 +12,7 @@ interface Props {
   ariaExpanded?: boolean;
   ariaControls?: string;
   id?: string;
+  tabIndex?: number;
   onClick?: () => void;
 }
 
@@ -26,6 +27,7 @@ const DnButton: FC<Props> = ({
   ariaExpanded,
   ariaControls,
   id,
+  tabIndex = 0,
   onClick,
 }): ReactElement => {
   const Button = () => (
@@ -40,6 +42,7 @@ const DnButton: FC<Props> = ({
       disabled={disabled}
       aria-expanded={ariaExpanded}
       aria-controls={ariaControls}
+      tabIndex={tabIndex}
       onClick={onClick}
     >
       <span className="flex justify-center items-center w-6 h-6 m-2">
@@ -48,7 +51,7 @@ const DnButton: FC<Props> = ({
     </button>
   );
   return to ? (
-    <Link to={to}>
+    <Link to={to} aria-label={areaLabel}>
       <Button />
     </Link>
   ) : (
