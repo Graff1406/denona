@@ -1,15 +1,11 @@
 import { FC, useState, ReactNode } from "react";
 
-// Interfaces
-
 interface Props {
   children: ReactNode;
   title: string;
 }
 
 const DeExpand: FC<Props> = ({ title, children }) => {
-  // State
-
   const [expanded, setExpanded] = useState(false);
 
   const toggleExpansion = () => {
@@ -21,16 +17,21 @@ const DeExpand: FC<Props> = ({ title, children }) => {
       <button
         onClick={toggleExpansion}
         className="w-full text-left py-2 px-4 bg-gray-200 hover:bg-gray-300 focus:outline-none focus:bg-gray-300 transition duration-300"
+        aria-expanded={expanded}
+        aria-controls="expandable-content"
+        role="button"
       >
         <div className="flex justify-between items-center">
           <span className="font-semibold">{title}</span>
-          <span>{expanded ? "▲" : "▼"}</span>
+          <span>{expanded ? "Свернуть" : "Развернуть"}</span>
         </div>
       </button>
       <div
-        className={`bg-white animation overflow-hidden ${
+        className={`bg-white overflow-hidden transition-max-h duration-300 ${
           expanded ? "max-h-screen" : "max-h-0"
         }`}
+        id="expandable-content"
+        aria-hidden={!expanded}
       >
         {children}
       </div>

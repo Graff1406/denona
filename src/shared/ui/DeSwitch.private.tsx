@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 
 interface SwitchProps {
   id?: string;
@@ -16,17 +16,16 @@ const Switch: React.FC<SwitchProps> = ({
   active,
 }) => {
   // State
-
   const [checked, setChecked] = useState(!!active);
 
   // methods
-
   const handleChange = () => {
-    setChecked(() => !checked);
-    onChange(!checked);
+    const newChecked = !checked;
+    setChecked(newChecked);
+    onChange(newChecked);
   };
 
-  const localId = id || Math.random().toString().substring(5, 10);
+  const localId = id || `switch-${Math.random().toString(36).substring(2, 7)}`;
 
   return (
     <div className={`flex items-center ${className}`}>
@@ -36,12 +35,22 @@ const Switch: React.FC<SwitchProps> = ({
         className="sr-only"
         checked={checked}
         onChange={handleChange}
+        aria-labelledby={`${localId}-label`}
+        aria-checked={checked}
       />
       <label
         htmlFor={localId}
         className={`relative inline-block w-10 h-6 rounded-full transition duration-300 ease-in-out cursor-pointer ${
           checked ? "bg-blue-200" : "bg-zinc-300"
         }`}
+        role="switch"
+        aria-labelledby={`${localId}-label`}
+        tabIndex={0}
+        onKeyDown={(e) => {
+          if (e.key === "Enter" || e.key === " ") {
+            handleChange();
+          }
+        }}
       >
         <span
           className={`${
@@ -51,8 +60,16 @@ const Switch: React.FC<SwitchProps> = ({
       </label>
       {label && (
         <span
+          id={`${localId}-label`}
           className="text-gray-700 dark:text-gray-300 pl-2 cursor-pointer"
           onClick={handleChange}
+          role="label"
+          tabIndex={0}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              handleChange();
+            }
+          }}
         >
           {label}
         </span>
