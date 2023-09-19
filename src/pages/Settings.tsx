@@ -1,22 +1,38 @@
-import { FC } from "react";
+import { FC, useState } from "react";
 
 // Shared
 
 import { useTranslations } from "@/shared/hooks";
+import { DeExpand, DeSwitch } from "@/shared/ui";
 
 const Settings: FC = () => {
   // Use
 
   const { $t } = useTranslations();
 
+  // State
+
+  // Methods
+
+  const setPermissionNotifications = (permission: boolean) => {
+    console.log(permission);
+  };
+
   return (
     <>
-      <h1>{$t.settingsPageTitle}</h1>
-      {/* <h1 className="text-xl mb-4">{$t.homePageTitle}</h1>
-      <br />
-      {Array.from({ length: 12 }, (_v: undefined, i: number) => (
-        <p key={i}>{$t.homePageDescription}</p>
-      ))} */}
+      <DeSwitch
+        label={$t.settingsPermissionGetNotifications}
+        onChange={setPermissionNotifications}
+        className="m-3"
+      />
+
+      {/* <DeExpand title={$t.settingsPermissionGetNotifications}>
+        <DeSwitch
+          label={$t.settingsPermissionGetNotifications}
+          onChange={setPermissionNotifications}
+          className="m-3"
+        />
+      </DeExpand> */}
     </>
   );
 };
