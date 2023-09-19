@@ -28,7 +28,23 @@ const Switch: React.FC<SwitchProps> = ({
   const localId = id || `switch-${Math.random().toString(36).substring(2, 7)}`;
 
   return (
-    <div className={`flex items-center ${className}`}>
+    <div className={`flex items-center justify-end ${className}`}>
+      {label && (
+        <span
+          id={`${localId}-label`}
+          className="text-gray-700 dark:text-gray-300 pr-3 cursor-pointer"
+          onClick={handleChange}
+          role="label"
+          tabIndex={0}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              handleChange();
+            }
+          }}
+        >
+          {label}
+        </span>
+      )}
       <input
         type="checkbox"
         id={localId}
@@ -58,22 +74,6 @@ const Switch: React.FC<SwitchProps> = ({
           } absolute inset-y-0 left-0 w-6 h-6 rounded-full shadow-md transform transition-transform duration-300 ease-in-out`}
         ></span>
       </label>
-      {label && (
-        <span
-          id={`${localId}-label`}
-          className="text-gray-700 dark:text-gray-300 pl-2 cursor-pointer"
-          onClick={handleChange}
-          role="label"
-          tabIndex={0}
-          onKeyDown={(e) => {
-            if (e.key === "Enter" || e.key === " ") {
-              handleChange();
-            }
-          }}
-        >
-          {label}
-        </span>
-      )}
     </div>
   );
 };
