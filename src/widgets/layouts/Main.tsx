@@ -59,6 +59,7 @@ const MainLayout: FC<Props> = ({
   const [open, setOpen] = useState(false);
   const [spinnerLogout, setSpinnerLogout] = useState(false);
   const [isHomePage, setIsHomePage] = useState(true);
+  const [showTextForAppIsOffline, setShowTextForAppIsOffline] = useState(false);
 
   // Get helper data
   const { title, description } = getCurrentRouteData(location.pathname, $t);
@@ -98,6 +99,12 @@ const MainLayout: FC<Props> = ({
     if (open) setOpen(false);
     setIsHomePage(location.pathname === "/");
   }, [location]);
+  useEffect(() => {
+    setShowTextForAppIsOffline(!appIsOnline);
+    setTimeout(() => {
+      setShowTextForAppIsOffline(false);
+    }, 3500);
+  }, [appIsOnline]);
 
   return (
     <>
@@ -109,8 +116,8 @@ const MainLayout: FC<Props> = ({
       {/* System bar */}
 
       <div
-        className={`bg-zinc-700 text-white text-xs w-full  flex justify-center items-center leading-6 transition-all duration-300 ${
-          appIsOnline ? "h-0 opacity-0" : "h-6 opacity-100"
+        className={`bg-zinc-700 text-white text-xs w-full  flex justify-center items-center leading-6 animation absolute bottom-0 left-0 right-0 z-50 ${
+          showTextForAppIsOffline ? "h-6 opacity-100" : "h-0 opacity-0"
         }`}
       >
         {$t.appNoInternetConnection}
@@ -128,28 +135,32 @@ const MainLayout: FC<Props> = ({
             className="border-b dark:border-b-zinc-700 flex justify-between items-center space h-16 overflow-hidden"
             role="banner"
           >
-            <Link
-              to="/"
-              className={`flex items-center gap-4 min-w-max ${
-                !isHomePage ? "hidden tablet:flex" : ""
-              }`}
-            >
-              <img
-                src="/images/favicon.ico"
-                alt={$t.logoImgAltText}
-                title={$t.logoImgAltText}
-                width={32}
-                height={32}
-              />
-              <span className="uppercase font-medium text-xl tablet:block dark:text-zinc-200">
-                {$t.mainLogo}
-              </span>
-            </Link>
+            <div className="flex gap-1 truncate text-ellipsis overflow-hidden">
+              {/* Logo */}
+              <Link
+                to="/"
+                className={`flex items-center gap-4 min-w-max ${
+                  !isHomePage ? "hidden tablet:flex" : ""
+                }`}
+              >
+                <img
+                  src="/images/favicon.ico"
+                  alt={$t.logoImgAltText}
+                  title={$t.logoImgAltText}
+                  width={32}
+                  height={32}
+                />
+                <span className="uppercase font-medium text-xl tablet:block dark:text-zinc-200">
+                  {$t.mainLogo}
+                </span>
+              </Link>
 
-            {/* Arrow back, Page title */}
-
-            {!isHomePage && (
-              <div className="flex grow items-center truncate text-ellipsis overflow-hidden max-w-max gap-1 tablet:border-l tablet:border-l-zinc-200 tablet:mx-6 tablet:pl-2">
+              {/* Arrow back, Page title */}
+              <div
+                className={`flex grow items-center max-w-max gap-1 tablet:border-l tablet:border-l-zinc-200 tablet:mx-6 tablet:pl-2 anima ${
+                  isHomePage ? "opacity-0" : "opacity-100"
+                }`}
+              >
                 <DnIconButton
                   icon={<MdArrowBackIosNew className="h-6 w-6" />}
                   areaLabel="back"
@@ -157,7 +168,7 @@ const MainLayout: FC<Props> = ({
                 />
                 <h2 className="text-lg">{title}</h2>
               </div>
-            )}
+            </div>
 
             {/* Right btn */}
 
@@ -269,9 +280,9 @@ const MainLayout: FC<Props> = ({
 
             {/* Page Content */}
 
-            <section className="scrollbar w-full transition-all duration-300 relative overflow-y-auto">
+            <section className="scrollbar w-full animation relative overflow-y-auto">
               <div
-                className={`fixed w-full h-full bg-zinc-100/80 dark:bg-zinc-700/80 transition-all duration-300 tablet:hidden ${
+                className={`fixed w-full h-full bg-zinc-100/80 dark:bg-zinc-700/80 animation tablet:hidden ${
                   open ? "visible opacity-100" : "invisible opacity-0"
                 }`}
                 onClick={handleToggleMenu}
