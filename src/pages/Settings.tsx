@@ -3,7 +3,7 @@ import { FC } from "react";
 // Shared
 
 import { useTranslations } from "@/shared/hooks";
-import { DeSwitch } from "@/shared/ui";
+import { DeSwitch, DeExpand } from "@/shared/ui";
 
 const Settings: FC = () => {
   // Use
@@ -19,21 +19,15 @@ const Settings: FC = () => {
   };
 
   return (
-    <>
-      <DeSwitch
-        label={$t.settingsPermissionGetNotifications}
-        onChange={setPermissionNotifications}
-        className="m-3"
-      />
-
-      {/* <DeExpand title={$t.settingsPermissionGetNotifications}>
+    <div className="flex flex-col gap-4">
+      <DeExpand title={$t.settingsPermissionGetNotifications}>
         <DeSwitch
           label={$t.settingsPermissionGetNotifications}
           onChange={setPermissionNotifications}
           className="m-3"
         />
-      </DeExpand> */}
-    </>
+      </DeExpand>
+    </div>
   );
 };
 

@@ -169,9 +169,7 @@ const MainLayout: FC<Props> = ({
                   areaLabel={$t.appBackArrowLabel}
                   onClick={goBack}
                 />
-                <h2 className="text-lg" role="region">
-                  {title}
-                </h2>
+                <h2 className="text-lg">{title}</h2>
               </div>
             </div>
 
