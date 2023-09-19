@@ -3,7 +3,7 @@ import { FC } from "react";
 // Shared
 
 import { useTranslations } from "@/shared/hooks";
-// import { DeExpand, DeSwitch } from "@/shared/ui";
+import { DeSwitch } from "@/shared/ui";
 
 const Settings: FC = () => {
   // Use
