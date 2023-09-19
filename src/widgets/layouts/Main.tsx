@@ -62,7 +62,7 @@ const MainLayout: FC<Props> = ({
   const [showTextForAppIsOffline, setShowTextForAppIsOffline] = useState(false);
 
   // Get helper data
-  const { title, description } = getCurrentRouteData(location.pathname, $t);
+  const { title, head } = getCurrentRouteData(location.pathname, $t);
 
   // methods
 
@@ -109,8 +109,8 @@ const MainLayout: FC<Props> = ({
   return (
     <>
       <Helmet>
-        <title>{appIsOnline ? title : $t.appNoInternetConnection}</title>
-        <meta name="description" content={description} />
+        <title>{appIsOnline ? head.title : $t.appNoInternetConnection}</title>
+        <meta name="description" content={head.description} />
       </Helmet>
 
       {/* System bar */}

@@ -8,12 +8,18 @@ export const getCurrentRouteData = (
 ) => {
   if (path.settings === route)
     return {
+      head: {
+        title: $t.settingsPageTitle,
+        description: $t.settingsPageDescription,
+      },
       title: $t.settingsPageTitle,
-      description: $t.settingsPageDescription,
     };
 
   return {
-    title: $t.homePageTitle,
-    description: $t.homePageDescription,
+    head: {
+      title: $t.settingsPageTitle,
+      description: $t.settingsPageDescription,
+    },
+    title: "",
   };
 };
