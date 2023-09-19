@@ -20,17 +20,19 @@ import { MdArrowBackIosNew } from "react-icons/md";
 import { MdPersonAdd, MdMenu } from "react-icons/md";
 
 interface Props {
+  open: boolean;
   isHomePage: boolean;
   headerRight: ReactElement | undefined;
   title: string;
-  onToggleMenu: (callback: () => void) => void;
+  onToggleMenu: () => void;
 }
 
 const Header: FC<Props> = ({
+  open,
   title,
   isHomePage,
   headerRight,
-  onToggleMenu = (callback) => callback(),
+  onToggleMenu,
 }) => {
   // Use
 
@@ -38,12 +40,8 @@ const Header: FC<Props> = ({
   const { $t } = useTranslations();
   const navigate = useNavigate();
 
-  // State
-  const [open, setOpen] = useState(false);
-
   // methods
 
-  const handleToggleMenu = () => onToggleMenu(() => setOpen(!open));
   const goBack = () => {
     navigate(-1);
   };
@@ -97,7 +95,7 @@ const Header: FC<Props> = ({
           className="tablet:hidden"
           icon={<MdMenu className="icon" />}
           areaLabel={$t.homePageMainBtnMobileMenuToggle}
-          onClick={handleToggleMenu}
+          onClick={onToggleMenu}
           ariaExpanded={open}
           id="menu-toggle"
           aria-controls="menu"
@@ -110,7 +108,7 @@ const Header: FC<Props> = ({
           title={$t.homePageBtnTitleGetStarted}
           icon={<MdPersonAdd className="icon" />}
           cta
-          onClick={handleToggleMenu}
+          onClick={onToggleMenu}
         />
       )}
     </header>

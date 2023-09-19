@@ -115,10 +115,11 @@ const MainLayout: FC<Props> = ({
           {/* Logo, Arrow back, Page Title, right btn */}
 
           <Header
+            open={open}
             isHomePage={isHomePage}
             headerRight={headerRight}
             title={title}
-            onToggleMenu={onToggleMenu}
+            onToggleMenu={handleToggleMenu}
           />
 
           {/* Main content */}
