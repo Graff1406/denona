@@ -48,7 +48,7 @@ const MainLayout: FC<Props> = ({
   const [open, setOpen] = useState(false);
   const [spinnerLogout, setSpinnerLogout] = useState(false);
   const [isHomePage, setIsHomePage] = useState(true);
-  const [showTextForAppIsOffline, setShowTextForAppIsOffline] = useState(false);
+  // const [showTextForAppIsOffline, setShowTextForAppIsOffline] = useState(false);
 
   // Get helper data
   const { title, head } = getCurrentRouteData(location.pathname, $t);
@@ -82,12 +82,12 @@ const MainLayout: FC<Props> = ({
     if (open) setOpen(false);
     setIsHomePage(location.pathname === "/");
   }, [location]);
-  useEffect(() => {
-    setShowTextForAppIsOffline(!appIsOnline);
-    setTimeout(() => {
-      setShowTextForAppIsOffline(false);
-    }, 3500);
-  }, [appIsOnline]);
+  // useEffect(() => {
+  //   setShowTextForAppIsOffline(!appIsOnline);
+  //   setTimeout(() => {
+  //     setShowTextForAppIsOffline(false);
+  //   }, 3500);
+  // }, [appIsOnline]);
 
   return (
     <>
@@ -95,16 +95,6 @@ const MainLayout: FC<Props> = ({
         <title>{appIsOnline ? head.title : $t.appNoInternetConnection}</title>
         <meta name="description" content={head.description} />
       </Helmet>
-
-      {/* System bar */}
-
-      <div
-        className={`bg-zinc-700 text-white text-xs w-full  flex justify-center items-center leading-6 animation absolute bottom-0 left-0 right-0 z-50 ${
-          showTextForAppIsOffline ? "h-6 opacity-100" : "h-0 opacity-0"
-        }`}
-      >
-        {$t.appNoInternetConnection}
-      </div>
 
       {/* Page container */}
 
@@ -124,7 +114,11 @@ const MainLayout: FC<Props> = ({
 
           {/* Main content */}
 
-          <main className="h-[calc(100vh-64px)] overflow-hidden bg-white flex dark:bg-inherit">
+          <main
+            className={`overflow-hidden bg-white flex dark:bg-inherit ${
+              appIsOnline ? "h-[calc(100vh-64px)]" : "h-[calc(100vh-88px)]"
+            }`}
+          >
             {/* Aside main menu */}
 
             <Aside
@@ -134,9 +128,23 @@ const MainLayout: FC<Props> = ({
               handleLogout={handleLogout}
             />
 
-            {/* Page Content */}
+            {/* Page */}
 
-            <section className="scrollbar w-full animation relative overflow-y-auto">
+            <section className="scrollbar w-full animation relative overflow-y-auto relative">
+              {/* Block for show No internet connection */}
+
+              <div
+                className={`bg-zinc-700 text-white text-xs flex justify-center items-center leading-6 sticky top-0 animation ${
+                  /* showTextForAppIsOffline */ appIsOnline
+                    ? "h-0 opacity-0"
+                    : "h-6 opacity-100"
+                }`}
+              >
+                {$t.appNoInternetConnection}
+              </div>
+
+              {/* Page content */}
+
               <div
                 className={`fixed w-full h-full bg-zinc-100/80 dark:bg-zinc-700/80 animation tablet:hidden ${
                   open ? "visible opacity-100" : "invisible opacity-0"

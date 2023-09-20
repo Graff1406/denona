@@ -64,7 +64,6 @@ const Header: FC<Props> = ({
           <img
             src="/images/favicon.ico"
             alt={$t.logoImgAltText}
-            title={$t.logoImgAltText}
             width={32}
             height={32}
           />
