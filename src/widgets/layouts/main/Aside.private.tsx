@@ -8,7 +8,7 @@ import { useAppInstallPWA } from "@/features/PWA";
 
 // Shared
 
-import { DnIconButton, DnButton } from "@/shared/ui";
+import { DnIconButton, DnButton, DeImage } from "@/shared/ui";
 import { signInGoogleWithPopup } from "@/shared/firebase";
 import { useTranslations, useOnlineStatus } from "@/shared/hooks";
 import { path } from "@/shared/constants";
@@ -58,9 +58,9 @@ const Aside: FC<Props> = ({ open, spinnerLogout, aside, onUserLogout }) => {
             className="flex items-center space-x-2 min-w-max min-h-max border border-zinc-200 rounded-lg p-2 animation active:bg-zinc-200 hover:bg-zinc-100 cursor-pointer"
             area-label={$t.appSettingsButtonOnMenu}
           >
-            <img
+            <DeImage
               src="/images/user-profile-pic.jpeg"
-              alt="user profile picture"
+              alt={$t.userProfileImageAlt}
               className="w-6 h-6 rounded-full"
             />
             <DnIconButton

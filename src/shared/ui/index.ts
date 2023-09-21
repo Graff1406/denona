@@ -10,3 +10,4 @@ export const DeMenu = lazy(() => import("./DeMenu.private"));
 export const DeExpand = lazy(() => import("./DeExpand.private"));
 export const DeSwitch = lazy(() => import("./DeSwitch.private"));
 export const DeRadio = lazy(() => import("./DeRadio.private"));
+export const DeImage = lazy(() => import("./DeImage.private"));
