@@ -22,8 +22,8 @@ import { MdPersonAdd, MdMenu } from "react-icons/md";
 interface Props {
   open: boolean;
   isHomePage: boolean;
-  headerRight: ReactElement | undefined;
   title: string;
+  headerRight?: ReactElement | undefined;
   onToggleMenu: () => void;
 }
 

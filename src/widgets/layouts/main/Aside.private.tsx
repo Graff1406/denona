@@ -23,10 +23,10 @@ interface Props {
   open: boolean;
   spinnerLogout: boolean;
   aside?: ReactElement;
-  handleLogout: () => Promise<void>;
+  onUserLogout: () => Promise<void>;
 }
 
-const Aside: FC<Props> = ({ open, spinnerLogout, aside, handleLogout }) => {
+const Aside: FC<Props> = ({ open, spinnerLogout, aside, onUserLogout }) => {
   // Use
 
   const { user } = useUserStore();
@@ -65,7 +65,7 @@ const Aside: FC<Props> = ({ open, spinnerLogout, aside, handleLogout }) => {
               title={$t.logoutButtonAreaLabel}
               areaLabel={$t.logoutButtonAreaLabel}
               loading={spinnerLogout}
-              onClick={handleLogout}
+              onClick={onUserLogout}
             />
           )}
         </div>

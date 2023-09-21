@@ -47,7 +47,7 @@ export const TranslationsProvider: FC<{ children: React.ReactNode }> = ({
   };
 
   const changeLanguage = () => {
-    setTranslations(() => getTranslationsByLocale(result));
+    setTranslations(getTranslationsByLocale(result));
   };
 
   const getTranslationsFromIndexDB = async (): Promise<{
@@ -72,7 +72,7 @@ export const TranslationsProvider: FC<{ children: React.ReactNode }> = ({
     items: Translation[],
     translations: ObjectKeyValue
   ) => {
-    setResult(() => items);
+    setResult(items);
     setTranslations(translations);
     setTranslationsLoaded(true);
   };
@@ -86,7 +86,6 @@ export const TranslationsProvider: FC<{ children: React.ReactNode }> = ({
       if (data) {
         indexDBData = data;
         addDataToState(data.items, data.translations);
-        // console.log("getTranslationsFromIndexDB", Date.now());
       }
     });
 
@@ -95,14 +94,10 @@ export const TranslationsProvider: FC<{ children: React.ReactNode }> = ({
       (items: Translation[]) => {
         const translations = getTranslationsByLocale(items);
         const toStringTranslations = JSON.stringify(translations);
-        // console.log(111, toStringTranslations);
-        // console.log(222, indexDBData.stringified);
-        // console.log(333, toStringTranslations === indexDBData.stringified);
 
         if (!indexDBData.stringified && toStringTranslations) {
           indexDB.translations.add({ items });
           addDataToState(items, translations);
-          // console.log("if");
         } else if (
           indexDBData.stringified !== toStringTranslations &&
           items?.length &&
@@ -110,7 +105,6 @@ export const TranslationsProvider: FC<{ children: React.ReactNode }> = ({
         ) {
           indexDB.translations.put({ id: 1, items });
           addDataToState(items, translations);
-          // console.log("else");
         }
       }
     );

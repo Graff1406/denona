@@ -15,26 +15,12 @@ import { useTranslations, useOnlineStatus } from "@/shared/hooks";
 
 import { getCurrentRouteData } from "../helpers";
 
-// Components
+// Lazy Components
 
 const Header = lazy(() => import("./Header.private"));
 const Aside = lazy(() => import("./Aside.private"));
 
-interface Props {
-  content?: ReactElement;
-  aside?: ReactElement;
-  headerRight?: ReactElement;
-  isToggleMenu?: boolean;
-  onToggleMenu?: (callback: () => void) => void;
-}
-
-const MainLayout: FC<Props> = ({
-  headerRight,
-  aside,
-  content,
-  isToggleMenu,
-  onToggleMenu = (callback) => callback(),
-}): ReactElement => {
+const MainLayout: FC = (): ReactElement => {
   // Use
 
   const { dispatchResetUser } = useUserStore();
@@ -44,50 +30,38 @@ const MainLayout: FC<Props> = ({
 
   // State
 
-  const [isMounted, setIsMounted] = useState(false);
   const [open, setOpen] = useState(false);
   const [spinnerLogout, setSpinnerLogout] = useState(false);
   const [isHomePage, setIsHomePage] = useState(true);
-  // const [showTextForAppIsOffline, setShowTextForAppIsOffline] = useState(false);
 
   // Get helper data
   const { title, head } = getCurrentRouteData(location.pathname, $t);
 
   // methods
 
-  const handleToggleMenu = () => onToggleMenu(() => setOpen(!open));
+  const handleToggleMenu = () => setOpen(!open);
   const handleLogout = async () => {
-    setSpinnerLogout(() => true);
+    setSpinnerLogout(true);
     await signOut();
     dispatchResetUser();
-    setSpinnerLogout(() => false);
+    setSpinnerLogout(false);
   };
 
   // Hooks
 
   useEffect(() => {
-    if (open) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "auto";
-    }
+    // It have frozen main scroll
+    if (open) document.body.style.overflow = "hidden";
+    else document.body.style.overflow = "auto";
   }, [open]);
 
   useEffect(() => {
-    if (isMounted) handleToggleMenu();
-    else setIsMounted(true);
-  }, [isToggleMenu]);
-
-  useEffect(() => {
+    // If have changed route we have closed menu
     if (open) setOpen(false);
+
+    // Define home route
     setIsHomePage(location.pathname === "/");
   }, [location]);
-  // useEffect(() => {
-  //   setShowTextForAppIsOffline(!appIsOnline);
-  //   setTimeout(() => {
-  //     setShowTextForAppIsOffline(false);
-  //   }, 3500);
-  // }, [appIsOnline]);
 
   return (
     <>
@@ -99,7 +73,7 @@ const MainLayout: FC<Props> = ({
       {/* Page container */}
 
       <div className="dark:bg-zinc-900 dark:text-zinc-400 transition-all">
-        {/* Main Col */}
+        {/* Main Column */}
 
         <div className="h-screen flex-col grow mx-auto max-w-[900px] tablet:border-x dark:border-zinc-700 bg-white dark:bg-zinc-800">
           {/* Logo, Arrow back, Page Title, right btn */}
@@ -107,7 +81,6 @@ const MainLayout: FC<Props> = ({
           <Header
             open={open}
             isHomePage={isHomePage}
-            headerRight={headerRight}
             title={title}
             onToggleMenu={handleToggleMenu}
           />
@@ -124,13 +97,12 @@ const MainLayout: FC<Props> = ({
             <Aside
               open={open}
               spinnerLogout={spinnerLogout}
-              aside={aside}
-              handleLogout={handleLogout}
+              onUserLogout={handleLogout}
             />
 
             {/* Page */}
 
-            <section className="scrollbar w-full animation relative overflow-y-auto relative">
+            <section className="scrollbar w-full animation relative overflow-y-auto">
               {/* Block for show No internet connection */}
 
               <div
@@ -143,7 +115,7 @@ const MainLayout: FC<Props> = ({
                 {$t.appNoInternetConnection}
               </div>
 
-              {/* Page content */}
+              {/* Overlay while menu have opened */}
 
               <div
                 className={`fixed w-full h-full bg-zinc-100/80 dark:bg-zinc-700/80 animation tablet:hidden ${
@@ -151,7 +123,12 @@ const MainLayout: FC<Props> = ({
                 }`}
                 onClick={handleToggleMenu}
               ></div>
-              <div className="p-3">{content ?? <Outlet />}</div>
+
+              {/* Page content */}
+
+              <div className="p-3">
+                <Outlet />
+              </div>
             </section>
           </main>
         </div>
