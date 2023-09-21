@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 interface Props {
   icon: ReactElement;
-  areaLabel: string;
+  areaLabel?: string;
   title?: string;
   className?: string;
   disabled?: boolean;

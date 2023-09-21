@@ -6,9 +6,10 @@ import { MdKeyboardArrowUp } from "react-icons/md";
 interface Props {
   children: ReactNode;
   title: string;
+  icon: ReactNode;
 }
 
-const DeExpand: FC<Props> = ({ title, children }) => {
+const DeExpand: FC<Props> = ({ title, children, icon }) => {
   const [expanded, setExpanded] = useState(false);
 
   const toggleExpansion = () => {
@@ -19,14 +20,17 @@ const DeExpand: FC<Props> = ({ title, children }) => {
     <div className="border rounded-lg mb-2 overflow-hidden">
       <button
         onClick={toggleExpansion}
-        className="w-full text-left py-2 px-4 bg-gray-200 hover:bg-gray-300 focus:outline-none focus:bg-gray-300 transition duration-300"
+        className="w-full text-left py-2 px-4 bg-zinc-100 hover:bg-zinc-200 focus:outline-none focus:bg-zinc-200 animation"
         area-label={title}
         aria-expanded={expanded}
         aria-controls="expandable-content"
         role="button"
       >
         <div className="flex justify-between items-center">
-          <span className="font-semibold">{title}</span>
+          <div className="flex items-center gap-3">
+            {icon}
+            <span className="font-semibold">{title}</span>
+          </div>
           <MdKeyboardArrowUp
             className={`w-6 h-6 animation ${
               expanded ? "rotate-0" : "rotate-180"
@@ -35,7 +39,7 @@ const DeExpand: FC<Props> = ({ title, children }) => {
         </div>
       </button>
       <div
-        className={`bg-white overflow-hidden transition-max-h duration-300 ${
+        className={`bg-white overflow-hidden animation ${
           expanded ? "max-h-screen" : "max-h-0"
         }`}
         id="expandable-content"

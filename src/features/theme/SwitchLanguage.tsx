@@ -4,14 +4,22 @@ import { FC, useState, useRef } from "react";
 
 import { type Locales } from "@/shared/firebase";
 import { useTranslations, useClickOutside } from "@/shared/hooks";
-import { DnButton, DeMenu } from "@/shared/ui";
+import { DeRadio } from "@/shared/ui";
 
-const languages: Locales[] = ["en", "de", "ka", "ua", "ru"];
+type Language = { label: string; code: Locales };
+
+const languages: Language[] = [
+  { label: "English", code: "en" },
+  { label: "Deutsch", code: "de" },
+  { label: "ქართული", code: "ka" },
+  { label: "Український", code: "ua" },
+  { label: "Русский", code: "ru" },
+];
 
 const SwitchLanguage: FC = () => {
   // Use
 
-  const { $t, changeLanguage } = useTranslations();
+  const { changeLanguage } = useTranslations();
 
   // State
 
@@ -28,7 +36,7 @@ const SwitchLanguage: FC = () => {
     setOpen(!open);
   };
 
-  const handleLanguageSelect = (code: Locales) => {
+  const handleLanguageSelect = (code: string) => {
     localStorage.setItem("locale", code);
     setSelectedLanguage(code);
     changeLanguage();
@@ -38,33 +46,18 @@ const SwitchLanguage: FC = () => {
   useClickOutside(ref, toggleDropdown);
 
   return (
-    <DeMenu
-      closeOnContent
-      activator={
-        <DnButton
-          className="w-9 justify-center"
-          label={selectedLanguage.toUpperCase()}
-          title={$t.changeLanguageBtnTitle}
-          areaLabel={$t.changeLanguageBtnAreaLabel}
-          onClick={toggleDropdown}
+    <fieldset className="p-3 flex flex-col items-end space-y-3">
+      {languages.map((language: Language, i: number) => (
+        <DeRadio
+          key={i}
+          label={language.label}
+          ariaLabel={language.label}
+          value={language.code}
+          checked={selectedLanguage === language.code}
+          onChange={handleLanguageSelect}
         />
-      }
-    >
-      {languages
-        .filter((loc: Locales) => selectedLanguage !== loc)
-        .map((language: Locales, i: number) => (
-          <button
-            key={language}
-            onClick={() => handleLanguageSelect(language)}
-            className="block w-full px-4 py-2 text-sm hover:bg-gray-100 hover:text-gray-900 dark:hover:bg-zinc-900 dark:dark:text-zinc-400"
-            role={`menuitem-${i}`}
-            area-label={language}
-            title={language}
-          >
-            {language.toUpperCase()}
-          </button>
-        ))}
-    </DeMenu>
+      ))}
+    </fieldset>
   );
 };
 

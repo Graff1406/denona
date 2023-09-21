@@ -1,5 +1,9 @@
 import React, { useState } from "react";
 
+// Shared
+
+import { createRandomId } from "@/shared/helpers";
+
 interface SwitchProps {
   id?: string;
   onChange: (checked: boolean) => void;
@@ -9,7 +13,7 @@ interface SwitchProps {
 }
 
 const Switch: React.FC<SwitchProps> = ({
-  id,
+  id = createRandomId(),
   onChange,
   label,
   className,
@@ -25,13 +29,11 @@ const Switch: React.FC<SwitchProps> = ({
     onChange(newChecked);
   };
 
-  const localId = id || `switch-${Math.random().toString(36).substring(2, 7)}`;
-
   return (
     <div className={`flex items-center justify-end ${className}`}>
       {label && (
         <span
-          id={`${localId}-label`}
+          id={`${id}-label`}
           className="text-gray-700 dark:text-gray-300 pr-3 cursor-pointer"
           onClick={handleChange}
           role="label"
@@ -47,20 +49,20 @@ const Switch: React.FC<SwitchProps> = ({
       )}
       <input
         type="checkbox"
-        id={localId}
+        id={id}
         className="sr-only"
         checked={checked}
         onChange={handleChange}
-        aria-labelledby={`${localId}-label`}
+        aria-labelledby={`${id}-label`}
         aria-checked={checked}
       />
       <label
-        htmlFor={localId}
+        htmlFor={id}
         className={`relative inline-block w-10 h-6 rounded-full transition duration-300 ease-in-out cursor-pointer ${
           checked ? "bg-blue-200" : "bg-zinc-300"
         }`}
         role="switch"
-        aria-labelledby={`${localId}-label`}
+        aria-labelledby={`${id}-label`}
         tabIndex={0}
         onKeyDown={(e) => {
           if (e.key === "Enter" || e.key === " ") {

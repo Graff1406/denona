@@ -2,7 +2,7 @@ import { FC, ReactElement } from "react";
 
 // Features
 
-import { SwitchLanguage, SwitchThemeColor } from "@/features/theme";
+import { SwitchThemeColor } from "@/features/theme";
 import { useUserStore } from "@/features/auth";
 import { useAppInstallPWA } from "@/features/PWA";
 
@@ -18,6 +18,7 @@ import { path } from "@/shared/constants";
 import { FcGoogle } from "react-icons/fc";
 import { VscSettings } from "react-icons/vsc";
 import { RiLogoutCircleRLine } from "react-icons/ri";
+import { Link } from "react-router-dom";
 
 interface Props {
   open: boolean;
@@ -48,17 +49,32 @@ const Aside: FC<Props> = ({ open, spinnerLogout, aside, onUserLogout }) => {
       aria-labelledby="menu-toggle"
       aria-hidden={open}
     >
-      {/* Settings buttons */}
-
       <div className="flex items-center justify-between px-3 py-2 border-0 border-b border-b-zinc-200 dark:border-b-zinc-700">
-        <SwitchLanguage />
-        <div className="flex gap-2">
-          <DnIconButton
-            icon={<VscSettings className="w-6 h-6" />}
-            areaLabel={$t.appSettingsButtonOnMenu}
+        {/* Settings button for move to settings route */}
+
+        {user.auth && (
+          <Link
             to={path.settings}
-          />
+            className="flex items-center space-x-2 min-w-max min-h-max border border-zinc-200 rounded-lg p-2 animation active:bg-zinc-200 hover:bg-zinc-100 cursor-pointer"
+            area-label={$t.appSettingsButtonOnMenu}
+          >
+            <img
+              src="/images/user-profile-pic.jpeg"
+              alt="user profile picture"
+              className="w-6 h-6 rounded-full"
+            />
+            <DnIconButton
+              icon={<VscSettings className="w-6 h-6" />}
+              className="w-6 h-6"
+            />
+          </Link>
+        )}
+
+        <div className="flex gap-2">
           <SwitchThemeColor />
+
+          {/* User logout button */}
+
           {user.auth && (
             <DnIconButton
               icon={<RiLogoutCircleRLine className="h-6 w-6" />}
