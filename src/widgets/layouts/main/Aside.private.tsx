@@ -1,4 +1,5 @@
 import { FC, ReactElement } from "react";
+import { Link, useLocation } from "react-router-dom";
 
 // Features
 
@@ -18,7 +19,6 @@ import { path } from "@/shared/constants";
 import { FcGoogle } from "react-icons/fc";
 import { VscSettings } from "react-icons/vsc";
 import { RiLogoutCircleRLine } from "react-icons/ri";
-import { Link } from "react-router-dom";
 
 interface Props {
   open: boolean;
@@ -34,6 +34,7 @@ const Aside: FC<Props> = ({ open, spinnerLogout, aside, onUserLogout }) => {
   const { $t } = useTranslations();
   const { isPWAInstalled, onInstallPWA } = useAppInstallPWA();
   const { appIsOnline } = useOnlineStatus();
+  const location = useLocation();
 
   // methods
   const onAuthByGoogle = () => {
@@ -55,7 +56,11 @@ const Aside: FC<Props> = ({ open, spinnerLogout, aside, onUserLogout }) => {
         {user.auth && (
           <Link
             to={path.settings}
-            className="flex items-center space-x-2 min-w-max min-h-max border border-zinc-200 rounded-lg p-2 animation active:bg-zinc-200 hover:bg-zinc-100 cursor-pointer"
+            className={`flex items-center space-x-2 min-w-max min-h-max border border-zinc-200 rounded-lg p-2 animation active:bg-zinc-200 hover:bg-zinc-100 cursor-pointer ${
+              location.pathname === path.settings
+                ? "invisible opacity-0"
+                : "visible opacity-100"
+            }`}
             area-label={$t.appSettingsButtonOnMenu}
           >
             <DeImage

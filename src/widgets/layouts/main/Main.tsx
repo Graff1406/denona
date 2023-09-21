@@ -1,6 +1,6 @@
 import { FC, ReactElement, useState, useEffect, lazy } from "react";
 import { Helmet } from "react-helmet-async";
-import { Outlet, useLocation } from "react-router-dom";
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
 
 // Features
 
@@ -10,6 +10,7 @@ import { useUserStore } from "@/features/auth";
 
 import { signOut } from "@/shared/firebase";
 import { useTranslations, useOnlineStatus } from "@/shared/hooks";
+import { path } from "@/shared/constants";
 
 // Helpers
 
@@ -27,6 +28,7 @@ const MainLayout: FC = (): ReactElement => {
   const { $t } = useTranslations();
   const { appIsOnline } = useOnlineStatus();
   const location = useLocation();
+  const navigate = useNavigate();
 
   // State
 
@@ -43,6 +45,7 @@ const MainLayout: FC = (): ReactElement => {
   const handleLogout = async () => {
     setSpinnerLogout(true);
     await signOut();
+    navigate(path.home);
     dispatchResetUser();
     setSpinnerLogout(false);
   };

@@ -13,11 +13,7 @@ import { path } from "@/shared/constants";
 
 // Icons
 
-import { MdArrowBackIosNew } from "react-icons/md";
-
-// Icons
-
-import { MdPersonAdd, MdMenu } from "react-icons/md";
+import { MdPersonAdd, MdMenu, MdArrowBackIosNew } from "react-icons/md";
 
 interface Props {
   open: boolean;
