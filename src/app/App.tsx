@@ -26,8 +26,10 @@ const App: FC = () => {
 
   const initFirebaseServices = (): void => {
     authState((auth: AuthUser | null): void => {
-      if (auth) dispatchSetUser(auth);
-      setLoadingUser(false);
+      if (auth) {
+        dispatchSetUser(auth);
+      }
+      setLoadingUser(() => false);
     });
   };
 
@@ -39,18 +41,17 @@ const App: FC = () => {
 
   return (
     <>
-      <div
-        className={`w-screen h-screen flex justify-center items-center bg-white ${
-          loadingUser || !translationsLoaded ? "block" : "hidden"
-        }`}
-      >
-        <img
-          src={loadingSvg}
-          alt="It is loading translations..."
-          className="animate-ping w-10 h-10"
-        />
-      </div>
-      <Router />
+      {loadingUser || !translationsLoaded ? (
+        <div className="w-screen h-screen flex justify-center items-center">
+          <img
+            src={loadingSvg}
+            alt="Loading..."
+            className="animate-ping w-10 h-10"
+          />
+        </div>
+      ) : (
+        <Router />
+      )}
     </>
   );
 };
