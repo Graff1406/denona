@@ -56,7 +56,7 @@ const Aside: FC<Props> = ({ open, spinnerLogout, aside, onUserLogout }) => {
         {user.auth && (
           <Link
             to={path.settings}
-            className={`flex items-center space-x-2 min-w-max min-h-max border border-zinc-200 rounded-lg p-2 animation active:bg-zinc-200 hover:bg-zinc-100 cursor-pointer ${
+            className={`flex items-center space-x-2 min-w-max min-h-max border border-zinc-200 rounded-lg p-2 animation dark:border dark:border-zinc-700 active:bg-zinc-200 dark:hover:bg-zinc-900 hover:bg-zinc-100 cursor-pointer ${
               location.pathname === path.settings
                 ? "invisible opacity-0"
                 : "visible opacity-100"

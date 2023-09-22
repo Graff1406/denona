@@ -35,7 +35,7 @@ const Radio: React.FC<RadioProps> = ({
 
   return (
     <label className="inline-flex items-center space-x-3 cursor-pointer">
-      <span className=" text-gray-700">{label}</span>
+      <span className=" text-zinc-700 dark:text-zinc-400">{label}</span>
       <input
         type="radio"
         id={id}
@@ -43,7 +43,7 @@ const Radio: React.FC<RadioProps> = ({
         value={value}
         checked={checked}
         onChange={handleChange}
-        className="form-radio text-blue-500 w-5 h-5"
+        className="form-radio text-blue-500 focus:ring-zinc-800 focus:border-zinc-800 dark:bg-zinc-800 w-5 h-5"
         aria-label={ariaLabel || label}
       />
     </label>

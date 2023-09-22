@@ -11,8 +11,8 @@ import { DeSwitch, DeExpand } from "@/shared/ui";
 
 // Icon
 
-import { GrLanguage } from "react-icons/gr";
 import { IoIosNotifications } from "react-icons/io";
+import { MdLanguage } from "react-icons/md";
 
 const Settings: FC = () => {
   // Use
@@ -31,13 +31,13 @@ const Settings: FC = () => {
     <div className="flex flex-col gap-4">
       <DeExpand
         title={$t.settingsChooseLangugeExpandPanelTitle}
-        icon={<GrLanguage className="h-5 w-5" />}
+        icon={<MdLanguage className="h-5 w-5 dark:text-zinc-500" />}
       >
         <SwitchLanguage />
       </DeExpand>
       <DeExpand
         title={$t.settingsPermissionGetNotifications}
-        icon={<IoIosNotifications className="h-6 w-6" />}
+        icon={<IoIosNotifications className="h-6 w-6 dark:text-zinc-500" />}
       >
         <DeSwitch
           label={$t.settingsPermissionGetNotifications}

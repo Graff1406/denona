@@ -1,4 +1,5 @@
 import { ReactElement } from "react";
+import AuthorizedRoute from "./AuthorizedRoute.private";
 
 // Widget
 
@@ -6,7 +7,7 @@ import { MainLayout } from "@/widgets/layouts";
 
 // Pages
 
-import { Home, Settings } from "@/pages";
+import { AuthorizedHome, Settings } from "@/pages";
 
 // Shared
 
@@ -25,11 +26,11 @@ const routes: Route[] = [
     children: [
       {
         path: path.home,
-        element: <Home />,
+        element: <AuthorizedRoute component={AuthorizedHome} />,
       },
       {
         path: path.settings,
-        element: <Settings />,
+        element: <AuthorizedRoute component={Settings} />,
       },
     ],
   },

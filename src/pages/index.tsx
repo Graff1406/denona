@@ -1,14 +1,19 @@
 // Imports
 import { Suspense, lazy } from "react";
 import loadingSvg from "/assets/owl_spinner.svg";
+
+// Shared
+
+import { DeImage } from "@/shared/ui";
+
 const S = lazy(() => import("./Settings"));
 
 const SetSuspense = (C: any) => {
   return (
     <Suspense
       fallback={
-        <div className="w-full h-full flex justify-center items-center">
-          <img
+        <div className="w-full h-screen flex justify-center items-center">
+          <DeImage
             src={loadingSvg}
             alt="Loading..."
             className="animate-ping w-10 h-10"
@@ -23,5 +28,6 @@ const SetSuspense = (C: any) => {
 
 // Exports
 
-export { default as Home } from "./Home";
+export { default as Home } from "./home/Home";
+export { default as AuthorizedHome } from "./home/AuthorizedHome";
 export const Settings = () => SetSuspense(S);

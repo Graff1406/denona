@@ -7,7 +7,7 @@ import { useUserStore } from "@/features/auth";
 
 // Shared
 
-import { DnIconButton, DnButton } from "@/shared/ui";
+import { DnIconButton, DnButton, DeImage } from "@/shared/ui";
 import { useTranslations } from "@/shared/hooks";
 import { path } from "@/shared/constants";
 
@@ -57,11 +57,10 @@ const Header: FC<Props> = ({
           aria-label={$t.logoImgAltText}
           role="link"
         >
-          <img
+          <DeImage
             src="/images/favicon.ico"
             alt={$t.logoImgAltText}
-            width={32}
-            height={32}
+            className="w-8 h-8"
           />
           <span className="uppercase font-medium text-xl tablet:block dark:text-zinc-200">
             {$t.mainLogo}
@@ -70,8 +69,8 @@ const Header: FC<Props> = ({
 
         {/* Arrow back, Page title */}
         <div
-          className={`flex grow items-center max-w-max gap-1 tablet:border-l tablet:border-l-zinc-200 tablet:mx-6 tablet:pl-2 anima ${
-            isHomePage ? "opacity-0" : "opacity-100"
+          className={`flex grow items-center max-w-max gap-1 tablet:border-l tablet:border-l-zinc-200 dark:tablet:border-l dark:tablet:border-l-zinc-700 tablet:mx-6 tablet:pl-2 tablet:animation ${
+            isHomePage || !user.auth ? "opacity-0" : "opacity-100"
           }`}
         >
           <DnIconButton

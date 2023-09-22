@@ -9,6 +9,7 @@ import { useUserStore } from "@/features/auth";
 
 import { authState, type AuthUser } from "@/shared/firebase";
 import { useTranslations } from "@/shared/hooks";
+import { DeImage } from "@/shared/ui";
 
 import loadingSvg from "/assets/owl_spinner.svg";
 
@@ -43,7 +44,7 @@ const App: FC = () => {
     <>
       {loadingUser || !translationsLoaded ? (
         <div className="w-screen h-screen flex justify-center items-center">
-          <img
+          <DeImage
             src={loadingSvg}
             alt="Loading..."
             className="animate-ping w-10 h-10"

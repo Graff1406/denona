@@ -30,11 +30,11 @@ const Switch: React.FC<SwitchProps> = ({
   };
 
   return (
-    <div className={`flex items-center justify-end ${className}`}>
+    <div className={`flex items-center justify-end  ${className}`}>
       {label && (
         <span
           id={`${id}-label`}
-          className="text-gray-700 dark:text-gray-300 pr-3 cursor-pointer"
+          className=" dark:text-zinc-400 pr-3 cursor-pointer"
           onClick={handleChange}
           role="label"
           tabIndex={0}
@@ -59,7 +59,7 @@ const Switch: React.FC<SwitchProps> = ({
       <label
         htmlFor={id}
         className={`relative inline-block w-10 h-6 rounded-full transition duration-300 ease-in-out cursor-pointer ${
-          checked ? "bg-blue-200" : "bg-zinc-300"
+          checked ? "bg-blue-200" : "bg-zinc-400 dark:bg-zinc-700"
         }`}
         role="switch"
         aria-labelledby={`${id}-label`}
@@ -72,7 +72,9 @@ const Switch: React.FC<SwitchProps> = ({
       >
         <span
           className={`${
-            checked ? "translate-x-4 bg-blue-500" : "translate-x-0 bg-zinc-200"
+            checked
+              ? "translate-x-4 bg-blue-500"
+              : "translate-x-0 bg-zinc-200 dark:bg-zinc-600"
           } absolute inset-y-0 left-0 w-6 h-6 rounded-full shadow-md transform transition-transform duration-300 ease-in-out`}
         ></span>
       </label>
