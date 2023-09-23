@@ -1,23 +1,26 @@
-import { type UserState, setUser, resetUser } from "./user.private";
-import { AuthUser } from "@/shared/firebase";
+import { setUser, resetUser } from "./user.private";
+
+// Entities
+
+import { User, Auth } from "@/entities/models";
 
 // Shared
 
 import { useAppSelector, useAppDispatch } from "@/shared/hooks";
 
 type UserStoreHook = {
-  user: UserState;
-  dispatchSetUser: (user: AuthUser) => void;
+  user: Auth;
+  dispatchSetUser: (user: User) => void;
   dispatchResetUser: () => void;
 };
 
 export default (): UserStoreHook => {
-  const user: UserState = useAppSelector((state) => state.user);
+  const user: Auth = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
 
   return {
     user,
-    dispatchSetUser: (user: AuthUser) => dispatch(setUser(user)),
+    dispatchSetUser: (user: User) => dispatch(setUser(user)),
     dispatchResetUser: () => dispatch(resetUser()),
   };
 };

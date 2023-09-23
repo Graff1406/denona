@@ -1,7 +1,7 @@
 import { FC, useEffect, useRef, useState } from "react";
 
 interface LazyImageProps {
-  src: string;
+  src: string | null | undefined;
   alt: string;
   lazy?: boolean;
   className?: string;
@@ -15,6 +15,8 @@ const LazyImage: FC<LazyImageProps> = ({
 }) => {
   const [loaded, setLoaded] = useState(false);
   const imageRef = useRef<HTMLImageElement | null>(null);
+  const fakeImg =
+    "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=";
 
   useEffect(() => {
     if (lazy) {
@@ -28,7 +30,7 @@ const LazyImage: FC<LazyImageProps> = ({
         if (entries[0].isIntersecting) {
           const img = imageRef.current;
           if (img) {
-            img.src = src;
+            img.src = src || fakeImg;
             img.onload = () => {
               setLoaded(true);
               observer.unobserve(img);
@@ -49,7 +51,7 @@ const LazyImage: FC<LazyImageProps> = ({
     } else {
       const img = imageRef.current;
       if (img) {
-        img.src = src;
+        img.src = src || fakeImg;
         img.onload = () => {
           setLoaded(true);
         };
@@ -64,7 +66,7 @@ const LazyImage: FC<LazyImageProps> = ({
       )}
       <img
         ref={imageRef}
-        src={lazy ? "" : src}
+        src={lazy ? "" : src || fakeImg}
         alt={alt}
         className={`${loaded ? "opacity-100" : "opacity-0"} ${className}`}
       />

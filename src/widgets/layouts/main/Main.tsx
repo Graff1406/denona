@@ -6,9 +6,16 @@ import { Outlet, useLocation, useNavigate } from "react-router-dom";
 
 import { useUserStore } from "@/features/auth";
 
+// Entities
+
+import { signOut } from "@/entities/firebase";
+
+// Entities
+
+import { indexDB } from "@/entities/indexDB";
+
 // Shared
 
-import { signOut } from "@/shared/firebase";
 import { useTranslations, useOnlineStatus } from "@/shared/hooks";
 import { path } from "@/shared/constants";
 
@@ -47,6 +54,7 @@ const MainLayout: FC = (): ReactElement => {
     await signOut();
     navigate(path.home);
     dispatchResetUser();
+    indexDB.user.clear();
     setSpinnerLogout(false);
   };
 

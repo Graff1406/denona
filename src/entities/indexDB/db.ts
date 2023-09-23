@@ -1,15 +1,18 @@
 import Dexie, { Table } from "dexie";
 import { Translation } from "../firebase";
+import { User } from "../models/index";
 
-export class TransactionsDexie extends Dexie {
+class DenonaDexie extends Dexie {
   translations!: Table<{ id?: number; items: Translation[] }>;
+  user!: Table<{ id?: number; user: User }>;
 
   constructor() {
     super("denona");
-    this.version(1).stores({
+    this.version(2).stores({
       translations: "++id",
+      user: "++id",
     });
   }
 }
 
-export const indexDB = new TransactionsDexie();
+export const indexDB = new DenonaDexie();

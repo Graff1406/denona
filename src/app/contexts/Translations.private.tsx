@@ -1,14 +1,17 @@
 import { createContext, useState, FC, useEffect } from "react";
 
-// Shared
+// Entities
 
-import { TRANSLATIONS_DENONA } from "@/shared/constants";
-import { indexDB } from "@/shared/indexDB";
+import { indexDB } from "@/entities/indexDB";
 import {
   watchCollection,
   type Translation,
   type Locales,
-} from "@/shared/firebase";
+} from "@/entities/firebase";
+
+// Shared
+
+import { TRANSLATIONS_DENONA } from "@/shared/constants";
 
 type ObjectKeyValue = {
   [key: string]: string;
@@ -17,7 +20,7 @@ type ObjectKeyValue = {
 type State = {
   $t: ObjectKeyValue;
   result: Translation[];
-  translationsLoaded: boolean;
+  loadingTranslations: boolean;
   changeLanguage: () => void;
 };
 
@@ -33,7 +36,7 @@ export const TranslationsProvider: FC<{ children: React.ReactNode }> = ({
 }) => {
   const [$t, setTranslations] = useState<ObjectKeyValue>({});
   const [result, setResult] = useState<Translation[]>([]);
-  const [translationsLoaded, setTranslationsLoaded] = useState<boolean>(false);
+  const [loadingTranslations, setLoadingTranslations] = useState<boolean>(true);
 
   const getTranslationsByLocale = (list: Translation[]): ObjectKeyValue => {
     const localStorageLocale = getLocaleFormLS();
@@ -50,7 +53,7 @@ export const TranslationsProvider: FC<{ children: React.ReactNode }> = ({
     setTranslations(getTranslationsByLocale(result));
   };
 
-  const getTranslationsFromIndexDB = async (): Promise<{
+  const getTranslationsFromindexDB = async (): Promise<{
     translations: ObjectKeyValue;
     items: Translation[];
     stringified: string;
@@ -74,7 +77,7 @@ export const TranslationsProvider: FC<{ children: React.ReactNode }> = ({
   ) => {
     setResult(items);
     setTranslations(translations);
-    setTranslationsLoaded(true);
+    setLoadingTranslations(false);
   };
 
   useEffect(() => {
@@ -82,7 +85,7 @@ export const TranslationsProvider: FC<{ children: React.ReactNode }> = ({
       translations: ObjectKeyValue;
       stringified: string;
     };
-    getTranslationsFromIndexDB().then((data) => {
+    getTranslationsFromindexDB().then((data) => {
       if (data) {
         indexDBData = data;
         addDataToState(data.items, data.translations);
@@ -117,7 +120,7 @@ export const TranslationsProvider: FC<{ children: React.ReactNode }> = ({
   const state: State = {
     $t,
     result,
-    translationsLoaded,
+    loadingTranslations,
     changeLanguage,
   };
 

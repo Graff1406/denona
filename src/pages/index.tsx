@@ -1,14 +1,21 @@
 // Imports
-import { Suspense, lazy } from "react";
+import { Suspense, lazy, FC } from "react";
 import loadingSvg from "/assets/owl_spinner.svg";
 
 // Shared
 
 import { DeImage } from "@/shared/ui";
 
-const S = lazy(() => import("./Settings"));
+const S = lazy(() => import("./Settings.private"));
+const AH = lazy(() => import("./home/AuthorizedHome.private"));
 
-const SetSuspense = (C: any) => {
+// Exports
+
+export { default as Home } from "./home/Home.private";
+export const AuthorizedHome = () => SetSuspense(AH);
+export const Settings = () => SetSuspense(S);
+
+function SetSuspense(C: FC) {
   return (
     <Suspense
       fallback={
@@ -25,10 +32,4 @@ const SetSuspense = (C: any) => {
       <C />
     </Suspense>
   );
-};
-
-// Exports
-
-export { default as Home } from "./home/Home";
-export { default as AuthorizedHome } from "./home/AuthorizedHome";
-export const Settings = () => SetSuspense(S);
+}

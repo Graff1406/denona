@@ -1,15 +1,6 @@
 import { onAuthStateChanged, type User } from "firebase/auth";
 import { auth } from "./auth.private";
-
-export interface AuthUser {
-  accessToken: string | null;
-  uid: string;
-  displayName: string | null;
-  email: string | null;
-  emailVerified: boolean;
-  photoURL: string | null;
-  phoneNumber: string | null;
-}
+import { type User as AuthUser } from "../../models/index";
 
 export const authState = (callback: (user: AuthUser | null) => void) => {
   const observer = async (user: User | null) => {

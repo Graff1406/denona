@@ -1,12 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
-import { type AuthUser } from "@/shared/firebase";
 
-export type UserState = {
-  auth: AuthUser | null;
-};
+// Entities
 
-const initialState: UserState = {
+import { User, Auth } from "@/entities/models";
+
+const initialState: Auth = {
   auth: null,
 };
 
@@ -14,7 +13,7 @@ export const userSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    setUser: (state, action: PayloadAction<AuthUser>) => {
+    setUser: (state, action: PayloadAction<User>) => {
       state.auth = action.payload;
     },
     resetUser: () => {

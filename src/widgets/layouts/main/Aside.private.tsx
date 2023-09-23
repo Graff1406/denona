@@ -7,13 +7,16 @@ import { SwitchThemeColor } from "@/features/theme";
 import { useUserStore } from "@/features/auth";
 import { useAppInstallPWA } from "@/features/PWA";
 
+// Entities
+
+import { signInGoogleWithPopup } from "@/entities/firebase";
+
 // Shared
 
 import { DnIconButton, DnButton, DeImage } from "@/shared/ui";
-import { signInGoogleWithPopup } from "@/shared/firebase";
 import { useTranslations, useOnlineStatus } from "@/shared/hooks";
 import { path } from "@/shared/constants";
-
+// import { indexDB } from "@/entities/indexDB";
 // Icons
 
 import { FcGoogle } from "react-icons/fc";
@@ -38,7 +41,11 @@ const Aside: FC<Props> = ({ open, spinnerLogout, aside, onUserLogout }) => {
 
   // methods
   const onAuthByGoogle = () => {
-    signInGoogleWithPopup();
+    try {
+      signInGoogleWithPopup();
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   return (
@@ -64,7 +71,7 @@ const Aside: FC<Props> = ({ open, spinnerLogout, aside, onUserLogout }) => {
             area-label={$t.appSettingsButtonOnMenu}
           >
             <DeImage
-              src="/images/user-profile-pic.jpeg"
+              src={user.auth.photoURL}
               alt={$t.userProfileImageAlt}
               className="w-6 h-6 rounded-full"
             />

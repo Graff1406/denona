@@ -1,8 +1,11 @@
 import { FC, useState, useRef } from "react";
 
+// Entities
+
+import { type Locales } from "@/entities/firebase";
+
 // Shared
 
-import { type Locales } from "@/shared/firebase";
 import { useTranslations, useClickOutside } from "@/shared/hooks";
 import { DeRadio } from "@/shared/ui";
 
