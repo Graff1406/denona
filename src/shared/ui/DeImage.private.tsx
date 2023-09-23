@@ -59,7 +59,7 @@ const LazyImage: FC<LazyImageProps> = ({
 
   return (
     <div className="relative">
-      {!loaded && (
+      {!loaded && lazy && (
         <div className="absolute inset-0 bg-gray-300 dark:bg-zinc-800 animate-pulse"></div>
       )}
       <img

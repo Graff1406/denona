@@ -45,6 +45,7 @@ const App: FC = () => {
       {loadingUser || !translationsLoaded ? (
         <div className="w-screen h-screen flex justify-center items-center">
           <DeImage
+            lazy={false}
             src={loadingSvg}
             alt="Loading..."
             className="animate-ping w-10 h-10"
