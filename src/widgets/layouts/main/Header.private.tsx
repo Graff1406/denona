@@ -58,6 +58,7 @@ const Header: FC<Props> = ({
           role="link"
         >
           <DeImage
+            lazy={false}
             src="/images/favicon.ico"
             alt={$t.logoImgAltText}
             className="w-8 h-8"
