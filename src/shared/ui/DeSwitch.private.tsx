@@ -59,7 +59,9 @@ const Switch: React.FC<SwitchProps> = ({
       <label
         htmlFor={id}
         className={`relative inline-block w-10 h-6 rounded-full transition duration-300 ease-in-out cursor-pointer ${
-          checked ? "bg-blue-200" : "bg-zinc-400 dark:bg-zinc-700"
+          checked
+            ? "bg-blue-200"
+            : "bg-zinc-400 dark:bg-zinc-800 dark:border dark:border-zinc-700"
         }`}
         role="switch"
         aria-labelledby={`${id}-label`}

@@ -20,7 +20,7 @@ const DeExpand: FC<Props> = ({ title, children, icon }) => {
     <div className="border dark:border-zinc-700 rounded-lg mb-2 overflow-hidden">
       <button
         onClick={toggleExpansion}
-        className="w-full text-left dark:text-zinc-500 py-2 px-4 bg-zinc-100 dark:bg-zinc-900 hover:bg-zinc-200 focus:outline-none focus:bg-zinc-200 animation"
+        className="w-full text-left dark:text-zinc-400 py-2 px-4 bg-zinc-100 dark:bg-zinc-900 hover:bg-zinc-200 focus:outline-none focus:bg-zinc-200 animation"
         area-label={title}
         aria-expanded={expanded}
         aria-controls="expandable-content"
@@ -32,7 +32,7 @@ const DeExpand: FC<Props> = ({ title, children, icon }) => {
             <span className="font-semibold">{title}</span>
           </div>
           <MdKeyboardArrowUp
-            className={`w-6 h-6 animation dark:text-zinc-500 ${
+            className={`w-6 h-6 animation dark:text-zinc-400 ${
               expanded ? "rotate-0" : "rotate-180"
             }`}
           />

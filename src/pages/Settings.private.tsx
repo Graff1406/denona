@@ -31,13 +31,13 @@ const Settings: FC = () => {
     <div className="flex flex-col gap-4">
       <DeExpand
         title={$t.settingsChooseLangugeExpandPanelTitle}
-        icon={<MdLanguage className="h-5 w-5 dark:text-zinc-500" />}
+        icon={<MdLanguage className="h-5 w-5 dark:text-zinc-400" />}
       >
         <SwitchLanguage />
       </DeExpand>
       <DeExpand
         title={$t.settingsPermissionGetNotifications}
-        icon={<IoIosNotifications className="h-6 w-6 dark:text-zinc-500" />}
+        icon={<IoIosNotifications className="h-6 w-6 dark:text-zinc-400" />}
       >
         <DeSwitch
           label={$t.settingsPermissionGetNotifications}
