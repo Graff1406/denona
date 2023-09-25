@@ -1,4 +1,4 @@
-import { FC, ReactElement } from "react";
+import { FC, ReactElement, MouseEventHandler } from "react";
 import { Link } from "react-router-dom";
 
 interface Props {
@@ -13,7 +13,7 @@ interface Props {
   ariaControls?: string;
   id?: string;
   tabIndex?: number;
-  onClick?: () => void;
+  onClick?: MouseEventHandler<HTMLButtonElement>;
 }
 
 const DnButton: FC<Props> = ({

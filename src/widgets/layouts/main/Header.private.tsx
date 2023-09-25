@@ -79,7 +79,7 @@ const Header: FC<Props> = ({
             areaLabel={$t.appBackArrowLabel}
             onClick={goBack}
           />
-          <h2 className="text-lg">{title}</h2>
+          <h1 className="text-lg">{title}</h1>
         </div>
       </div>
 

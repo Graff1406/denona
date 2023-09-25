@@ -16,12 +16,13 @@ import { signInGoogleWithPopup } from "@/entities/firebase";
 import { DnIconButton, DnButton, DeImage } from "@/shared/ui";
 import { useTranslations, useOnlineStatus } from "@/shared/hooks";
 import { path } from "@/shared/constants";
-// import { indexDB } from "@/entities/indexDB";
+
 // Icons
 
 import { FcGoogle } from "react-icons/fc";
 import { VscSettings } from "react-icons/vsc";
 import { RiLogoutCircleRLine } from "react-icons/ri";
+import { MdHelpOutline } from "react-icons/md";
 
 interface Props {
   open: boolean;
@@ -83,6 +84,19 @@ const Aside: FC<Props> = ({ open, spinnerLogout, aside, onUserLogout }) => {
         )}
 
         <div className="flex gap-2">
+          <Link
+            to={path.help}
+            area-label={$t.appHelpButtonAreaLabel}
+            title={$t.logoutButtonAreaLabel}
+            className={`animation ${
+              location.pathname === path.help
+                ? "invisible opacity-0"
+                : "visible opacity-100"
+            }`}
+          >
+            <DnIconButton icon={<MdHelpOutline className="h-6 w-6" />} />
+          </Link>
+
           <SwitchThemeColor />
 
           {/* User logout button */}

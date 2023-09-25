@@ -79,6 +79,9 @@
   .animate-shimmer {
     animation: shimmer 1s infinite linear;
   }
+  .link {
+    @apply underline underline-offset-2;
+  }
 }
 
 @tailwind utilities;

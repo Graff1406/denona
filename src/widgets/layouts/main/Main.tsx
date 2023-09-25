@@ -113,7 +113,10 @@ const MainLayout: FC = (): ReactElement => {
 
             {/* Page */}
 
-            <section className="scrollbar w-full animation relative overflow-y-auto">
+            <section
+              id="page-wrapper"
+              className="scrollbar w-full animation relative overflow-y-auto"
+            >
               {/* Block for show No internet connection */}
 
               <div

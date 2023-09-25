@@ -7,6 +7,7 @@ import loadingSvg from "/assets/owl_spinner.svg";
 import { DeImage } from "@/shared/ui";
 
 const S = lazy(() => import("./Settings.private"));
+const H = lazy(() => import("./help/Help.private"));
 const AH = lazy(() => import("./home/AuthorizedHome.private"));
 
 // Exports
@@ -14,6 +15,7 @@ const AH = lazy(() => import("./home/AuthorizedHome.private"));
 export { default as Home } from "./home/Home.private";
 export const AuthorizedHome = () => SetSuspense(AH);
 export const Settings = () => SetSuspense(S);
+export const Help = () => SetSuspense(H);
 
 function SetSuspense(C: FC) {
   return (

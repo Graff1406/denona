@@ -5,4 +5,5 @@ export const TRANSLATIONS_DENONA = "translationsDenona";
 export const path = {
   home: "/",
   settings: "/settings",
+  help: "/help",
 };

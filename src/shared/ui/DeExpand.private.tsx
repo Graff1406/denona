@@ -1,4 +1,4 @@
-import { FC, useState, ReactNode } from "react";
+import { FC, useState, ReactNode, MouseEventHandler, MouseEvent } from "react";
 
 // Icons
 import { MdKeyboardArrowUp } from "react-icons/md";
@@ -6,18 +6,24 @@ import { MdKeyboardArrowUp } from "react-icons/md";
 interface Props {
   children: ReactNode;
   title: string;
-  icon: ReactNode;
+  id?: string;
+  icon?: ReactNode;
+  onClick?: MouseEventHandler<HTMLButtonElement>;
 }
 
-const DeExpand: FC<Props> = ({ title, children, icon }) => {
+const DeExpand: FC<Props> = ({ id, title, children, icon, onClick }) => {
   const [expanded, setExpanded] = useState(false);
 
-  const toggleExpansion = () => {
+  const toggleExpansion = (e: MouseEvent<HTMLButtonElement>) => {
     setExpanded(!expanded);
+    if (onClick) onClick(e);
   };
 
   return (
-    <div className="border dark:border-zinc-700 rounded-lg mb-2 overflow-hidden">
+    <section
+      id={id}
+      className="border dark:border-zinc-700 rounded-lg overflow-hidden"
+    >
       <button
         onClick={toggleExpansion}
         className="w-full text-left dark:text-zinc-400 py-2 px-4 bg-zinc-100 dark:bg-zinc-900 hover:bg-zinc-200 focus:outline-none focus:bg-zinc-200 animation"
@@ -47,7 +53,7 @@ const DeExpand: FC<Props> = ({ title, children, icon }) => {
       >
         {children}
       </div>
-    </div>
+    </section>
   );
 };
 
