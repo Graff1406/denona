@@ -1,4 +1,4 @@
-import { createContext, useState, FC, useEffect } from "react";
+import { createContext, useState, FC, useEffect, ReactNode } from "react";
 
 // Entities
 
@@ -31,7 +31,7 @@ document.documentElement.lang = getLocaleFormLS();
 
 export const TranslationsContext = createContext<State | undefined>(undefined);
 
-export const TranslationsProvider: FC<{ children: React.ReactNode }> = ({
+export const TranslationsProvider: FC<{ children: ReactNode }> = ({
   children,
 }) => {
   const [$t, setTranslations] = useState<ObjectKeyValue>({});

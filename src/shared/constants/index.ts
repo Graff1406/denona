@@ -1,4 +1,5 @@
 export const TRANSLATIONS_DENONA = "translationsDenona";
+export const USERS = "users";
 
 // Path
 

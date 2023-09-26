@@ -100,7 +100,6 @@ const Header: FC<Props> = ({
           className="tablet:hidden"
           label={$t.homePageBtnGetStarted}
           areaLabel={$t.homePageBtnAreaLabelGetStarted}
-          title={$t.homePageBtnTitleGetStarted}
           icon={<MdPersonAdd className="icon" />}
           cta
           onClick={onToggleMenu}

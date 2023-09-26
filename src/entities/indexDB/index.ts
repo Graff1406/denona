@@ -1,1 +1,1 @@
-export { indexDB } from "./db";
+export { indexDB } from "./db.private";

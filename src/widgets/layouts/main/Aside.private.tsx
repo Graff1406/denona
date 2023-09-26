@@ -118,7 +118,6 @@ const Aside: FC<Props> = ({ open, spinnerLogout, aside, onUserLogout }) => {
       {!isPWAInstalled && (
         <div className="flex items-center justify-center px-3 py-2 border-0 border-b border-b-zinc-200 dark:border-b-zinc-700">
           <DnButton
-            title={$t.appInstallPWATitle}
             areaLabel={$t.appInstallPWAAreaLabel}
             label={$t.appInstallPWALabel}
             className="w-full"
@@ -150,7 +149,6 @@ const Aside: FC<Props> = ({ open, spinnerLogout, aside, onUserLogout }) => {
             <DnButton
               label={$t.homePageBtnLabelSignInWithGoogle}
               areaLabel={$t.homePageBtnAreaLabelSignInWithGoogle}
-              title={$t.homePageBtnTitleSignInWithGoogle}
               icon={<FcGoogle className="icon" />}
               disabled={!appIsOnline}
               onClick={onAuthByGoogle}

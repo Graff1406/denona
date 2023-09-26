@@ -6,6 +6,11 @@ type User = {
   photoURL?: string | null;
   phoneNumber?: string | null;
   displayName?: string | null;
+  hide?: {
+    banner?: {
+      welcomeAuthorizedUser?: boolean;
+    };
+  };
 };
 
 export default User;

@@ -6,12 +6,11 @@ import {
   DocumentReference,
 } from "firebase/firestore";
 import { db } from "../../app/public";
+import { DocumentData } from "firebase/firestore/lite";
 
-export default async (
+export default async <T extends DocumentData>(
   collectionName: string,
-  docData: {
-    [key: string]: string | undefined | { [key: string]: string | undefined };
-  },
+  docData: T,
   id?: string
 ): Promise<DocumentReference | void> => {
   return id

@@ -8,7 +8,7 @@ import { useUserStore } from "@/features/auth";
 // Entities
 
 import { indexDB } from "@/entities/indexDB";
-import { authState } from "@/entities/firebase";
+import { addDocument, authState, watchDocumentById } from "@/entities/firebase";
 import { User } from "@/entities/models";
 
 // Shared
@@ -17,6 +17,7 @@ import { useTranslations } from "@/shared/hooks";
 import { DeImage } from "@/shared/ui";
 
 import loadingSvg from "/assets/owl_spinner.svg";
+import { USERS } from "@/shared/constants";
 
 const App: FC = () => {
   // Use
@@ -29,21 +30,36 @@ const App: FC = () => {
   const [loadingUser, setLoadingUser] = useState(true);
 
   // Methods
-
   const initFirebaseServices = async (): Promise<void> => {
+    const saveUserToServer = async (user: User): Promise<User> => {
+      await addDocument(USERS, user, user.uid);
+      return user;
+    };
     const db = await indexDB.user.get({ id: 1 });
     if (db?.user?.uid) {
       dispatchSetUser(db.user);
       setLoadingUser(() => false);
     }
 
-    authState((auth: User | null): void => {
-      if (auth && db?.user?.uid) {
-        indexDB.user.put({ id: 1, user: auth });
-      } else if (auth && !db?.user?.uid) {
-        dispatchSetUser(auth);
-        indexDB.user.add({ id: 1, user: auth });
+    authState(async (auth: User | null): Promise<void> => {
+      if (auth) {
+        watchDocumentById<User>(USERS, auth?.uid, async (userFromServer) => {
+          const data = userFromServer
+            ? { ...userFromServer, ...auth }
+            : await saveUserToServer(auth);
+
+          const jsonUserIndexBDData = JSON.stringify(db?.user);
+          const jsonUserServerData = JSON.stringify(data);
+
+          if (db?.user?.uid && jsonUserIndexBDData !== jsonUserServerData) {
+            indexDB.user.put({ id: 1, user: data });
+          } else {
+            dispatchSetUser(data);
+            indexDB.user.add({ id: 1, user: data });
+          }
+        });
       }
+
       setLoadingUser(() => false);
     });
   };

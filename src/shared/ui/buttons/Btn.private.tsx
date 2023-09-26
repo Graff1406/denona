@@ -3,7 +3,6 @@ import { FC, ReactElement } from "react";
 interface Props {
   label: string;
   areaLabel: string;
-  title: string;
   className?: string;
   active?: boolean;
   disabled?: boolean;
@@ -20,7 +19,6 @@ const ZnButton: FC<Props> = ({
   disabled,
   icon,
   areaLabel,
-  title,
   cta,
   loading,
   tabIndex = 0,
@@ -31,19 +29,18 @@ const ZnButton: FC<Props> = ({
   if (cta)
     classes =
       "bg-yellow-700 text-white border border-amber-800 hover:bg-amber-800 active:bg-yellow-700";
-  else
-    classes += "border border-primary-dark hover:bg-stone-50 active:bg-white";
+  else classes += "border border-zinc-700 hover:bg-stone-50 active:bg-white";
 
   return (
     <button
       className={[
         classes,
-        " h-10 min-w-min px-2.5 rounded-md font-semibold smooth shadow-sm box-border no-select dark:hover:bg-zinc-900 overflow-hidden whitespace-nowrap truncate",
+        " h-10 min-w-min px-2.5 rounded-md font-semibold smooth shadow-sm box-border no-select overflow-hidden whitespace-nowrap truncate",
         disabled ? "cursor-not-allowed opacity-40" : "",
         className,
       ].join(" ")}
       aria-label={areaLabel || label}
-      title={title || label}
+      title={areaLabel || label}
       disabled={disabled || loading}
       tabIndex={tabIndex}
       onClick={onClick}

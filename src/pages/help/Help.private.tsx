@@ -59,7 +59,7 @@ const Help: FC = () => {
       if (targetElement && pageWrapper) {
         pageWrapper.scrollTo({
           behavior: "smooth",
-          top: targetElement.offsetTop - 15,
+          top: targetElement.offsetTop,
         });
       }
     };
@@ -74,7 +74,7 @@ const Help: FC = () => {
   }, [location]);
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-4 text-sm tablet:text-base">
       <h1>Help Page</h1>
 
       <Link to="/help#section-1" className="link">
