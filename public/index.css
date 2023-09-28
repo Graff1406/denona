@@ -38,6 +38,12 @@
   .space {
     @apply p-3;
   }
+  h2 {
+    @apply tablet:text-lg font-semibold;
+  }
+  h3 {
+    @apply font-semibold;
+  }
 }
 
 @tailwind components;

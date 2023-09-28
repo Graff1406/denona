@@ -53,7 +53,7 @@ export const TranslationsProvider: FC<{ children: ReactNode }> = ({
     setTranslations(getTranslationsByLocale(result));
   };
 
-  const getTranslationsFromindexDB = async (): Promise<{
+  const getTranslationsFromIndexDB = async (): Promise<{
     translations: ObjectKeyValue;
     items: Translation[];
     stringified: string;
@@ -85,7 +85,7 @@ export const TranslationsProvider: FC<{ children: ReactNode }> = ({
       translations: ObjectKeyValue;
       stringified: string;
     };
-    getTranslationsFromindexDB().then((data) => {
+    getTranslationsFromIndexDB().then((data) => {
       if (data) {
         indexDBData = data;
         addDataToState(data.items, data.translations);
