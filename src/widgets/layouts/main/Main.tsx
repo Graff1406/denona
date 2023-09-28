@@ -26,7 +26,7 @@ import { getCurrentRouteData } from "../helpers";
 // Lazy Components
 
 const Header = lazy(() => import("./Header.private"));
-const Aside = lazy(() => import("./Aside.private"));
+const Aside = lazy(() => import("./aside/Aside.private"));
 
 const MainLayout: FC = (): ReactElement => {
   // Use

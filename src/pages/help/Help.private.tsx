@@ -75,19 +75,7 @@ const Help: FC = () => {
 
   return (
     <div className="flex flex-col gap-4 text-sm tablet:text-base">
-      <h1>Help Page</h1>
-
-      <Link to="/help#section-1" className="link">
-        home
-      </Link>
-
-      <Link to="/help#section-2" className="link">
-        home
-      </Link>
-
-      <Link to="/help#section-3" className="link">
-        home
-      </Link>
+      <h2 className="linline mx-auto">Help Page</h2>
 
       {Array.from({ length: 3 }).map((_el, i: number) => (
         <Section id={`section-${i + 1}`} />

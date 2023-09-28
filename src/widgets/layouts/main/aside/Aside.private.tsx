@@ -24,6 +24,10 @@ import { VscSettings } from "react-icons/vsc";
 import { RiLogoutCircleRLine } from "react-icons/ri";
 import { MdHelpOutline } from "react-icons/md";
 
+// Data
+
+import Menu from "./Menu.private";
+
 interface Props {
   open: boolean;
   spinnerLogout: boolean;
@@ -70,6 +74,7 @@ const Aside: FC<Props> = ({ open, spinnerLogout, aside, onUserLogout }) => {
                 : "visible opacity-100"
             }`}
             area-label={$t.appSettingsButtonOnMenu}
+            title={$t.appSettingsButtonOnMenu}
           >
             <DeImage
               src={user.auth.photoURL}
@@ -87,7 +92,7 @@ const Aside: FC<Props> = ({ open, spinnerLogout, aside, onUserLogout }) => {
           <Link
             to={path.help}
             area-label={$t.appHelpButtonAreaLabel}
-            title={$t.logoutButtonAreaLabel}
+            title={$t.appHelpButtonAreaLabel}
             className={`animation ${
               location.pathname === path.help
                 ? "invisible opacity-0"
@@ -131,19 +136,7 @@ const Aside: FC<Props> = ({ open, spinnerLogout, aside, onUserLogout }) => {
 
       <nav className="scrollbar overflow-y-auto h-[calc(100vh-121px)] w-full p-2">
         {aside ?? user.auth ? (
-          <ul>
-            {[
-              1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19,
-              20,
-            ].map((el) => (
-              <li
-                key={el}
-                className="p-2 hover:bg-gray-100 dark:hover:bg-zinc-900 cursor-pointer rounded-md"
-              >
-                {el}
-              </li>
-            ))}
-          </ul>
+          <Menu />
         ) : (
           <div className="flex justify-center items-center h-40">
             <DnButton

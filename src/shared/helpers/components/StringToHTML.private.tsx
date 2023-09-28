@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import parse, { domToReact, HTMLReactParserOptions } from "html-react-parser";
 import { Link } from "react-router-dom";
 
@@ -9,9 +9,15 @@ interface LinkNode {
   children: Node[];
 }
 
+interface Props {
+  htmlString: string;
+  onMounted?: () => void;
+  onUnMounted?: () => void;
+}
+
 type Node = LinkNode | string;
 
-const ServerHTML = ({ htmlString }: { htmlString: string }) => {
+const ServerHTML: FC<Props> = ({ htmlString, onMounted, onUnMounted }) => {
   const [processedHTML, setProcessedHTML] = useState<
     string | JSX.Element | JSX.Element[] | undefined
   >();
@@ -31,6 +37,11 @@ const ServerHTML = ({ htmlString }: { htmlString: string }) => {
 
   useEffect(() => {
     setProcessedHTML(parsedHtml);
+    if (onMounted) onMounted();
+
+    return () => {
+      if (onUnMounted) onUnMounted();
+    };
   }, [htmlString]);
 
   return <div className="space-y-3">{processedHTML}</div>;

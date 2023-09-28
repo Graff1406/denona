@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import { FC, useState, useEffect } from "react";
 
 // Features
 
@@ -24,6 +24,9 @@ import { StringToHTML } from "@/shared/helpers";
 import { DnButton } from "@/shared/ui";
 
 const WelcomeAuthorizedUser: FC = () => {
+  // State
+
+  const [isHTMLReady, setIsHTMLReady] = useState(false);
   // Use
 
   const { $t } = useTranslations();
@@ -48,6 +51,10 @@ const WelcomeAuthorizedUser: FC = () => {
     }
   };
 
+  const showBtnForCreateTask = () => {
+    setIsHTMLReady(true);
+  };
+
   if (!bannerVisible) {
     return null;
   }
@@ -63,14 +70,21 @@ const WelcomeAuthorizedUser: FC = () => {
       onChange={saveDontShowAgain}
     >
       <div className="space-y-3">
-        <StringToHTML htmlString={$t.bannerContentWelcomeAuthorizedUser} />
+        <StringToHTML
+          htmlString={$t.bannerContentWelcomeAuthorizedUser}
+          onMounted={showBtnForCreateTask}
+        />
         {/* <div>{StringToHTML($t.bannerContentWelcomeAuthorizedUser)}</div> */}
         {/* <div>{$t.bannerContentWelcomeAuthorizedUser}</div> */}
+
         <div className="pt-2 flex justify-center">
           <DnButton
             label={$t.appFormCreateTaskLabel}
             areaLabel={$t.appFormCreateTaskAreaLabel}
             cta
+            className={`animation ${
+              isHTMLReady ? "visible opacity-100" : "invisible opacity-0"
+            }`}
             onClick={hideBanner}
           />
         </div>
