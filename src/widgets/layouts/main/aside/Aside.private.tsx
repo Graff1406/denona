@@ -6,6 +6,7 @@ import { Link, useLocation } from "react-router-dom";
 import { SwitchThemeColor } from "@/features/theme";
 import { useUserStore } from "@/features/auth";
 import { useAppInstallPWA } from "@/features/PWA";
+import { SwitchLanguage } from "@/features/theme";
 
 // Entities
 
@@ -13,7 +14,7 @@ import { signInGoogleWithPopup } from "@/entities/firebase";
 
 // Shared
 
-import { DnIconButton, DnButton, DeImage } from "@/shared/ui";
+import { DnIconButton, DnButton, DeImage, DeMenu } from "@/shared/ui";
 import { useTranslations, useOnlineStatus } from "@/shared/hooks";
 import { path } from "@/shared/constants";
 
@@ -22,7 +23,7 @@ import { path } from "@/shared/constants";
 import { FcGoogle } from "react-icons/fc";
 import { VscSettings } from "react-icons/vsc";
 import { RiLogoutCircleRLine } from "react-icons/ri";
-import { MdHelpOutline } from "react-icons/md";
+import { MdHelpOutline, MdLanguage } from "react-icons/md";
 
 // Data
 
@@ -55,7 +56,7 @@ const Aside: FC<Props> = ({ open, spinnerLogout, aside, onUserLogout }) => {
 
   return (
     <aside
-      className={`flex-col grow min-w-[300px] max-w-[460px] tablet:w-[460px] transition-all duration-300 border-r dark:border-r-zinc-700 overflow-hidden bg-inherit z-20 absolute tablet:relative tablet:translate-x-0 ${
+      className={`flex-col grow min-w-[300px] max-w-[460px] tablet:w-[460px] border-r dark:border-r-zinc-700 overflow-hidden bg-inherit z-20 absolute tablet:relative tablet:translate-x-0 ${
         open ? "" : "-translate-x-[460px]"
       }`}
       id="menu"
@@ -87,6 +88,24 @@ const Aside: FC<Props> = ({ open, spinnerLogout, aside, onUserLogout }) => {
             />
           </Link>
         )}
+
+        {/* For unauthorized user translation button */}
+
+        {/* {!unAuthorizedUser && (
+          <DeMenu
+            activator={
+              <DnIconButton
+                icon={<MdLanguage className="h-6 w-6 dark:text-zinc-400" />}
+                title={$t.logoutButtonAreaLabel}
+                areaLabel={$t.logoutButtonAreaLabel}
+                loading={spinnerLogout}
+                onClick={onUserLogout}
+              />
+            }
+          >
+            <SwitchLanguage />
+          </DeMenu>
+        )} */}
 
         <div className="flex gap-2">
           <Link
@@ -138,14 +157,47 @@ const Aside: FC<Props> = ({ open, spinnerLogout, aside, onUserLogout }) => {
         {aside ?? user.auth ? (
           <Menu />
         ) : (
-          <div className="flex justify-center items-center h-40">
-            <DnButton
-              label={$t.homePageBtnLabelSignInWithGoogle}
-              areaLabel={$t.homePageBtnAreaLabelSignInWithGoogle}
-              icon={<FcGoogle className="icon" />}
-              disabled={!appIsOnline}
-              onClick={onAuthByGoogle}
-            />
+          <div className="h-full flex flex-col justify-between">
+            {/* Login form */}
+
+            <div className="space-y-5 flex flex-col justify-center items-center h-3/5">
+              <h2 className="text-center dark:text-zinc-400">
+                {$t.appSignInTitle}
+              </h2>
+              <DnButton
+                label={$t.homePageBtnLabelSignInWithGoogle}
+                areaLabel={$t.homePageBtnAreaLabelSignInWithGoogle}
+                icon={<FcGoogle className="icon" />}
+                disabled={!appIsOnline}
+                onClick={onAuthByGoogle}
+              />
+            </div>
+            <footer className="border-t border-zinc-200 dark:border-zinc-700 py-2">
+              <nav>
+                <ul className="text-xs dark:text-zinc-400 flex gap-3 justify-center flex-wrap">
+                  <li>
+                    <Link
+                      to="/policy"
+                      className="link"
+                      area-label={$t.appFooterPolicyAreaLabel}
+                      title={$t.appFooterPolicyAreaLabel}
+                    >
+                      {$t.appFooterPolicyTitle}
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      to="/policy"
+                      className="link"
+                      area-label={$t.appFooterContactsAreaLabel}
+                      title={$t.appFooterContactsAreaLabel}
+                    >
+                      {$t.appFooterContactsTitle}
+                    </Link>
+                  </li>
+                </ul>
+              </nav>
+            </footer>
           </div>
         )}
       </nav>
