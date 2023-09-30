@@ -8,7 +8,7 @@ import { useUserStore } from "@/features/auth";
 // Shared
 
 import { DnIconButton, DnButton, DeImage } from "@/shared/ui";
-import { useTranslations } from "@/shared/hooks";
+import { useTranslations, useAccessiblePages } from "@/shared/hooks";
 import { path } from "@/shared/constants";
 
 // Icons
@@ -35,6 +35,7 @@ const Header: FC<Props> = ({
   const { user } = useUserStore();
   const { $t } = useTranslations();
   const navigate = useNavigate();
+  const { accessiblePages } = useAccessiblePages();
 
   // methods
 
@@ -71,7 +72,7 @@ const Header: FC<Props> = ({
         {/* Arrow back, Page title */}
         <div
           className={`flex grow items-center max-w-max gap-1 tablet:border-l tablet:border-l-zinc-200 dark:tablet:border-l dark:tablet:border-l-zinc-700 tablet:mx-6 tablet:pl-2 tablet:animation ${
-            isHomePage || !user.auth ? "opacity-0" : "opacity-100"
+            accessiblePages ? "visible opacity-100" : "invisible opacity-0"
           }`}
         >
           <DnIconButton

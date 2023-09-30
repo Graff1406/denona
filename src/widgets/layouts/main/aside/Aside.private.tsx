@@ -91,7 +91,7 @@ const Aside: FC<Props> = ({ open, spinnerLogout, aside, onUserLogout }) => {
 
         {/* For unauthorized user translation button */}
 
-        {/* {!unAuthorizedUser && (
+        {!user.auth && (
           <DeMenu
             activator={
               <DnIconButton
@@ -105,7 +105,7 @@ const Aside: FC<Props> = ({ open, spinnerLogout, aside, onUserLogout }) => {
           >
             <SwitchLanguage />
           </DeMenu>
-        )} */}
+        )}
 
         <div className="flex gap-2">
           <Link

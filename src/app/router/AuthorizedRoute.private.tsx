@@ -32,15 +32,10 @@ const AuthorizedRoute: FC<AuthorizedRouteProps> = ({
     if (unAuthorizedUser) redirect(path.home);
   }, [locate.pathname]);
 
-  return unAuthorizedUser ? (
-    accessiblePages.includes(locate.pathname) ? (
-      <Component {...rest} />
-    ) : (
-      <Home />
-    )
-  ) : (
-    <Component {...rest} />
-  );
+  const shouldRender =
+    !unAuthorizedUser || accessiblePages.includes(locate.pathname);
+
+  return shouldRender ? <Component {...rest} /> : <Home />;
 };
 
 export default AuthorizedRoute;
