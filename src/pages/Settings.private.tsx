@@ -45,62 +45,6 @@ const Settings: FC = () => {
           className="m-3"
         />
       </DeExpand>
-      <p>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi,
-        dignissimos. Odio blanditiis commodi, vel fuga, incidunt magni iusto
-        ipsa iure debitis, eaque quas praesentium illo nemo recusandae corporis
-        nulla expedita.
-      </p>
-      <p>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi,
-        dignissimos. Odio blanditiis commodi, vel fuga, incidunt magni iusto
-        ipsa iure debitis, eaque quas praesentium illo nemo recusandae corporis
-        nulla expedita.
-      </p>
-      <p>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi,
-        dignissimos. Odio blanditiis commodi, vel fuga, incidunt magni iusto
-        ipsa iure debitis, eaque quas praesentium illo nemo recusandae corporis
-        nulla expedita.
-      </p>
-      <p>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi,
-        dignissimos. Odio blanditiis commodi, vel fuga, incidunt magni iusto
-        ipsa iure debitis, eaque quas praesentium illo nemo recusandae corporis
-        nulla expedita.
-      </p>
-      <p>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi,
-        dignissimos. Odio blanditiis commodi, vel fuga, incidunt magni iusto
-        ipsa iure debitis, eaque quas praesentium illo nemo recusandae corporis
-        nulla expedita.
-      </p>
-      <p>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi,
-        dignissimos. Odio blanditiis commodi, vel fuga, incidunt magni iusto
-        ipsa iure debitis, eaque quas praesentium illo nemo recusandae corporis
-        nulla expedita.
-      </p>
-      <p>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi,
-        dignissimos. Odio blanditiis commodi, vel fuga, incidunt magni iusto
-        ipsa iure debitis, eaque quas praesentium illo nemo recusandae corporis
-        nulla expedita.
-      </p>
-      <p>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi,
-        dignissimos. Odio blanditiis commodi, vel fuga, incidunt magni iusto
-        ipsa iure debitis, eaque quas praesentium illo nemo recusandae corporis
-        nulla expedita.
-      </p>
-      <p>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi,
-        dignissimos. Odio blanditiis commodi, vel fuga, incidunt magni iusto
-        ipsa iure debitis, eaque quas praesentium illo nemo recusandae corporis
-        nulla expedita.
-      </p>
-
-      <p></p>
     </div>
   );
 };
