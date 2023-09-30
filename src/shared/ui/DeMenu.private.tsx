@@ -1,10 +1,5 @@
-import { FC, useState, useRef, ReactNode } from "react";
-
-// Shared
-
+import { FC, useState, useRef, ReactNode, useEffect } from "react";
 import { useClickOutside } from "@/shared/hooks";
-
-// Interfaces
 
 interface Props {
   children: ReactNode;
@@ -13,16 +8,29 @@ interface Props {
 }
 
 const DeMenu: FC<Props> = ({ children, activator, closeOnContent }) => {
-  // State
-
   const [open, setOpen] = useState(false);
   const [isOutsideClicked, setIsOutsideClicked] = useState(false);
 
-  // Ref
+  const [position, setPosition] = useState({ top: 0, left: 0 });
 
   const ref = useRef<HTMLDivElement>(null);
+  const activatorRef = useRef<HTMLDivElement>(null);
 
-  // Methods
+  const calculatePosition = () => {
+    if (activatorRef.current && ref.current) {
+      const activatorRect = activatorRef.current.getBoundingClientRect();
+      setPosition({
+        top: activatorRect.bottom - 70,
+        left: activatorRect.left - 20,
+      });
+    }
+  };
+
+  useEffect(() => {
+    if (open) {
+      calculatePosition();
+    }
+  }, [open]);
 
   const toggleDropdown = () => {
     if (isOutsideClicked) {
@@ -44,18 +52,23 @@ const DeMenu: FC<Props> = ({ children, activator, closeOnContent }) => {
     }, 200);
   };
 
-  // Use
-
   useClickOutside(ref, onClose);
 
   return (
     <div className="relative inline-block text-left">
-      <div onClick={toggleDropdown}>{activator}</div>
+      <div onClick={toggleDropdown} ref={activatorRef}>
+        {activator}
+      </div>
 
       {open && (
         <div
           ref={ref}
-          className="origin-top-right absolute -right-1 mt-1 min-w-min rounded-md shadow-lg border border-zinc-900 bg-white dark:bg-zinc-800 ring-1 ring-black ring-opacity-5"
+          style={{
+            position: "absolute",
+            top: `${position.top}px`,
+            left: `${position.left}px`,
+          }}
+          className="origin-top-right min-w-min rounded-md shadow-lg border border-zinc-900 bg-white dark:bg-zinc-800 ring-1 ring-black ring-opacity-5"
           onClick={onCloseOnContent}
         >
           <div

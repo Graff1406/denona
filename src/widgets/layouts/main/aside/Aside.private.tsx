@@ -96,10 +96,8 @@ const Aside: FC<Props> = ({ open, spinnerLogout, aside, onUserLogout }) => {
             activator={
               <DnIconButton
                 icon={<MdLanguage className="h-6 w-6 dark:text-zinc-400" />}
-                title={$t.logoutButtonAreaLabel}
-                areaLabel={$t.logoutButtonAreaLabel}
-                loading={spinnerLogout}
-                onClick={onUserLogout}
+                title={$t.changeLanguageBtnTitle}
+                areaLabel={$t.changeLanguageBtnAreaLabel}
               />
             }
           >

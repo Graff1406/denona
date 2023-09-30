@@ -30,9 +30,9 @@ function SwitchThemeColor() {
       <DnIconButton
         icon={
           themeMode === "dark" ? (
-            <BsFillSunFill className="w-6 h-6" />
+            <BsFillSunFill className="w-5 h-5" />
           ) : (
-            <BsFillMoonFill className="w-6 h-6" />
+            <BsFillMoonFill className="w-5 h-5" />
           )
         }
         areaLabel="Theme toggled"
