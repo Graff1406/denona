@@ -15,23 +15,23 @@ const Home: FC = () => {
   const blocks: { text: string; image: string }[] = [
     {
       text: $t.unAuthHomePageBlock_1,
-      image: "/public/images/home_page_block_1.jpg",
+      image: "/images/home_page_block_1.jpg",
     },
     {
       text: $t.unAuthHomePageBlock_2,
-      image: "/public/images/home_page_block_2.jpg",
+      image: "/images/home_page_block_2.jpg",
     },
     {
       text: $t.unAuthHomePageBlock_3,
-      image: "/public/images/home_page_block_3.jpg",
+      image: "/images/home_page_block_3.jpg",
     },
     {
       text: $t.unAuthHomePageBlock_4,
-      image: "/public/images/home_page_block_4.jpg",
+      image: "/images/home_page_block_4.jpg",
     },
     {
       text: $t.unAuthHomePageBlock_5,
-      image: "/public/images/home_page_block_5.jpg",
+      image: "/images/home_page_block_5.jpg",
     },
   ];
 
