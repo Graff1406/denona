@@ -1,6 +1,10 @@
 import { useEffect, RefObject } from "react";
 
-function useClickOutside(ref: RefObject<HTMLElement>, callback: () => void) {
+function useClickOutside(
+  ref: RefObject<HTMLElement>,
+  callback: () => void,
+  activate: boolean
+): void {
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       if (ref.current && !ref.current.contains(event.target as Node)) {
@@ -8,9 +12,10 @@ function useClickOutside(ref: RefObject<HTMLElement>, callback: () => void) {
       }
     }
 
-    if (ref.current) {
+    if (ref.current && activate) {
       document.addEventListener("mousedown", handleClickOutside);
-    }
+    } else document.removeEventListener("mousedown", handleClickOutside);
+
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };

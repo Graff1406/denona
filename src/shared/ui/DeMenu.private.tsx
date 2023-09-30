@@ -19,9 +19,10 @@ const DeMenu: FC<Props> = ({ children, activator, closeOnContent }) => {
   const calculatePosition = () => {
     if (activatorRef.current && ref.current) {
       const activatorRect = activatorRef.current.getBoundingClientRect();
+
       setPosition({
         top: activatorRect.bottom - 70,
-        left: activatorRect.left - 20,
+        left: 0, // activatorRect.left - 20,
       });
     }
   };
@@ -52,7 +53,7 @@ const DeMenu: FC<Props> = ({ children, activator, closeOnContent }) => {
     }, 200);
   };
 
-  useClickOutside(ref, onClose);
+  useClickOutside(ref, onClose, open);
 
   return (
     <div className="relative inline-block text-left">
@@ -60,27 +61,29 @@ const DeMenu: FC<Props> = ({ children, activator, closeOnContent }) => {
         {activator}
       </div>
 
-      {open && (
+      <div
+        ref={ref}
+        style={{
+          position: "absolute",
+          top: `${position.top}px`,
+          left: `${position.left}px`,
+        }}
+        className={`min-w-min rounded-md shadow-lg border border-zinc-900 bg-white dark:bg-zinc-800 ring-1 ring-black ring-opacity-5 animation origin-top-left ${
+          open
+            ? "scale-100 visible opacity-100"
+            : "scale-0 invisible opacity-0 w-0"
+        }`}
+        onClick={onCloseOnContent}
+      >
         <div
-          ref={ref}
-          style={{
-            position: "absolute",
-            top: `${position.top}px`,
-            left: `${position.left}px`,
-          }}
-          className="origin-top-right min-w-min rounded-md shadow-lg border border-zinc-900 bg-white dark:bg-zinc-800 ring-1 ring-black ring-opacity-5"
-          onClick={onCloseOnContent}
+          className="py-1 w-full"
+          role="menu"
+          aria-orientation="vertical"
+          aria-labelledby="options-menu"
         >
-          <div
-            className="py-1 w-full"
-            role="menu"
-            aria-orientation="vertical"
-            aria-labelledby="options-menu"
-          >
-            {children}
-          </div>
+          {children}
         </div>
-      )}
+      </div>
     </div>
   );
 };

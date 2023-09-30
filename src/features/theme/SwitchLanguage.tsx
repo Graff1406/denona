@@ -1,4 +1,4 @@
-import { FC, useState, useRef } from "react";
+import { FC, useState } from "react";
 
 // Entities
 
@@ -6,7 +6,7 @@ import { type Locales } from "@/entities/firebase";
 
 // Shared
 
-import { useTranslations, useClickOutside } from "@/shared/hooks";
+import { useTranslations } from "@/shared/hooks";
 import { DeRadio } from "@/shared/ui";
 
 type Language = { label: string; code: Locales };
@@ -26,27 +26,15 @@ const SwitchLanguage: FC = () => {
 
   // State
 
-  const [open, setOpen] = useState(false);
   const [selectedLanguage, setSelectedLanguage] = useState(
     localStorage.getItem("locale") || "en"
   );
-
-  // Ref
-
-  const ref = useRef<HTMLDivElement>(null);
-
-  const toggleDropdown = () => {
-    setOpen(!open);
-  };
 
   const handleLanguageSelect = (code: string) => {
     localStorage.setItem("locale", code);
     setSelectedLanguage(code);
     changeLanguage();
-    setOpen(false);
   };
-
-  useClickOutside(ref, toggleDropdown);
 
   return (
     <fieldset className="p-3 flex flex-col items-end space-y-3">
