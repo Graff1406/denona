@@ -41,7 +41,7 @@ const Aside: FC<Props> = ({ open, spinnerLogout, aside, onUserLogout }) => {
 
   const { user } = useUserStore();
   const { $t } = useTranslations();
-  const { isPWAInstalled, onInstallPWA } = useAppInstallPWA();
+  const { displayModePWA, onInstallPWA } = useAppInstallPWA();
   const { appIsOnline } = useOnlineStatus();
   const location = useLocation();
 
@@ -137,7 +137,7 @@ const Aside: FC<Props> = ({ open, spinnerLogout, aside, onUserLogout }) => {
 
       {/* Install PWA app */}
 
-      {!isPWAInstalled && (
+      {displayModePWA === "browser" && (
         <div className="flex items-center justify-center px-3 py-2 border-0 border-b border-b-zinc-200 dark:border-b-zinc-700">
           <DnButton
             areaLabel={$t.appInstallPWAAreaLabel}

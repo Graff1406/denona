@@ -4,6 +4,7 @@ import Router from "./router";
 // features
 
 import { useUserStore } from "@/features/auth";
+import { useAppInstallPWA } from "@/features/PWA";
 
 // Entities
 
@@ -24,6 +25,8 @@ const App: FC = () => {
 
   const { dispatchSetUser } = useUserStore();
   const { loadingTranslations } = useTranslations();
+  const { displayModePWA, addEventListenerBeforeInstallPrompt } =
+    useAppInstallPWA();
 
   // State
 
@@ -68,6 +71,9 @@ const App: FC = () => {
 
   useEffect(() => {
     initFirebaseServices();
+
+    const unsubscribe = addEventListenerBeforeInstallPrompt();
+    return unsubscribe;
   }, []);
 
   return (

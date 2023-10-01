@@ -22,27 +22,33 @@ declare global {
 
 let deferredPrompt: BeforeInstallPromptEvent | null = null;
 
-let beforeInstallPrompt: (e: BeforeInstallPromptEvent) => void;
+const beforeInstallPrompt = (e: BeforeInstallPromptEvent) => {
+  e.preventDefault();
+  deferredPrompt = e;
+};
 
 const addEventListenerBeforeInstallPrompt = () => {
-  beforeInstallPrompt = (e: BeforeInstallPromptEvent) => {
-    e.preventDefault();
-    deferredPrompt = e;
-  };
   window.addEventListener("beforeinstallprompt", beforeInstallPrompt);
 };
 
-addEventListenerBeforeInstallPrompt();
+const getPWADisplayMode = (): Mode => {
+  const isStandalone = window.matchMedia("(display-mode: standalone)").matches;
+  if (document.referrer.startsWith("android-app://")) {
+    return "pwa";
+  } else if (navigator.standalone || isStandalone) {
+    return "standalone";
+  }
+  return "browser";
+};
 
 export default (): {
-  isPWAInstalled: boolean;
   displayModePWA: Mode;
   onInstallPWA: () => Promise<void>;
+  addEventListenerBeforeInstallPrompt: () => void;
 } => {
   // State
 
-  const [isPWAInstalled, setIsPWAInstalled] = useState(true);
-  const [displayModePWA, setDisplayModePWA] = useState<Mode>("browser");
+  const [displayModePWA, setDisplayModePWA] = useState<Mode>("standalone");
 
   // Methods
 
@@ -52,52 +58,20 @@ export default (): {
       const { outcome } = await deferredPrompt.userChoice;
 
       if (outcome === "accepted") {
-        setIsPWAInstalled(true);
-      } else {
-        setIsPWAInstalled(false);
-        window.removeEventListener("beforeinstallprompt", beforeInstallPrompt);
-        addEventListenerBeforeInstallPrompt();
+        setDisplayModePWA(getPWADisplayMode());
       }
-
-      deferredPrompt = null;
     }
   };
-
-  const appInstalled = () => {
-    deferredPrompt = null;
-    setIsPWAInstalled(true);
-  };
-
-  const checkAppInstalled = () => {
-    if (deferredPrompt) window.addEventListener("appinstalled", appInstalled);
-    else setIsPWAInstalled(true);
-  };
-
-  function getPWADisplayMode() {
-    const isStandalone = window.matchMedia(
-      "(display-mode: standalone)"
-    ).matches;
-    if (document.referrer.startsWith("android-app://")) {
-      return "pwa";
-    } else if (navigator.standalone || isStandalone) {
-      return "standalone";
-    }
-    return "browser";
-  }
 
   // Effects
 
   useEffect(() => {
-    checkAppInstalled();
-    const mode = getPWADisplayMode();
-
-    setDisplayModePWA(mode);
-
-    return () => {
-      window.removeEventListener("beforeinstallprompt", beforeInstallPrompt);
-      window.removeEventListener("appinstalled", appInstalled);
-    };
+    setDisplayModePWA(getPWADisplayMode());
   }, []);
 
-  return { isPWAInstalled, displayModePWA, onInstallPWA };
+  return {
+    displayModePWA,
+    onInstallPWA,
+    addEventListenerBeforeInstallPrompt,
+  };
 };

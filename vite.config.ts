@@ -24,13 +24,13 @@ export default defineConfig({
         ],
         globPatterns: ["**/*.{js,css,html,ico,png,svg}"],
         sourcemap: true,
-        // importScripts: ["/src/features/PWA/ws.ts"],
+        importScripts: ["/ws.js"],
         clientsClaim: true,
         // skipWaiting: true,
       },
-      // devOptions: {
-      //   enabled: true,
-      // },
+      devOptions: {
+        enabled: true,
+      },
       manifest: {
         name: "Denona",
         short_name: "Denona",

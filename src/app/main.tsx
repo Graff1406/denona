@@ -25,9 +25,9 @@ import { TranslationsProvider } from "./contexts";
 //   // onNeedRefresh() {
 //   //   console.log("onNeedRefresh");
 //   // },
-//   // onOfflineReady() {
-//   //   console.log("onOfflineReady", Date.now());
-//   // },
+//   onOfflineReady() {
+//     console.log("onOfflineReady", Date.now());
+//   },
 // });
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
