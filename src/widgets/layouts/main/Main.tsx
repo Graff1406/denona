@@ -132,7 +132,7 @@ const MainLayout: FC = (): ReactElement => {
               {/* Overlay while menu have opened */}
 
               <div
-                className={`fixed w-full h-full bg-zinc-100/80 dark:bg-zinc-900/80 animation tablet:hidden ${
+                className={`fixed w-full h-full z-10 bg-zinc-100/80 dark:bg-zinc-900/80 animation tablet:hidden ${
                   open ? "visible opacity-100" : "invisible opacity-0"
                 }`}
                 onClick={handleToggleMenu}

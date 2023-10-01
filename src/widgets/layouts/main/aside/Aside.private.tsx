@@ -56,7 +56,7 @@ const Aside: FC<Props> = ({ open, spinnerLogout, aside, onUserLogout }) => {
 
   return (
     <aside
-      className={`flex-col grow min-w-[300px] max-w-[460px] tablet:w-[460px] border-r dark:border-r-zinc-700 overflow-hidden bg-inherit z-20 absolute tablet:relative tablet:translate-x-0 ${
+      className={`flex-col grow min-w-[300px] max-w-[460px] tablet:w-[460px] border-r dark:border-r-zinc-700 overflow-hidden bg-inherit animation z-20 absolute tablet:relative tablet:translate-x-0 ${
         open ? "" : "-translate-x-[460px]"
       }`}
       id="menu"
