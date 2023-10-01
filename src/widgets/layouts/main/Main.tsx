@@ -31,7 +31,7 @@ const Aside = lazy(() => import("./aside/Aside.private"));
 const MainLayout: FC = (): ReactElement => {
   // Use
 
-  const { dispatchResetUser } = useUserStore();
+  const { dispatchResetUser, user } = useUserStore();
   const { $t } = useTranslations();
   const { appIsOnline } = useOnlineStatus();
   const location = useLocation();
@@ -73,6 +73,10 @@ const MainLayout: FC = (): ReactElement => {
     // Define home route
     setIsHomePage(location.pathname === "/");
   }, [location]);
+
+  useEffect(() => {
+    if (user.auth) setOpen(false);
+  }, [user.auth]);
 
   return (
     <>

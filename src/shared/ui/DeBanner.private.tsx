@@ -46,7 +46,7 @@ const Banner: FC<Props> = ({
 
   return (
     <section
-      className={`border border-zinc-200 dark:border-zinc-700 rounded space-y-4 bg-zinc-50 dark:bg-zinc-800 dark:shadow-xl text-sm tablet:text-base ${className}`}
+      className={`border border-zinc-200 dark:border-zinc-700 rounded space-y-4 bg-zinc-50 dark:bg-zinc-900 dark:shadow-xl text-sm tablet:text-base ${className}`}
     >
       <header className="border-b border-zinc-200 dark:border-zinc-700 p-3">
         {header || (

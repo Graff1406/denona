@@ -40,10 +40,10 @@ const Menu: FC = () => {
         {menu.map((el) => (
           <li
             key={el.id}
-            className={`px-3 py-2 animation hover:bg-zinc-100 dark:hover:bg-zinc-900 dark:text-zinc-400 cursor-pointer rounded-md text-lg ${
+            className={`px-3 py-2 animation hover:bg-zinc-100 dark:hover:bg-zinc-900 cursor-pointer rounded-md text-lg ${
               location.pathname === el.route
                 ? "text-yellow-700 bg-zinc-50 dark:bg-zinc-900"
-                : "text-base"
+                : "text-base  dark:text-zinc-400"
             }`}
           >
             <NavLink

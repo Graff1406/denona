@@ -25,8 +25,7 @@ const App: FC = () => {
 
   const { dispatchSetUser } = useUserStore();
   const { loadingTranslations } = useTranslations();
-  const { displayModePWA, addEventListenerBeforeInstallPrompt } =
-    useAppInstallPWA();
+  const { addEventListenerBeforeInstallPrompt } = useAppInstallPWA();
 
   // State
 
@@ -57,9 +56,9 @@ const App: FC = () => {
           if (db?.user?.uid && jsonUserIndexBDData !== jsonUserServerData) {
             indexDB.user.put({ id: 1, user: data });
           } else {
-            dispatchSetUser(data);
             indexDB.user.add({ id: 1, user: data });
           }
+          dispatchSetUser(data);
         });
       }
 
