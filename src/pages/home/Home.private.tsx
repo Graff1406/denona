@@ -44,7 +44,7 @@ const Home: FC = () => {
       {blocks.map((el: { text: string; image: string }, i: number) => (
         <section
           key={i}
-          className="py-8 flex flex-col flex-col-reverse tablet:flex-row gap-6 justify-between border-t border-zinc-200 dark:border-zinc-700"
+          className="py-8 flex flex-col-reverse tablet:flex-row gap-6 justify-between border-t border-zinc-200 dark:border-zinc-700"
         >
           <p className="grow-1">{el.text}</p>
           <div className="h-full w-full tablet:max-w-[100px] rounded">

@@ -4,6 +4,7 @@ import Router from "./router";
 // features
 
 import { useUserStore } from "@/features/auth";
+import { useAppInstallPWA } from "@/features/PWA";
 
 // Entities
 
@@ -24,6 +25,7 @@ const App: FC = () => {
 
   const { dispatchSetUser } = useUserStore();
   const { loadingTranslations } = useTranslations();
+  const { addEventListenerBeforeInstallPrompt } = useAppInstallPWA();
 
   // State
 
@@ -54,9 +56,9 @@ const App: FC = () => {
           if (db?.user?.uid && jsonUserIndexBDData !== jsonUserServerData) {
             indexDB.user.put({ id: 1, user: data });
           } else {
-            dispatchSetUser(data);
             indexDB.user.add({ id: 1, user: data });
           }
+          dispatchSetUser(data);
         });
       }
 
@@ -68,6 +70,9 @@ const App: FC = () => {
 
   useEffect(() => {
     initFirebaseServices();
+
+    const unsubscribe = addEventListenerBeforeInstallPrompt();
+    return unsubscribe;
   }, []);
 
   return (

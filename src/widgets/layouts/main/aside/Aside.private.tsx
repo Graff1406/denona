@@ -41,7 +41,7 @@ const Aside: FC<Props> = ({ open, spinnerLogout, aside, onUserLogout }) => {
 
   const { user } = useUserStore();
   const { $t } = useTranslations();
-  const { isPWAInstalled, onInstallPWA } = useAppInstallPWA();
+  const { displayModePWA, onInstallPWA } = useAppInstallPWA();
   const { appIsOnline } = useOnlineStatus();
   const location = useLocation();
 
@@ -56,7 +56,7 @@ const Aside: FC<Props> = ({ open, spinnerLogout, aside, onUserLogout }) => {
 
   return (
     <aside
-      className={`flex-col grow min-w-[300px] max-w-[460px] tablet:w-[460px] border-r dark:border-r-zinc-700 overflow-hidden bg-inherit z-20 absolute tablet:relative tablet:translate-x-0 ${
+      className={`flex-col grow min-w-[300px] max-w-[460px] tablet:w-[460px] border-r dark:border-r-zinc-700 overflow-hidden bg-inherit animation z-20 absolute tablet:relative tablet:translate-x-0 ${
         open ? "" : "-translate-x-[460px]"
       }`}
       id="menu"
@@ -135,20 +135,6 @@ const Aside: FC<Props> = ({ open, spinnerLogout, aside, onUserLogout }) => {
         </div>
       </div>
 
-      {/* Install PWA app */}
-
-      {!isPWAInstalled && (
-        <div className="flex items-center justify-center px-3 py-2 border-0 border-b border-b-zinc-200 dark:border-b-zinc-700">
-          <DnButton
-            areaLabel={$t.appInstallPWAAreaLabel}
-            label={$t.appInstallPWALabel}
-            className="w-full"
-            cta
-            onClick={onInstallPWA}
-          />
-        </div>
-      )}
-
       {/* Nav list */}
 
       <nav className="scrollbar overflow-y-auto h-[calc(100vh-121px)] w-full p-2">
@@ -170,8 +156,21 @@ const Aside: FC<Props> = ({ open, spinnerLogout, aside, onUserLogout }) => {
                 onClick={onAuthByGoogle}
               />
             </div>
-            <footer className="border-t border-zinc-200 dark:border-zinc-700 py-2">
-              <nav>
+            <footer>
+              {/* Install PWA app */}
+
+              {displayModePWA === "browser" && (
+                <div className="flex items-center justify-center p-3 border-y border-zinc-200 dark:border-zinc-700">
+                  <DnButton
+                    areaLabel={$t.appInstallPWAAreaLabel}
+                    label={$t.appInstallPWALabel}
+                    className="w-full"
+                    cta
+                    onClick={onInstallPWA}
+                  />
+                </div>
+              )}
+              <nav className="py-1">
                 <ul className="text-xs dark:text-zinc-400 flex gap-3 justify-center flex-wrap">
                   <li>
                     <Link

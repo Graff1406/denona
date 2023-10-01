@@ -26,3 +26,4 @@
 //     console.log("offline SW");
 //   }
 // });
+console.log("------------------------SW have started!------------------------");
