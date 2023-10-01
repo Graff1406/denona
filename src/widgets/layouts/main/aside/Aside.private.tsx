@@ -138,29 +138,30 @@ const Aside: FC<Props> = ({ open, spinnerLogout, aside, onUserLogout }) => {
       {/* Nav list */}
 
       <nav className="scrollbar overflow-y-auto h-[calc(100vh-121px)] w-full p-2">
-        {aside ?? user.auth ? (
-          <Menu />
-        ) : (
-          <div className="h-full flex flex-col justify-between">
-            {/* Login form */}
+        {aside ?? (
+          <div className="h-full flex flex-col justify-between overflow-auto">
+            {user.auth ? (
+              <Menu />
+            ) : (
+              <div className="space-y-5 flex flex-col justify-center items-center h-3/5">
+                <h2 className="text-center dark:text-zinc-400">
+                  {$t.appSignInTitle}
+                </h2>
+                <DnButton
+                  label={$t.homePageBtnLabelSignInWithGoogle}
+                  areaLabel={$t.homePageBtnAreaLabelSignInWithGoogle}
+                  icon={<FcGoogle className="icon" />}
+                  disabled={!appIsOnline}
+                  onClick={onAuthByGoogle}
+                />
+              </div>
+            )}
 
-            <div className="space-y-5 flex flex-col justify-center items-center h-3/5">
-              <h2 className="text-center dark:text-zinc-400">
-                {$t.appSignInTitle}
-              </h2>
-              <DnButton
-                label={$t.homePageBtnLabelSignInWithGoogle}
-                areaLabel={$t.homePageBtnAreaLabelSignInWithGoogle}
-                icon={<FcGoogle className="icon" />}
-                disabled={!appIsOnline}
-                onClick={onAuthByGoogle}
-              />
-            </div>
             <footer>
               {/* Install PWA app */}
 
               {displayModePWA === "browser" && (
-                <div className="flex items-center justify-center p-3 border-y border-zinc-200 dark:border-zinc-700">
+                <div className="flex items-center justify-center p-3 border-t border-zinc-200 dark:border-zinc-700">
                   <DnButton
                     areaLabel={$t.appInstallPWAAreaLabel}
                     label={$t.appInstallPWALabel}
@@ -170,7 +171,7 @@ const Aside: FC<Props> = ({ open, spinnerLogout, aside, onUserLogout }) => {
                   />
                 </div>
               )}
-              <nav className="py-1">
+              <nav className="py-1 border-t border-zinc-200 dark:border-zinc-700">
                 <ul className="text-xs dark:text-zinc-400 flex gap-3 justify-center flex-wrap">
                   <li>
                     <Link
