@@ -26,7 +26,7 @@ import { path } from "@/shared/constants";
 // Helpers
 
 import { getCurrentRouteData } from "../helpers";
-import { DnButton, DnIconButton } from "@/shared/ui";
+import { DnIconButton } from "@/shared/ui";
 
 // Icons
 import { MdOutlineAddTask } from "react-icons/md";
