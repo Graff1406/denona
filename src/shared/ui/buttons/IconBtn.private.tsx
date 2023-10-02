@@ -13,6 +13,7 @@ interface Props {
   ariaControls?: string;
   id?: string;
   tabIndex?: number;
+  cta?: boolean;
   onClick?: MouseEventHandler<HTMLButtonElement>;
 }
 
@@ -27,14 +28,18 @@ const DnButton: FC<Props> = ({
   ariaExpanded,
   ariaControls,
   id,
+  cta,
   tabIndex = 0,
   onClick,
 }): ReactElement => {
   const Button = () => (
     <button
       className={[
-        "flex justify-center items-center rounded-full hover:bg-stone-100 dark:hover:bg-zinc-900 active:bg-stone-200 smooth no-select",
+        "flex justify-center items-center rounded-full smooth no-select",
         className,
+        cta
+          ? "bg-yellow-700 text-white border border-amber-800 hover:bg-amber-800 active:bg-yellow-700"
+          : "hover:bg-stone-100 dark:hover:bg-zinc-900 active:bg-stone-200",
       ].join(" ")}
       id={id}
       aria-label={areaLabel}
@@ -45,7 +50,12 @@ const DnButton: FC<Props> = ({
       tabIndex={tabIndex}
       onClick={onClick}
     >
-      <span className="flex justify-center items-center w-6 h-6 m-2">
+      <span
+        className={[
+          "flex justify-center items-center w-6 h-6 m-2",
+          cta ? "text-white" : "",
+        ].join(" ")}
+      >
         {loading ? <div className="custom-loader h-6 w-6"></div> : icon}
       </span>
     </button>

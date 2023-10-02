@@ -1,4 +1,4 @@
-import { FC, ReactElement } from "react";
+import { FC } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 // Features
@@ -13,23 +13,21 @@ import { path } from "@/shared/constants";
 
 // Icons
 
-import { MdPersonAdd, MdMenu, MdArrowBackIosNew } from "react-icons/md";
+import {
+  MdPersonAdd,
+  MdMenu,
+  MdArrowBackIosNew,
+  MdOutlineAddTask,
+} from "react-icons/md";
 
 interface Props {
   open: boolean;
   isHomePage: boolean;
   title: string;
-  headerRight?: ReactElement | undefined;
   onToggleMenu: () => void;
 }
 
-const Header: FC<Props> = ({
-  open,
-  title,
-  isHomePage,
-  headerRight,
-  onToggleMenu,
-}) => {
+const Header: FC<Props> = ({ open, title, isHomePage, onToggleMenu }) => {
   // Use
 
   const { user } = useUserStore();
@@ -86,16 +84,26 @@ const Header: FC<Props> = ({
 
       {/* Right btn */}
 
-      {headerRight ?? user.auth ? (
-        <DnIconButton
-          className="tablet:hidden"
-          icon={<MdMenu className="icon" />}
-          areaLabel={$t.homePageMainBtnMobileMenuToggle}
-          onClick={onToggleMenu}
-          ariaExpanded={open}
-          id="menu-toggle"
-          aria-controls="menu"
-        />
+      {user.auth ? (
+        <>
+          <DnIconButton
+            className="tablet:hidden"
+            icon={<MdMenu className="icon" />}
+            areaLabel={$t.homePageMainBtnMobileMenuToggle}
+            onClick={onToggleMenu}
+            ariaExpanded={open}
+            id="menu-toggle"
+            aria-controls="menu"
+          />
+          <DnButton
+            className="hidden tablet:block"
+            label={$t.appFormCreateTaskLabel}
+            areaLabel={$t.appFormCreateTaskAreaLabel}
+            icon={<MdOutlineAddTask className="icon" />}
+            cta
+            onClick={onToggleMenu}
+          />
+        </>
       ) : (
         <DnButton
           className="tablet:hidden"

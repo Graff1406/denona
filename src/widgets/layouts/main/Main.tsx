@@ -1,4 +1,4 @@
-import { FC, ReactElement, useState, useEffect, lazy } from "react";
+import { FC, ReactElement, useState, useEffect, useRef, lazy } from "react";
 import { Helmet } from "react-helmet-async";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 
@@ -16,12 +16,20 @@ import { indexDB } from "@/entities/indexDB";
 
 // Shared
 
-import { useTranslations, useOnlineStatus } from "@/shared/hooks";
+import {
+  useTranslations,
+  useOnlineStatus,
+  useScrollDirection,
+} from "@/shared/hooks";
 import { path } from "@/shared/constants";
 
 // Helpers
 
 import { getCurrentRouteData } from "../helpers";
+import { DnButton, DnIconButton } from "@/shared/ui";
+
+// Icons
+import { MdOutlineAddTask } from "react-icons/md";
 
 // Lazy Components
 
@@ -29,6 +37,10 @@ const Header = lazy(() => import("./Header.private"));
 const Aside = lazy(() => import("./aside/Aside.private"));
 
 const MainLayout: FC = (): ReactElement => {
+  // Ref
+
+  const pageContentOuter = useRef(null);
+
   // Use
 
   const { dispatchResetUser, user } = useUserStore();
@@ -36,7 +48,7 @@ const MainLayout: FC = (): ReactElement => {
   const { appIsOnline } = useOnlineStatus();
   const location = useLocation();
   const navigate = useNavigate();
-
+  const scrollDirectionY = useScrollDirection({ element: pageContentOuter });
   // State
 
   const [open, setOpen] = useState(false);
@@ -119,6 +131,7 @@ const MainLayout: FC = (): ReactElement => {
 
             <section
               id="page-wrapper"
+              ref={pageContentOuter}
               className="scrollbar w-full animation relative overflow-y-auto"
             >
               {/* Block for show No internet connection */}
@@ -144,8 +157,21 @@ const MainLayout: FC = (): ReactElement => {
 
               {/* Page content */}
 
-              <div className="p-4">
+              <div className="p-4 relative h-full">
                 <Outlet />
+
+                <DnIconButton
+                  className={[
+                    "tablet:hidden fixed bottom-5 right-5 animation",
+                    scrollDirectionY === "down" ? "opacity-20" : "opacity-100",
+                  ].join(" ")}
+                  icon={<MdOutlineAddTask className="icon" />}
+                  areaLabel={$t.homePageMainBtnMobileMenuToggle}
+                  ariaExpanded={open}
+                  id="menu-toggle"
+                  aria-controls="menu"
+                  cta
+                />
               </div>
             </section>
           </main>
