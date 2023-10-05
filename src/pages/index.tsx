@@ -9,6 +9,7 @@ import { DeImage } from "@/shared/ui";
 const S = lazy(() => import("./Settings.private"));
 const H = lazy(() => import("./help/Help.private"));
 const AH = lazy(() => import("./home/AuthorizedHome.private"));
+const CR = lazy(() => import("./CreateTask.private"));
 
 // Exports
 
@@ -16,6 +17,7 @@ export { default as Home } from "./home/Home.private";
 export const AuthorizedHome = () => SetSuspense(AH);
 export const Settings = () => SetSuspense(S);
 export const Help = () => SetSuspense(H);
+export const CreateTask = () => SetSuspense(CR);
 
 function SetSuspense(C: FC) {
   return (

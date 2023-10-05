@@ -22,11 +22,19 @@ export const getCurrentRouteData = (
       },
       title: $t.pageHelpHeadTitle,
     };
+  else if (path.create === route)
+    return {
+      head: {
+        title: $t.pageCreateTaskHeadTitle,
+        description: $t.pageCreateTaskHeadDescription,
+      },
+      title: $t.pageCreateTaskHeadTitle,
+    };
 
   return {
     head: {
-      title: $t.settingsPageTitle,
-      description: $t.settingsPageDescription,
+      title: $t.homePageTitle,
+      description: $t.homePageDescription,
     },
     title: "",
   };

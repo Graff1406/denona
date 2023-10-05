@@ -95,14 +95,16 @@ const Header: FC<Props> = ({ open, title, isHomePage, onToggleMenu }) => {
             id="menu-toggle"
             aria-controls="menu"
           />
-          <DnButton
-            className="hidden tablet:block"
-            label={$t.appFormCreateTaskLabel}
-            areaLabel={$t.appFormCreateTaskAreaLabel}
-            icon={<MdOutlineAddTask className="icon" />}
-            cta
-            onClick={onToggleMenu}
-          />
+          {path.create !== location.pathname && (
+            <Link to={path.create} className="hidden tablet:block">
+              <DnButton
+                label={$t.appFormCreateTaskLabel}
+                areaLabel={$t.appFormCreateTaskAreaLabel}
+                icon={<MdOutlineAddTask className="icon" />}
+                cta
+              />
+            </Link>
+          )}
         </>
       ) : (
         <DnButton

@@ -29,7 +29,9 @@ const ZnButton: FC<Props> = ({
   if (cta)
     classes =
       "bg-yellow-700 text-white border border-amber-800 hover:bg-amber-800 active:bg-yellow-700";
-  else classes += "border border-zinc-700 hover:bg-stone-50 active:bg-white";
+  else
+    classes +=
+      "border border-zinc-700 hover:bg-stone-50 active:bg-white dark:hover:bg-zinc-900 dark:active:bg-zinc-800 dark:shadow-lg";
 
   return (
     <button

@@ -37,10 +37,6 @@ const Header = lazy(() => import("./Header.private"));
 const Aside = lazy(() => import("./aside/Aside.private"));
 
 const MainLayout: FC = (): ReactElement => {
-  // Ref
-
-  const pageContentOuter = useRef(null);
-
   // Use
 
   const { dispatchResetUser, user } = useUserStore();
@@ -48,7 +44,7 @@ const MainLayout: FC = (): ReactElement => {
   const { appIsOnline } = useOnlineStatus();
   const location = useLocation();
   const navigate = useNavigate();
-  const scrollDirectionY = useScrollDirection({ element: pageContentOuter });
+  const scrollDirectionY = useScrollDirection();
   // State
 
   const [open, setOpen] = useState(false);
@@ -131,7 +127,6 @@ const MainLayout: FC = (): ReactElement => {
 
             <section
               id="page-wrapper"
-              ref={pageContentOuter}
               className="scrollbar w-full animation relative overflow-y-auto"
             >
               {/* Block for show No internet connection */}
@@ -160,18 +155,23 @@ const MainLayout: FC = (): ReactElement => {
               <div className="p-4 relative h-full">
                 <Outlet />
 
-                <DnIconButton
-                  className={[
-                    "tablet:hidden fixed bottom-5 right-5 animation",
-                    scrollDirectionY === "down" ? "opacity-20" : "opacity-100",
-                  ].join(" ")}
-                  icon={<MdOutlineAddTask className="icon" />}
-                  areaLabel={$t.homePageMainBtnMobileMenuToggle}
-                  ariaExpanded={open}
-                  id="menu-toggle"
-                  aria-controls="menu"
-                  cta
-                />
+                {path.create !== location.pathname && (
+                  <DnIconButton
+                    to={path.create}
+                    className={[
+                      "tablet:hidden fixed bottom-5 right-5 animation",
+                      scrollDirectionY === "down"
+                        ? "opacity-20"
+                        : "opacity-100",
+                    ].join(" ")}
+                    icon={<MdOutlineAddTask className="icon" />}
+                    areaLabel={$t.homePageMainBtnMobileMenuToggle}
+                    ariaExpanded={open}
+                    id="menu-toggle"
+                    aria-controls="menu"
+                    cta
+                  />
+                )}
               </div>
             </section>
           </main>

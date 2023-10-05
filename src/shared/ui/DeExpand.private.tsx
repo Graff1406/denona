@@ -8,11 +8,21 @@ interface Props {
   title: string;
   id?: string;
   icon?: ReactNode;
+  className?: string;
+  expandedByInit?: boolean;
   onClick?: MouseEventHandler<HTMLButtonElement>;
 }
 
-const DeExpand: FC<Props> = ({ id, title, children, icon, onClick }) => {
-  const [expanded, setExpanded] = useState(false);
+const DeExpand: FC<Props> = ({
+  id,
+  title,
+  children,
+  icon,
+  className,
+  expandedByInit,
+  onClick,
+}) => {
+  const [expanded, setExpanded] = useState<boolean>(!!expandedByInit);
 
   const toggleExpansion = (e: MouseEvent<HTMLButtonElement>) => {
     setExpanded(!expanded);
@@ -22,7 +32,10 @@ const DeExpand: FC<Props> = ({ id, title, children, icon, onClick }) => {
   return (
     <section
       id={id}
-      className="border dark:border-zinc-700 rounded-lg overflow-hidden"
+      className={[
+        "border dark:border-zinc-700 rounded-lg overflow-hidden w-full",
+        className,
+      ].join(" ")}
     >
       <button
         onClick={toggleExpansion}

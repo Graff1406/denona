@@ -78,7 +78,7 @@ const Help: FC = () => {
       <h2 className="linline mx-auto">Help Page</h2>
 
       {Array.from({ length: 3 }).map((_el, i: number) => (
-        <Section id={`section-${i + 1}`} />
+        <Section key={`section-${i + 1}`} id={`section-${i + 1}`} />
       ))}
     </div>
   );

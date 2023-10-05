@@ -7,7 +7,7 @@ import { MainLayout } from "@/widgets/layouts";
 
 // Pages
 
-import { AuthorizedHome, Settings, Help } from "@/pages";
+import { AuthorizedHome, Settings, Help, CreateTask } from "@/pages";
 
 // Shared
 
@@ -35,6 +35,10 @@ const routes: Route[] = [
       {
         path: path.help,
         element: <AuthorizedRoute component={Help} />,
+      },
+      {
+        path: path.create,
+        element: <AuthorizedRoute component={CreateTask} />,
       },
     ],
   },

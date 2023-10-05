@@ -1,23 +1,21 @@
-import { useEffect, useState, RefObject } from "react";
+import { useEffect, useState } from "react";
 
 type ScrollDirection = "up" | "down" | null;
 
-const useScrollDirection = ({
-  element,
-  threshold = 0,
-}: {
-  element?: RefObject<HTMLElement | Window>;
-  threshold?: number;
-}): ScrollDirection => {
+const useScrollDirection = (threshold = 0): ScrollDirection => {
+  const element = document.getElementById("page-wrapper") as HTMLElement;
+
+  // State
+
   const [scrollDirection, setScrollDirection] = useState<ScrollDirection>(null);
 
   useEffect(() => {
     let prevScrollY = 0;
 
     const handleScroll = () => {
-      if (element && element.current) {
-        if (element.current instanceof HTMLElement) {
-          const currentScrollY = element.current.scrollTop;
+      if (element) {
+        if (element instanceof HTMLElement) {
+          const currentScrollY = element.scrollTop;
 
           if (currentScrollY > prevScrollY + threshold) {
             setScrollDirection("down");
@@ -31,13 +29,13 @@ const useScrollDirection = ({
       }
     };
 
-    if (element && element.current) {
-      element.current.addEventListener("scroll", handleScroll);
+    if (element && element) {
+      element.addEventListener("scroll", handleScroll);
     }
 
     return () => {
-      if (element && element.current) {
-        element.current.removeEventListener("scroll", handleScroll);
+      if (element && element) {
+        element.removeEventListener("scroll", handleScroll);
       }
     };
   }, [element, threshold]);
