@@ -482,6 +482,7 @@ const DefineLiveSphere: FC<Props> = ({ scrollDirectionY, onChange }) => {
     const value = choseSL === SL ? "" : SL;
     setChoseSL(value);
     if (onChange) onChange(value);
+    console.log(choseSL);
 
     // const clickedElement = e.currentTarget as HTMLElement;
     // const positionFromTop = clickedElement.offsetTop;
@@ -493,16 +494,13 @@ const DefineLiveSphere: FC<Props> = ({ scrollDirectionY, onChange }) => {
         length: 5,
         value: filterValue.trim(),
       });
-      console.log(prompt);
-
-      // return;
-      // setLoadingResGPT(true);
-      // const res = await askGPT({ content: prompt });
-      // if (res.content) {
-      //   const items = getArrayFromString(res.content);
-      //   if (items.length) setFilteredArray(items);
-      // }
-      // setLoadingResGPT(false);
+      setLoadingResGPT(true);
+      const res = await askGPT({ content: prompt });
+      if (res.content) {
+        const items = getArrayFromString(res.content);
+        if (items.length) setFilteredArray(items);
+      }
+      setLoadingResGPT(false);
     }
   };
 
@@ -520,7 +518,7 @@ const DefineLiveSphere: FC<Props> = ({ scrollDirectionY, onChange }) => {
         <h2 className="mb-4">Сферы жизны находящиейся в прогрессе</h2>
         <ul>
           {lifeAreas
-            .filter((_e, i) => i < 4)
+            .filter((_e, i) => i > 14 && i < 18)
             .map((el) => (
               <li
                 key={el.label}
