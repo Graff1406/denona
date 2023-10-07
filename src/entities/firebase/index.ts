@@ -9,5 +9,4 @@ export {
   watchCollection,
   watchDocumentById,
   type Translation,
-  type Locales,
 } from "./crud/public";

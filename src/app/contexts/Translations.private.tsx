@@ -3,15 +3,12 @@ import { createContext, useState, FC, useEffect, ReactNode } from "react";
 // Entities
 
 import { indexDB } from "@/entities/indexDB";
-import {
-  watchCollection,
-  type Translation,
-  type Locales,
-} from "@/entities/firebase";
+import { watchCollection, type Translation } from "@/entities/firebase";
 
 // Shared
 
 import { TRANSLATIONS_DENONA } from "@/shared/constants";
+import { useLocale } from "@/shared/hooks";
 
 type ObjectKeyValue = {
   [key: string]: string;
@@ -24,25 +21,24 @@ type State = {
   changeLanguage: () => void;
 };
 
-const getLocaleFormLS = (): Locales =>
-  (localStorage?.getItem("locale") || "en") as Locales;
-
-document.documentElement.lang = getLocaleFormLS();
-
 export const TranslationsContext = createContext<State | undefined>(undefined);
 
 export const TranslationsProvider: FC<{ children: ReactNode }> = ({
   children,
 }) => {
+  // Use
+
+  const { locale } = useLocale();
+  // State
+
   const [$t, setTranslations] = useState<ObjectKeyValue>({});
   const [result, setResult] = useState<Translation[]>([]);
   const [loadingTranslations, setLoadingTranslations] = useState<boolean>(true);
 
   const getTranslationsByLocale = (list: Translation[]): ObjectKeyValue => {
-    const localStorageLocale = getLocaleFormLS();
     return list.reduce(
       (acc: ObjectKeyValue, item: Translation): ObjectKeyValue => {
-        acc[item.id] = item[localStorageLocale] || "XXXXX";
+        acc[item.id] = item[locale.code] || "XXXXX";
         return acc;
       },
       {}
@@ -111,6 +107,8 @@ export const TranslationsProvider: FC<{ children: ReactNode }> = ({
         }
       }
     );
+
+    document.documentElement.lang = locale.code;
 
     return () => {
       unsubscribe();

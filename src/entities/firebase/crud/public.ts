@@ -9,5 +9,4 @@ export { default as watchDocumentById } from "./read/watchDocumentById.private";
 export {
   default as watchCollection,
   type Translation,
-  type Locales,
 } from "./read/watchCollection.private";

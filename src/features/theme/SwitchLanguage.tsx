@@ -1,37 +1,23 @@
 import { FC, useState } from "react";
 
-// Entities
-
-import { type Locales } from "@/entities/firebase";
-
 // Shared
 
 import { useTranslations } from "@/shared/hooks";
 import { DeRadio } from "@/shared/ui";
-
-type Language = { label: string; code: Locales };
-
-const languages: Language[] = [
-  { label: "English", code: "en" },
-  { label: "Deutsch", code: "de" },
-  { label: "ქართული", code: "ka" },
-  { label: "Український", code: "ua" },
-  { label: "Русский", code: "ru" },
-];
+import { useLocale, Language, Locales, languages } from "@/shared/hooks";
 
 const SwitchLanguage: FC = () => {
   // Use
 
   const { changeLanguage } = useTranslations();
+  const { locale, changeLocale } = useLocale();
 
   // State
 
-  const [selectedLanguage, setSelectedLanguage] = useState(
-    localStorage.getItem("locale") || "en"
-  );
+  const [selectedLanguage, setSelectedLanguage] = useState(locale.code);
 
-  const handleLanguageSelect = (code: string) => {
-    localStorage.setItem("locale", code);
+  const handleLanguageSelect = (code: Locales) => {
+    changeLocale(code);
     setSelectedLanguage(code);
     changeLanguage();
   };
@@ -45,7 +31,7 @@ const SwitchLanguage: FC = () => {
           ariaLabel={language.label}
           value={language.code}
           checked={selectedLanguage === language.code}
-          onChange={handleLanguageSelect}
+          onChange={() => handleLanguageSelect(language.code)}
         />
       ))}
     </fieldset>

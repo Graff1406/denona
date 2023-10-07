@@ -8,8 +8,6 @@ import {
 
 import { db } from "../../app/public";
 
-export type Locales = "en" | "de" | "ka" | "ua" | "ru";
-
 export type Translation = {
   id: string;
   en: string;
