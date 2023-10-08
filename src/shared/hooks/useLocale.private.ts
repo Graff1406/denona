@@ -2,7 +2,11 @@ import { useEffect } from "react";
 
 export type Locales = "en" | "de" | "ka" | "ua" | "ru";
 
-export type Language = { label: string; code: Locales; enLabel: string };
+export type Language = {
+  readonly label: string;
+  readonly code: Locales;
+  readonly enLabel: string;
+};
 
 export const languages: Language[] = [
   {
@@ -37,7 +41,7 @@ function useLocale(): {
     }
   }, []);
 
-  return { locale, changeLocale };
+  return { locale: Object.freeze(locale), changeLocale };
 }
 
 export default useLocale;

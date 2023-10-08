@@ -2,7 +2,8 @@ import { FC, useState, useEffect, ChangeEvent } from "react";
 
 // Feature
 
-import { askGPT, generatePrompt } from "@/features/openai";
+import { askGPT, generatePrompt } from "@/features/openai"; // Shared
+import { useTranslations } from "@/shared/hooks";
 
 // Icons
 
@@ -18,7 +19,7 @@ interface Props {
 }
 
 const DefineLiveSphere: FC<Props> = ({ scrollDirectionY, onChange }) => {
-  const lifeAreas: { id: string; label: string; hint: string }[] = [
+  const listLifeSphere: { id: string; label: string; hint: string }[] = [
     {
       id: "OU0BizsXPC",
       label: "Спорт и физическая активность",
@@ -467,9 +468,13 @@ const DefineLiveSphere: FC<Props> = ({ scrollDirectionY, onChange }) => {
     },
   ];
 
+  // Use
+
+  const { $t } = useTranslations();
+
   // State
 
-  const [filteredArray, setFilteredArray] = useState(lifeAreas);
+  const [filteredArray, setFilteredArray] = useState(listLifeSphere);
   const [filterValue, setFilterValue] = useState("");
   const [choseSL, setChoseSL] = useState("");
   const [loadingResGPT, setLoadingResGPT] = useState(false);
@@ -505,7 +510,7 @@ const DefineLiveSphere: FC<Props> = ({ scrollDirectionY, onChange }) => {
   };
 
   useEffect(() => {
-    const filtered = lifeAreas.filter((item) =>
+    const filtered = listLifeSphere.filter((item) =>
       Object.values(item).some((item) =>
         item.toLowerCase().trim().includes(filterValue.toLowerCase().trim())
       )
@@ -515,19 +520,16 @@ const DefineLiveSphere: FC<Props> = ({ scrollDirectionY, onChange }) => {
   return (
     <>
       <div className="w-full">
-        <h2 className="mb-4">Сферы жизны находящиейся в прогрессе</h2>
+        <h2 className="mb-4">
+          {$t.createTaskPageAddLifeSphereProggressListTitle}
+        </h2>
         <ul>
-          {lifeAreas
+          {listLifeSphere
             .filter((_e, i) => i > 14 && i < 18)
             .map((el) => (
               <li
-                key={el.label}
-                className={[
-                  "flex border p-2 my-2 rounded-md cursor-pointer animation",
-                  choseSL && el.label === choseSL
-                    ? "bg-yellow-700 text-white border-yellow-800 shadow-md"
-                    : "bg-zinc-100 border-zinc-200 hover:bg-zinc-200 dark:bg-zinc-800 dark:hover:bg-zinc-900 dark:border dark:border-zinc-700",
-                ].join(" ")}
+                key={el.id}
+                className="flex p-2 my-2 rounded-md bg-zinc-100 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700"
               >
                 <div
                   className={[
@@ -538,8 +540,11 @@ const DefineLiveSphere: FC<Props> = ({ scrollDirectionY, onChange }) => {
                   ].join(" ")}
                 >
                   <MdCheckCircle className="h-4 w-4 text-blue-500" />
-                  <Link to={path.home} className="link text-xs font-semibold">
-                    100 tasks
+                  <Link
+                    to={path.home}
+                    className="link text-xs font-semibold min-w-10"
+                  >
+                    10
                   </Link>
                 </div>
                 <div className="grow">
@@ -551,7 +556,7 @@ const DefineLiveSphere: FC<Props> = ({ scrollDirectionY, onChange }) => {
         </ul>
       </div>
       <div className="space-y-4 w-full mb-6">
-        <h2>Выбери сферу жизни которую желаешь развивать</h2>
+        <h2>{$t.createTaskPageAddLifeSphereCurrentListTitle}</h2>
         <div
           className={[
             "w-full z-10 flex flex-col tablet:items-center gap-4",
@@ -560,14 +565,16 @@ const DefineLiveSphere: FC<Props> = ({ scrollDirectionY, onChange }) => {
         >
           <input
             type="text"
-            placeholder="Найти свою сферу жизни"
+            placeholder={$t.createTaskPageAddLifeSphereGenerateinputPlaceholder}
+            area-label={$t.createTaskPageAddLifeSphereGenerateinputAreaLabel}
+            title={$t.createTaskPageAddLifeSphereGenerateinputAreaLabel}
             className="border border-zinc-200 dark:border-zinc-700 dark:bg-zinc-900 px-4 py-3 w-full rounded-md shadow-md"
             value={filterValue}
             onChange={handleFilterChange}
           />
           <DnButton
-            label="Generate life spheres"
-            areaLabel="Use from input"
+            label={$t.createTaskPageAddLifeSphereGenerateButtonLabel}
+            areaLabel={$t.createTaskPageAddLifeSphereGenerateButtonAreaLabel}
             className={[
               "tablet:max-w-max",
               filteredArray.length > 0

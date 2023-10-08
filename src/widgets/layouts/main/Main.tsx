@@ -1,4 +1,4 @@
-import { FC, ReactElement, useState, useEffect, useRef, lazy } from "react";
+import { FC, ReactElement, useState, useEffect, lazy } from "react";
 import { Helmet } from "react-helmet-async";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 
@@ -144,7 +144,7 @@ const MainLayout: FC = (): ReactElement => {
               {/* Overlay while menu have opened */}
 
               <div
-                className={`fixed w-full h-full z-10 bg-zinc-100/80 dark:bg-zinc-900/80 animation tablet:hidden ${
+                className={`fixed w-full h-full z-30 bg-zinc-100/80 dark:bg-zinc-900/80 animation tablet:hidden ${
                   open ? "visible opacity-100" : "invisible opacity-0"
                 }`}
                 onClick={handleToggleMenu}

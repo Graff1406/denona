@@ -1,5 +1,5 @@
 // Shared
-import { useLocale } from "@/shared/hooks";
+// import { useLocale } from "@/shared/hooks";
 
 import { lifeSphere } from "./prompt/prompts.private";
 
