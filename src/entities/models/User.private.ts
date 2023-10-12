@@ -6,6 +6,7 @@ type User = {
   photoURL?: string | null;
   phoneNumber?: string | null;
   displayName?: string | null;
+  inProgressLifeSpheres: string[];
   hide?: {
     banner?: {
       welcomeAuthorizedUser?: boolean;

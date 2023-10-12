@@ -9,6 +9,7 @@ export { default as DeSwitch } from "./DeSwitch.private";
 export { default as DeRadio } from "./DeRadio.private";
 export { default as DeCheckbox } from "./DeCheckbox.private";
 export { default as DeBanner } from "./DeBanner.private";
+export { default as DeSkeletonList } from "./DeSkeletonList.private";
 
 // export const DnButton = lazy(() => import("./buttons/Btn.private"));
 // export const DnIconButton = lazy(() => import("./buttons/IconBtn.private"));

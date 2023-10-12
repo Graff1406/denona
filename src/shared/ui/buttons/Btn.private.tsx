@@ -53,7 +53,7 @@ const ZnButton: FC<Props> = ({
     >
       <AiOutlineLoading3Quarters
         className={[
-          "animate-spin w-5 h-5 animation absolute ",
+          "animate-spin w-5 h-5 animation absolute",
           loading ? "visible z-10" : "invisible -z-10",
           cta ? "text-white" : "text-primary-dark",
         ].join(" ")}

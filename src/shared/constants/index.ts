@@ -1,5 +1,6 @@
 export const TRANSLATIONS_DENONA = "translationsDenona";
 export const USERS = "users";
+export const GENERATED_LIFE_SPHERES = "lifeSpheres";
 
 // Path
 

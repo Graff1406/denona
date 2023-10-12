@@ -72,6 +72,9 @@
   .scrollbar-dark::-webkit-scrollbar-thumb {
     @apply bg-zinc-700;
   }
+  .skeleton {
+    @apply bg-zinc-100 dark:bg-zinc-800 animate-pulse;
+  }
   @screen tablet {
     .h-content {
       height: calc(100vh - 72px);

@@ -21,7 +21,7 @@ const CreateTask: FC = () => {
   const { $t } = useTranslations();
 
   // State
-  const [choseSL, setChoseSL] = useState("");
+  const [choseSphereIds, setChoseSL] = useState<string>("");
   const [step, setStep] = useState(0);
 
   // Method
@@ -34,8 +34,8 @@ const CreateTask: FC = () => {
     setStep((prevStep: number) => prevStep - 1);
   };
 
-  const handleChooseSL = (SL: string) => {
-    setChoseSL(SL);
+  const handleChooseSL = (id: string) => {
+    setChoseSL(id);
   };
 
   const steps: StepComponent[] = [
@@ -50,7 +50,10 @@ const CreateTask: FC = () => {
     <div className="flex flex-col justify-between h-full text-center relative">
       <section className="grow flex flex-col items-center gap-10">
         {steps.map((stepItem, i: number) => (
-          <div className={step === i ? "block" : "hidden"}>
+          <div
+            key={i}
+            className={["w-full", step === i ? "block" : "hidden"].join(" ")}
+          >
             <stepItem.component {...stepItem.props} />
           </div>
         ))}
@@ -68,7 +71,7 @@ const CreateTask: FC = () => {
             label={$t.createTaskPageNextButtonLabel}
             areaLabel={$t.createTaskPageNextButtonAreaLabel}
             className="w-full"
-            disabled={!choseSL.length}
+            disabled={!choseSphereIds.length}
             onClick={handleNextStep}
           />
         </div>

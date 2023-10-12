@@ -4,6 +4,8 @@ export { signInGoogleWithPopup, authState, signOut } from "./auth/public";
 export {
   addDocument,
   getDocumentById,
+  getDocuments,
+  getDocumentsByIds,
   updateDocument,
   deleteDocument,
   watchCollection,
