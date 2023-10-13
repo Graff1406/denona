@@ -162,23 +162,6 @@ const DefineLiveSphere: FC<Props> = ({ scrollDirectionY, onChange }) => {
       });
   };
 
-  // const handleSkeletonInView = (inView: boolean) => {
-  //   console.log("🚀 ~ inView:", inView);
-  //   const lastItem = lifeSpheres[lifeSpheres.length - 1];
-
-  //   if (inView && lastItem) {
-  //     console.log("lastItem", lastItem);
-
-  //     getLifeSpheres(lastItem);
-  //   }
-  // };
-
-  // const temporary = async () => {
-  //   list.forEach((el) => {
-  //     addDocument(GENERATED_LIFE_SPHERES, el);
-  //   });
-  // };
-
   // Hook
 
   useEffect(() => {
