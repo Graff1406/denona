@@ -1,7 +1,7 @@
 export type SphereLangItem = { label: string; hint: string };
 export type Sphere = {
   id: string;
-  created: string;
+  created?: string;
   en: SphereLangItem;
   de: SphereLangItem;
   ka: SphereLangItem;

@@ -14,7 +14,7 @@ import { useUserStore } from "@/features/auth";
 // Entities
 
 import {
-  addDocument,
+  // addDocument,
   getDocuments,
   getDocumentsByIds,
 } from "@/entities/firebase";
@@ -24,12 +24,12 @@ import { Sphere, SphereLangItem } from "@/entities/models";
 
 import { GENERATED_LIFE_SPHERES } from "@/shared/constants";
 import { DnButton, DeSkeletonList } from "@/shared/ui";
-import { getArrayFromString } from "@/shared/helpers";
+import { createRandomId, getArrayFromString } from "@/shared/helpers";
 import { useTranslations, useOnlineStatus, useLocale } from "@/shared/hooks";
 
 // Data
 
-import { list } from "./data.ts";
+// import { list } from "./data.ts";
 
 interface Props {
   scrollDirectionY?: "down" | "up" | null;
@@ -92,16 +92,18 @@ const DefineLiveSphere: FC<Props> = ({ scrollDirectionY, onChange }) => {
   const handleCreateOwnLS = async () => {
     try {
       if (filterValue.length > 3) {
+        setLoadingResGPT(true);
         const prompt = generatePrompt("lifeSphere", {
-          length: 5,
+          length: 1,
           value: filterValue.trim(),
         });
-        setLoadingResGPT(true);
-        const res = await askGPT({ content: prompt });
+        const res = await askGPT({ content: prompt, max_tokens: 1000 });
         if (res.content) {
-          const items = getArrayFromString(res.content);
-          // if (items.length) setLifeSpheres(items);
-          console.log("content", items);
+          const items = getArrayFromString<Sphere>(res.content)?.map((s) => ({
+            ...s,
+            id: createRandomId(),
+          })) as Sphere[];
+          if (items.length) setLifeSpheres(items);
         }
         setLoadingResGPT(false);
         setFilterValue("");
@@ -117,7 +119,6 @@ const DefineLiveSphere: FC<Props> = ({ scrollDirectionY, onChange }) => {
         isLimit: LIMIT,
         lastDocument: lastItem,
       });
-      console.log(33, inProgressSpheres);
 
       const filteredList = data.list.filter(
         (s) => !inProgressSpheres.some((ss) => ss.id === s.id)
@@ -161,40 +162,22 @@ const DefineLiveSphere: FC<Props> = ({ scrollDirectionY, onChange }) => {
       });
   };
 
-  const handleSkeletonInView = (inView: boolean) => {
-    console.log("🚀 ~ inView:", inView);
-    const lastItem = lifeSpheres[lifeSpheres.length - 1];
+  // const handleSkeletonInView = (inView: boolean) => {
+  //   console.log("🚀 ~ inView:", inView);
+  //   const lastItem = lifeSpheres[lifeSpheres.length - 1];
 
-    if (inView && lastItem) {
-      console.log("lastItem", lastItem);
+  //   if (inView && lastItem) {
+  //     console.log("lastItem", lastItem);
 
-      getLifeSpheres(lastItem);
-    }
-  };
+  //     getLifeSpheres(lastItem);
+  //   }
+  // };
 
-  const temporary = async () => {
-    //   const prompt = `Generate an array of data with the following format for multiple languages ru, en, ua, ka, de:
-    //   example: {
-    //     id: "Unique ID",
-    //     ru: {
-    //       label: "Label in Russian",
-    //       hint: "Hint in Russian"
-    //     },
-    //   };
-    //   under I will provide data for use:
-    //      ${JSON.stringify(listLifeSphere.filter((_l, i) => i === 0 && i < 10))}
-    //  return only JSON with objects without any addition text`;
-    //   setLoadingResGPT(true);
-    //   const res: string = await askGPT({ content: prompt, max_tokens: 10000 });
-    //   setLoadingResGPT(false);
-    //   console.log("🚀 ~ res:", res);
-    //   const data = JSON.parse(res);
-    //   console.log("🚀 ~  data:", data);
-    //   if (Array.isArray(data))
-    list.forEach((el) => {
-      addDocument(GENERATED_LIFE_SPHERES, el);
-    });
-  };
+  // const temporary = async () => {
+  //   list.forEach((el) => {
+  //     addDocument(GENERATED_LIFE_SPHERES, el);
+  //   });
+  // };
 
   // Hook
 

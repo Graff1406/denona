@@ -21,7 +21,7 @@ const CreateTask: FC = () => {
   const { $t } = useTranslations();
 
   // State
-  const [choseSphereIds, setChoseSL] = useState<string>("");
+  const [choseSL, setChoseSL] = useState<string>("");
   const [step, setStep] = useState(0);
 
   // Method
@@ -71,7 +71,7 @@ const CreateTask: FC = () => {
             label={$t.createTaskPageNextButtonLabel}
             areaLabel={$t.createTaskPageNextButtonAreaLabel}
             className="w-full"
-            disabled={!choseSphereIds.length}
+            disabled={!choseSL.length}
             onClick={handleNextStep}
           />
         </div>
