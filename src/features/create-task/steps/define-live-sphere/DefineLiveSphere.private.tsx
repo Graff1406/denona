@@ -23,7 +23,7 @@ import { Sphere, SphereLangItem } from "@/entities/models";
 // Shared
 
 import { GENERATED_LIFE_SPHERES } from "@/shared/constants";
-import { DnButton, DeSkeletonList } from "@/shared/ui";
+import { DnButton, DeSkeletonList, DeField } from "@/shared/ui";
 import { createRandomId, getArrayFromString } from "@/shared/helpers";
 import { useTranslations, useOnlineStatus, useLocale } from "@/shared/hooks";
 
@@ -230,15 +230,15 @@ const DefineLiveSphere: FC<Props> = ({ scrollDirectionY, onChange }) => {
               !choseSL ? "sticky top-2" : "relative",
             ].join(" ")}
           >
-            <input
-              type="text"
+            <DeField
+              className="shadow-md"
               placeholder={
                 $t.createTaskPageAddLifeSphereGenerateinputPlaceholder
               }
               area-label={$t.createTaskPageAddLifeSphereGenerateinputAreaLabel}
               title={$t.createTaskPageAddLifeSphereGenerateinputAreaLabel}
-              className="border border-zinc-200 dark:border-zinc-700 dark:bg-zinc-900 px-4 py-3 w-full rounded-md shadow-md"
               value={filterValue}
+              disabled
               onChange={handleFilterChange}
             />
             {!filteredLifeSpheres.length && !loadingListLifeSpheres && (
