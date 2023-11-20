@@ -336,7 +336,7 @@ const DeDateTimePicker: React.FC<DateTimePickerProps> = ({
         time: { start: startTime, end: finishTime },
       });
     }
-    setTaskBreak(combineTimes(finishTime, defaultBreakRange || "00:00"));
+    setTaskBreak(combineTimes(finishTime, breakRange || "00:00"));
   }, [finishTime]);
 
   useEffect(() => {
@@ -450,7 +450,7 @@ const DeDateTimePicker: React.FC<DateTimePickerProps> = ({
                       <>
                         <li
                           className={[
-                            "my-1 px-2 py-1 w-[60px] animation rounded border border-zinc-100 dark:border-zinc-700 shadow",
+                            "my-1 p-2 w-[60px] animation rounded border border-zinc-100 dark:border-zinc-700 shadow",
                             el.isSlated
                               ? "cursor-no-drop text-zinc-300 dark:text-zinc-700 bg-zinc-50 dark:bg-zinc-800"
                               : preventedHighlightChooseTime === i
@@ -486,7 +486,7 @@ const DeDateTimePicker: React.FC<DateTimePickerProps> = ({
                   return (
                     <li
                       className={[
-                        "border border-zinc-100 bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-900 dark:border-zinc-700 my-1 p-2 cursor-pointer w-[60px] animation rounded shadow px-2 py-1",
+                        "border border-zinc-100 bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-900 dark:border-zinc-700 my-1 p-2 cursor-pointer w-[60px] animation rounded shadow p-2",
                       ].join(" ")}
                       onClick={() => showMinutes(result)}
                     >
