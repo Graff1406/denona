@@ -13,6 +13,7 @@ export { default as DeSkeletonList } from "./DeSkeletonList.private";
 export { default as DeField } from "./DeField.private";
 export { default as DeTextarea } from "./DeTextarea.private";
 export { default as DeDateTimePicker } from "./date-time-picker/DeDateTimePicker.private";
+export { default as DeBreakSlider } from "./break-slider/DeBreakSlider.private";
 
 // export const DnButton = lazy(() => import("./buttons/Btn.private"));
 // export const DnIconButton = lazy(() => import("./buttons/IconBtn.private"));

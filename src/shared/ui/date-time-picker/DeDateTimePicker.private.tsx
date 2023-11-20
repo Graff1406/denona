@@ -6,7 +6,7 @@ import "./styles.private.css";
 
 // Shared
 
-import { DnIconButton } from "@/shared/ui";
+import { DnIconButton, DeBreakSlider } from "@/shared/ui";
 import { useTranslations } from "@/shared/hooks";
 
 // Icons
@@ -20,15 +20,17 @@ import {
   SelectDateTime,
   ItemSegment,
   TimeSegmentResult,
+  CombinedBreakTimeResult,
 } from "./model.private";
 
 interface DateTimePickerProps {
   tasks?: {
     id: string;
-    duration: { date: Date; time: Time };
+    duration: { date: Date; time: Time; break?: string };
   }[];
   timeRange?: boolean;
   dateRange?: boolean;
+  defaultBreakRange?: string;
   onSelect: (dateTime: SelectDateTime) => void;
 }
 
@@ -38,6 +40,7 @@ const DeDateTimePicker: React.FC<DateTimePickerProps> = ({
   tasks,
   timeRange,
   dateRange,
+  defaultBreakRange,
   onSelect,
 }) => {
   // Use
@@ -61,6 +64,8 @@ const DeDateTimePicker: React.FC<DateTimePickerProps> = ({
   const [movedToNexDay, setMovedToNextDay] = useState(false);
   const [preventedHighlightChooseTime, setHighlightPreventedChooseTime] =
     useState(-1);
+  const [taskBreak, setTaskBreak] = useState<CombinedBreakTimeResult>();
+  const [breakRange, setBreakRange] = useState(defaultBreakRange);
 
   // Ref
 
@@ -75,6 +80,7 @@ const DeDateTimePicker: React.FC<DateTimePickerProps> = ({
       scrollContainer.scrollTop = top;
     }
   };
+
   const handleDateSelect = ({ date }: { date: Date | Date[] }) => {
     if (!Array.isArray(date)) {
       setSelectedDate(date);
@@ -106,14 +112,43 @@ const DeDateTimePicker: React.FC<DateTimePickerProps> = ({
     }
     onSelect({ date });
   };
+
   const showMinutes = (hour: string) => {
     if (hour.length) scrollToTop();
     setSelectedHour(hour);
   };
+
+  const combineTimes = (
+    time1: string,
+    time2: string
+  ): CombinedBreakTimeResult => {
+    const [hours1, minutes1] = time1.split(":").map(Number);
+    const [hours2, minutes2] = time2.split(":").map(Number);
+
+    const totalMinutes =
+      (hours1 * 60 + minutes1 + hours2 * 60 + minutes2) % (24 * 60);
+
+    const combinedHours = Math.floor(totalMinutes / 60);
+    const combinedMinutes = totalMinutes % 60;
+
+    const isNextDay = totalMinutes >= 24 * 60;
+
+    const formattedTime = `${combinedHours
+      .toString()
+      .padStart(2, "0")}:${combinedMinutes.toString().padStart(2, "0")}`;
+
+    return {
+      time: formattedTime,
+      isNextDay: isNextDay,
+    };
+  };
+
   const generateTimeSegment = (
     selectedTime: string,
     tasks: {
+      id: string;
       duration: { date: Date; time: Time };
+      break?: string;
     }[]
   ): { items: ItemSegment[]; isHasNextDayTime: boolean } => {
     const timeSegment: ItemSegment[] = [];
@@ -122,16 +157,55 @@ const DeDateTimePicker: React.FC<DateTimePickerProps> = ({
 
     let isHasNextDayTime = false;
 
+    const parseBreak = (breakString: string): number => {
+      const [hours, minutes] = breakString.split(":").map(Number);
+      return hours * 60 + minutes;
+    };
+
+    const addMinutes = (date: Date, minutes: number): string => {
+      const newDate = new Date(date.getTime() + minutes * 60 * 1000);
+      return newDate.toTimeString().slice(0, 5);
+    };
+
     while (localStartTime < endTime) {
       const formattedTime = localStartTime.toTimeString().slice(0, 5);
-      const isSlated = tasks.some(
-        (task) =>
-          selectedDate &&
-          task.duration.date.getTime() === selectedDate.getTime() &&
-          localStartTime >=
-            new Date(`1970-01-01T${task.duration.time.start}`) &&
-          localStartTime <= new Date(`1970-01-01T${task.duration.time.end}`)
-      );
+      let isSlated = false;
+
+      tasks.forEach((task) => {
+        const taskStartTime = new Date(
+          `1970-01-01T${task.duration.time.start}`
+        );
+        const taskEndTime = new Date(`1970-01-01T${task.duration.time.end}`);
+
+        if (
+          task.duration.date.getTime() === selectedDate?.getTime() &&
+          localStartTime >= taskStartTime &&
+          localStartTime <= taskEndTime
+        ) {
+          isSlated = true;
+        } else if (
+          task.break &&
+          localStartTime >= taskEndTime &&
+          localStartTime <=
+            new Date(
+              `1970-01-01T${addMinutes(taskEndTime, parseBreak(task.break))}`
+            )
+        ) {
+          isSlated = true;
+        } else if (
+          !task.break &&
+          localStartTime >= taskEndTime &&
+          localStartTime <=
+            new Date(
+              `1970-01-01T${addMinutes(
+                taskEndTime,
+                parseBreak(defaultBreakRange || "00:00")
+              )}`
+            )
+        ) {
+          isSlated = true;
+        }
+      });
 
       timeSegment.push({ time: formattedTime, isSlated });
 
@@ -147,6 +221,7 @@ const DeDateTimePicker: React.FC<DateTimePickerProps> = ({
 
     return { items: timeSegment, isHasNextDayTime };
   };
+
   const calculateTotalTime = (): string => {
     const start = new Date(`1970-01-01T${startTime}`);
     let end = new Date(`1970-01-01T${finishTime}`);
@@ -224,6 +299,10 @@ const DeDateTimePicker: React.FC<DateTimePickerProps> = ({
     }
   };
 
+  const handleChangeBreakDuration = (value: string) => {
+    setBreakRange(value);
+  };
+
   // Hook
 
   useEffect(() => {
@@ -257,6 +336,7 @@ const DeDateTimePicker: React.FC<DateTimePickerProps> = ({
         time: { start: startTime, end: finishTime },
       });
     }
+    setTaskBreak(combineTimes(finishTime, defaultBreakRange || "00:00"));
   }, [finishTime]);
 
   useEffect(() => {
@@ -294,9 +374,13 @@ const DeDateTimePicker: React.FC<DateTimePickerProps> = ({
     }
   }, [preventedHighlightChooseTime]);
 
+  useEffect(() => {
+    setTaskBreak(combineTimes(finishTime, breakRange || "00:00"));
+  }, [breakRange]);
+
   return (
     <>
-      <div className="flex justify-center h-[370px] overflow-hidden pb-4 gap-1">
+      <div className="flex justify-center h-[470px] overflow-hidden pb-4 gap-1">
         <div className="h-full flex flex-col items-center">
           <div className="w-[250px] min-h-[267px]">
             <div id="date-time-picker"></div>
@@ -306,22 +390,48 @@ const DeDateTimePicker: React.FC<DateTimePickerProps> = ({
             {selectedDate ? (
               <p>{printDate}</p>
             ) : (
-              <p className="text-red-500 text-sm">Choose the date</p>
+              <p className="text-red-500 text-sm">
+                {$t.calendarSelectDateAppeal}
+              </p>
             )}
             {startTime && finishTime ? (
               <>
                 <p>{`${startTime} - ${finishTime}`}</p>
                 <p className="text-sm text-yellow-700">
-                  Duration: {durationTask}
+                  {$t.calendarLabelTimeDuration}: {durationTask}
                 </p>
               </>
             ) : (
               timeRange && (
                 <p className="text-sm text-red-500">
-                  Choose the duration of task
+                  {$t.calendarSelectTimeDrationAppeal}
                 </p>
               )
             )}
+          </div>
+          <div className="flex flex-col gap-3 w-full">
+            <div className="divider"></div>
+            <div className="text-center">
+              <p
+                className={[
+                  "animation overflow-hidden",
+                  finishTime ? "h-6 opacity-100" : "h-0 opacity-0",
+                ].join(" ")}
+              >
+                Break: {`${finishTime} - `}{" "}
+                <span className="inline-block w-12">{taskBreak?.time}</span>
+              </p>
+              <p className="text-sm text-yellow-700">
+                Break duration:{" "}
+                <span className="inline-block w-10">{breakRange}</span>
+              </p>
+            </div>
+            <div className="px-1">
+              <DeBreakSlider
+                defaultValue={defaultBreakRange || "00:15"}
+                onChange={handleChangeBreakDuration}
+              />
+            </div>
           </div>
         </div>
         {timeRange && (
@@ -397,7 +507,7 @@ const DeDateTimePicker: React.FC<DateTimePickerProps> = ({
               {startTime && finishTime ? (
                 <DnIconButton
                   icon={<MdOutlineTimerOff className="h-6 w-6" />}
-                  areaLabel={$t.appBackArrowLabel}
+                  areaLabel={$t.calendarButtonClearRateDuration}
                   onClick={() => resetTime(true)}
                 />
               ) : (

@@ -1,0 +1,21 @@
+/* Style for the thumb */
+input::-webkit-slider-thumb {
+  width: 1.2rem;
+  height: 1.2rem;
+  background-color: #fff; /* Thumb color */
+  border: 2px solid #18181b; /* Border color */
+  border-radius: 50%; /* Make it circular */
+  appearance: none;
+  transition: background-color 0.3s ease-in-out;
+}
+
+/* Style for the thumb on Firefox */
+input::-moz-range-thumb {
+  width: 1.2rem;
+  height: 1.2rem;
+  background-color: #fff; /* Thumb color */
+  border: 2px solid #18181b; /* Border color */
+  border-radius: 50%; /* Make it circular */
+  appearance: none;
+  transition: background-color 0.3s ease-in-out;
+}

@@ -18,44 +18,47 @@ const Home: FC = () => {
   const { user } = useUserStore();
   const { $t } = useTranslations();
 
+  // need to delete this
   const tasks = [
     {
       id: "dsgEffDfg",
       duration: {
-        date: new Date(2023, 10, 19),
+        date: new Date(2023, 10, 20),
         time: { start: "08:00", end: "09:00" },
+        break: "00:25",
       },
     },
     {
       id: "someId1",
       duration: {
-        date: new Date(2023, 10, 19),
+        date: new Date(2023, 10, 20),
         time: { start: "10:05", end: "11:45" },
       },
+      break: "00:15",
     },
     {
       id: "someId2",
       duration: {
-        date: new Date(2023, 10, 19),
+        date: new Date(2023, 10, 20),
         time: { start: "12:20", end: "13:00" },
       },
     },
     {
       id: "someId3",
       duration: {
-        date: new Date(2023, 10, 19),
+        date: new Date(2023, 10, 20),
         time: { start: "14:00", end: "15:30" },
       },
     },
     {
       id: "someId4",
       duration: {
-        date: new Date(2023, 10, 19),
+        date: new Date(2023, 10, 20),
         time: { start: "16:30", end: "17:30" },
       },
     },
   ];
-
+  // need to delete this
   const handleDateSelect = (date: {
     date: Date | Date[] | null;
     time?: { start: string; end: string };
@@ -68,7 +71,13 @@ const Home: FC = () => {
       {!user.auth?.hide?.banner?.welcomeAuthorizedUser && (
         <WelcomeAuthorizedUser />
       )}
-      <DeDateTimePicker tasks={tasks} timeRange onSelect={handleDateSelect} />
+      {/* // need to delete this */}
+      <DeDateTimePicker
+        tasks={tasks}
+        timeRange
+        onSelect={handleDateSelect}
+        defaultBreakRange="00:15"
+      />
       <div className="mt-6">
         <p className="text-center">{$t.appAuthUserHomePageNoExisitContent}</p>
       </div>
