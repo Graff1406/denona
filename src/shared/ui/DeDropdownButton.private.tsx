@@ -1,7 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 
 // Icon
-
 import { IoIosArrowDown } from "react-icons/io";
 
 interface DeDropdownButtonProps {
@@ -18,6 +17,8 @@ const DeDropdownButton: React.FC<DeDropdownButtonProps> = ({
   onSelect,
 }) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const dropdownButtonRef = useRef<HTMLButtonElement>(null);
+  const dropdownOptionsRef = useRef<HTMLDivElement>(null);
 
   const handleButtonClick = () => {
     setIsDropdownOpen((prev) => !prev);
@@ -28,9 +29,27 @@ const DeDropdownButton: React.FC<DeDropdownButtonProps> = ({
     setIsDropdownOpen(false);
   };
 
+  const handleBlur = (event: React.FocusEvent) => {
+    const clickedElement = event.relatedTarget as HTMLElement;
+
+    if (
+      !dropdownButtonRef.current?.contains(clickedElement) &&
+      !dropdownOptionsRef.current?.contains(clickedElement)
+    ) {
+      setIsDropdownOpen(false);
+    }
+  };
+
+  useEffect(() => {
+    if (isDropdownOpen) {
+      dropdownOptionsRef.current?.focus();
+    }
+  }, [isDropdownOpen]);
+
   return (
-    <div className="relative inline-block text-left">
+    <div className="relative inline-block text-left" onBlur={handleBlur}>
       <button
+        ref={dropdownButtonRef}
         type="button"
         className="inline-flex justify-between items-center py-2 px-3 dark:text-zinc-400 focus:outline-none border border-zinc-200 dark:border-zinc-600 hover:bg-zinc-100 dark:hover:bg-zinc-900 animation rounded"
         onClick={handleButtonClick}
@@ -45,6 +64,8 @@ const DeDropdownButton: React.FC<DeDropdownButtonProps> = ({
       </button>
 
       <div
+        ref={dropdownOptionsRef}
+        tabIndex={-1}
         className={[
           "origin-top-right absolute right-0 mt-2 w-max rounded-md shadow-lg bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-600 ring-1 ring-black ring-opacity-5 animation transform",
           isDropdownOpen ? "opacity-100 scale-y-100" : "opacity-0 scale-y-0",
