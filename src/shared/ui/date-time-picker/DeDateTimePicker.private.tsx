@@ -429,7 +429,7 @@ const DeDateTimePicker: React.FC<DateTimePickerProps> = ({
             </div>
             <div className="px-1">
               <DeBreakSlider
-                defaultValue={defaultBreakRange || "00:15"}
+                defaultValue={defaultBreakRange}
                 onChange={handleChangeBreakDuration}
               />
             </div>

@@ -2,17 +2,17 @@ import { FC, useState, useEffect } from "react";
 import "./break-slider-styles.css";
 
 interface TimeSliderProps {
-  defaultValue: string;
-  onChange: (value: string) => void;
+  defaultValue?: string;
   maxDuration?: number;
   className?: string;
+  onChange: (value: string) => void;
 }
 
 const DeBreakSlider: FC<TimeSliderProps> = ({
-  defaultValue,
-  onChange,
+  defaultValue = "00:15",
   maxDuration = 120,
   className,
+  onChange,
 }) => {
   const parseTimeToMinutes = (time: string): number => {
     const [hours, minutes] = time.split(":").map(Number);
