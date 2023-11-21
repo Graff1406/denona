@@ -16,6 +16,7 @@ export { default as DeDateTimePicker } from "./date-time-picker/DeDateTimePicker
 export { default as DeBreakSlider } from "./break-slider/DeBreakSlider.private";
 export { default as DeBottomSheet } from "./DeBottomSheet.private";
 export { default as DeNotification } from "./DeNotification.private";
+export { default as DeLabel } from "./DeLabel.private";
 
 // export const DeButton = lazy(() => import("./buttons/Btn.private"));
 // export const DeIconButton = lazy(() => import("./buttons/IconBtn.private"));

@@ -7,7 +7,12 @@ import { useUserStore } from "@/features/auth";
 
 // Shared
 
-import { DeDateTimePicker, DeBottomSheet, DeNotification } from "@/shared/ui";
+import {
+  DeDateTimePicker,
+  DeBottomSheet,
+  DeNotification,
+  DeLabel,
+} from "@/shared/ui";
 import { useTranslations } from "@/shared/hooks";
 
 // Icons
@@ -95,6 +100,12 @@ const Home: FC = () => {
       >
         <p>This is the modal content.</p>
       </DeBottomSheet> */}
+
+      <DeLabel
+        text="Label with Icons"
+        onClose={() => setModalActive(!modalActive)}
+        size="large"
+      />
       <DeNotification
         activate={modalActive}
         text="Some of text"
