@@ -13,6 +13,7 @@ import {
   DeNotification,
   DeLabel,
   DeModal,
+  DeDropdownButton,
 } from "@/shared/ui";
 import { useTranslations } from "@/shared/hooks";
 
@@ -113,6 +114,21 @@ const Home: FC = () => {
         type="error"
         onClose={() => setModalActive(!modalActive)}
       /> */}
+      <DeDropdownButton
+        buttonTitle="Click me!"
+        options={["button", "dropdown", "dropdown-2"]}
+        onSelect={(v) => {
+          console.log(v);
+        }}
+      />
+      <p>rgrehrhehreherhrehrrhe svdsbrerebrebrebrbe</p>
+      <p>rgrehrhehreherhrehrrhe svdsbrerebrebrebrbe</p>
+      <p>rgrehrhehreherhrehrrhe svdsbrerebrebrebrbe</p>
+      <p>rgrehrhehreherhrehrrhe svdsbrerebrebrebrbe</p>
+      <p>rgrehrhehreherhrehrrhe svdsbrerebrebrebrbe</p>
+      <p>rgrehrhehreherhrehrrhe svdsbrerebrebrebrbe</p>
+      <p>rgrehrhehreherhrehrrhe svdsbrerebrebrebrbe</p>
+      <p>rgrehrhehreherhrehrrhe svdsbrerebrebrebrbe</p>
       <DeModal
         activate={modalActive}
         title="test"
