@@ -25,19 +25,6 @@ const DeLabel: React.FC<DeLabelProps> = ({
 
   const { $t } = useTranslations();
 
-  const getSizeClass = () => {
-    switch (size) {
-      case "small":
-        return "px-2 py-1 text-sm";
-      case "normal":
-        return "px-3 py-2";
-      case "large":
-        return "px-4 py-3 text-lg";
-      default:
-        return "px-3 py-2";
-    }
-  };
-
   return (
     <div
       className={[
