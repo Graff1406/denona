@@ -110,7 +110,6 @@ const DeDateTimePicker: React.FC<DateTimePickerProps> = ({
       setSelectedDate(null);
       resetTime(false);
     }
-    onSelect({ date });
   };
 
   const showMinutes = (hour: string) => {
@@ -254,9 +253,6 @@ const DeDateTimePicker: React.FC<DateTimePickerProps> = ({
     setFinishTimeIndex(-1);
     setStartTime("");
     setStartTimeIndex(-1);
-    onSelect({
-      date: selectedDate,
-    });
   };
 
   const handleMinute = (el: ItemSegment, i: number) => {
@@ -331,10 +327,6 @@ const DeDateTimePicker: React.FC<DateTimePickerProps> = ({
   useEffect(() => {
     if (startTime.length && finishTime.length) {
       setDurationTask(calculateTotalTime());
-      onSelect({
-        date: selectedDate,
-        time: { start: startTime, end: finishTime },
-      });
     }
     setTaskBreak(combineTimes(finishTime, breakRange || "00:00"));
   }, [finishTime]);
@@ -377,6 +369,15 @@ const DeDateTimePicker: React.FC<DateTimePickerProps> = ({
   useEffect(() => {
     setTaskBreak(combineTimes(finishTime, breakRange || "00:00"));
   }, [breakRange]);
+
+  useEffect(() => {
+    const selected: SelectDateTime = { date: selectedDate };
+
+    if (finishTime) selected.time = { start: startTime, end: finishTime };
+    if (breakRange !== defaultBreakRange) selected.break = breakRange;
+
+    onSelect(selected);
+  }, [selectedDate, finishTime, breakRange]);
 
   return (
     <>
