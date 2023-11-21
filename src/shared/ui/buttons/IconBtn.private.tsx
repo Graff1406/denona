@@ -17,7 +17,7 @@ interface Props {
   onClick?: MouseEventHandler<HTMLButtonElement>;
 }
 
-const DnButton: FC<Props> = ({
+const DeButton: FC<Props> = ({
   className,
   disabled,
   icon,
@@ -69,4 +69,4 @@ const DnButton: FC<Props> = ({
   );
 };
 
-export default DnButton;
+export default DeButton;

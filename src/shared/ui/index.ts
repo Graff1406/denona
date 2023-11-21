@@ -1,8 +1,8 @@
 // import { lazy } from "react";
 
 export { default as DeImage } from "./DeImage.private";
-export { default as DnIconButton } from "./buttons/IconBtn.private";
-export { default as DnButton } from "./buttons/Btn.private";
+export { default as DeIconButton } from "./buttons/IconBtn.private";
+export { default as DeButton } from "./buttons/Btn.private";
 export { default as DeMenu } from "./DeMenu.private";
 export { default as DeExpand } from "./DeExpand.private";
 export { default as DeSwitch } from "./DeSwitch.private";
@@ -14,9 +14,11 @@ export { default as DeField } from "./DeField.private";
 export { default as DeTextarea } from "./DeTextarea.private";
 export { default as DeDateTimePicker } from "./date-time-picker/DeDateTimePicker.private";
 export { default as DeBreakSlider } from "./break-slider/DeBreakSlider.private";
+export { default as DeBottomSheet } from "./DeBottomSheet.private";
+export { default as DeNotification } from "./DeNotification.private";
 
-// export const DnButton = lazy(() => import("./buttons/Btn.private"));
-// export const DnIconButton = lazy(() => import("./buttons/IconBtn.private"));
+// export const DeButton = lazy(() => import("./buttons/Btn.private"));
+// export const DeIconButton = lazy(() => import("./buttons/IconBtn.private"));
 // export const DeMenu = lazy(() => import("./DeMenu.private"));
 // export const DeExpand = lazy(() => import("./DeExpand.private"));
 // export const DeSwitch = lazy(() => import("./DeSwitch.private"));

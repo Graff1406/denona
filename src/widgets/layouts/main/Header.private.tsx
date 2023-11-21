@@ -7,7 +7,7 @@ import { useUserStore } from "@/features/auth";
 
 // Shared
 
-import { DnIconButton, DnButton, DeImage } from "@/shared/ui";
+import { DeIconButton, DeButton, DeImage } from "@/shared/ui";
 import { useTranslations, useAccessiblePages } from "@/shared/hooks";
 import { path } from "@/shared/constants";
 
@@ -73,7 +73,7 @@ const Header: FC<Props> = ({ open, title, isHomePage, onToggleMenu }) => {
             accessiblePages ? "visible opacity-100" : "invisible opacity-0"
           }`}
         >
-          <DnIconButton
+          <DeIconButton
             icon={<MdArrowBackIosNew className="h-6 w-6" />}
             areaLabel={$t.appBackArrowLabel}
             onClick={goBack}
@@ -86,7 +86,7 @@ const Header: FC<Props> = ({ open, title, isHomePage, onToggleMenu }) => {
 
       {user.auth ? (
         <>
-          <DnIconButton
+          <DeIconButton
             className="tablet:hidden"
             icon={<MdMenu className="icon" />}
             areaLabel={$t.homePageMainBtnMobileMenuToggle}
@@ -97,7 +97,7 @@ const Header: FC<Props> = ({ open, title, isHomePage, onToggleMenu }) => {
           />
           {path.create !== location.pathname && (
             <Link to={path.create} className="hidden tablet:block">
-              <DnButton
+              <DeButton
                 label={$t.appFormCreateTaskLabel}
                 areaLabel={$t.appFormCreateTaskAreaLabel}
                 icon={<MdOutlineAddTask className="icon" />}
@@ -107,7 +107,7 @@ const Header: FC<Props> = ({ open, title, isHomePage, onToggleMenu }) => {
           )}
         </>
       ) : (
-        <DnButton
+        <DeButton
           className="tablet:hidden"
           label={$t.homePageBtnGetStarted}
           areaLabel={$t.homePageBtnAreaLabelGetStarted}

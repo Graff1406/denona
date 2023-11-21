@@ -1,2 +1,2 @@
-export { default as DnButton } from "./Btn.private";
-export { default as DnIconButton } from "./IconBtn.private";
+export { default as DeButton } from "./Btn.private";
+export { default as DeIconButton } from "./IconBtn.private";

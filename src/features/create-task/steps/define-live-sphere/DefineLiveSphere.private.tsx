@@ -23,7 +23,7 @@ import { Sphere, SphereLangItem } from "@/entities/models";
 // Shared
 
 import { GENERATED_LIFE_SPHERES } from "@/shared/constants";
-import { DnButton, DeSkeletonList, DeField } from "@/shared/ui";
+import { DeButton, DeSkeletonList, DeField } from "@/shared/ui";
 import { createRandomId, getArrayFromString } from "@/shared/helpers";
 import { useTranslations, useOnlineStatus, useLocale } from "@/shared/hooks";
 
@@ -194,7 +194,7 @@ const DefineLiveSphere: FC<Props> = ({ scrollDirectionY, onChange }) => {
 
   return (
     <>
-      {/* <DnButton label="Add to col" onClick={temporary} /> */}
+      {/* <DeButton label="Add to col" onClick={temporary} /> */}
       <div className="mb-8">
         <h2 className="mb-4">
           {$t.createTaskPageAddLifeSphereProggressListTitle}
@@ -242,7 +242,7 @@ const DefineLiveSphere: FC<Props> = ({ scrollDirectionY, onChange }) => {
               onChange={handleFilterChange}
             />
             {!filteredLifeSpheres.length && !loadingListLifeSpheres && (
-              <DnButton
+              <DeButton
                 label={$t.createTaskPageAddLifeSphereGenerateButtonLabel}
                 areaLabel={
                   $t.createTaskPageAddLifeSphereGenerateButtonAreaLabel

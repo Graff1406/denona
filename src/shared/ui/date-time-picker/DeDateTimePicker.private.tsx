@@ -6,7 +6,7 @@ import "./styles.private.css";
 
 // Shared
 
-import { DnIconButton, DeBreakSlider } from "@/shared/ui";
+import { DeIconButton, DeBreakSlider } from "@/shared/ui";
 import { useTranslations } from "@/shared/hooks";
 
 // Icons
@@ -487,7 +487,7 @@ const DeDateTimePicker: React.FC<DateTimePickerProps> = ({
                   return (
                     <li
                       className={[
-                        "border border-zinc-100 bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-900 dark:border-zinc-700 my-1 p-2 cursor-pointer w-[60px] animation rounded shadow p-2",
+                        "border border-zinc-100 bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-900 dark:border-zinc-700 my-1 p-2 cursor-pointer w-[60px] animation rounded shadow",
                       ].join(" ")}
                       onClick={() => showMinutes(result)}
                     >
@@ -506,13 +506,13 @@ const DeDateTimePicker: React.FC<DateTimePickerProps> = ({
               ].join(" ")}
             >
               {startTime && finishTime ? (
-                <DnIconButton
+                <DeIconButton
                   icon={<MdOutlineTimerOff className="h-6 w-6" />}
                   areaLabel={$t.calendarButtonClearRateDuration}
                   onClick={() => resetTime(true)}
                 />
               ) : (
-                <DnIconButton
+                <DeIconButton
                   icon={<MdArrowBackIosNew className="h-6 w-6" />}
                   areaLabel={$t.appBackArrowLabel}
                   onClick={() => resetTime(false)}

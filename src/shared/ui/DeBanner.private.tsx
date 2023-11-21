@@ -2,7 +2,7 @@ import { FC, useState, ReactNode } from "react";
 
 // Shared
 
-import { DeCheckbox, DnButton } from "@/shared/ui";
+import { DeCheckbox, DeButton } from "@/shared/ui";
 import { useTranslations } from "@/shared/hooks";
 
 interface Props {
@@ -67,7 +67,7 @@ const Banner: FC<Props> = ({
               onChange={handleChange}
             />
 
-            <DnButton
+            <DeButton
               label={$t.bannerButtonCloseLabel}
               areaLabel={$t.bannerButtonCloseAreaLabel}
               onClick={hideBanner}

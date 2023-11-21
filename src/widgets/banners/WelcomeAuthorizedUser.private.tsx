@@ -21,7 +21,7 @@ import { StringToHTML } from "@/shared/helpers";
 
 // Component
 
-import { DnButton } from "@/shared/ui";
+import { DeButton } from "@/shared/ui";
 
 const WelcomeAuthorizedUser: FC = () => {
   // State
@@ -78,7 +78,7 @@ const WelcomeAuthorizedUser: FC = () => {
         {/* <div>{$t.bannerContentWelcomeAuthorizedUser}</div> */}
 
         <div className="pt-2 flex justify-center">
-          <DnButton
+          <DeButton
             label={$t.appFormCreateTaskLabel}
             areaLabel={$t.appFormCreateTaskAreaLabel}
             cta

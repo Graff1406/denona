@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useState } from "react";
 
 // Features
 
@@ -7,7 +7,7 @@ import { useUserStore } from "@/features/auth";
 
 // Shared
 
-import { DeDateTimePicker } from "@/shared/ui";
+import { DeDateTimePicker, DeBottomSheet, DeNotification } from "@/shared/ui";
 import { useTranslations } from "@/shared/hooks";
 
 // Icons
@@ -18,6 +18,11 @@ const Home: FC = () => {
   const { user } = useUserStore();
   const { $t } = useTranslations();
 
+  const [modalActive, setModalActive] = useState(false);
+
+  const handleToggleModal = () => {
+    setModalActive(!modalActive);
+  };
   // need to delete this
   const tasks = [
     {
@@ -81,6 +86,21 @@ const Home: FC = () => {
       <div className="mt-6">
         <p className="text-center">{$t.appAuthUserHomePageNoExisitContent}</p>
       </div>
+      <button onClick={() => setModalActive(!modalActive)}>Click</button>
+
+      {/* <DeBottomSheet
+        active={modalActive}
+        onClose={handleToggleModal}
+        showCloseButton
+      >
+        <p>This is the modal content.</p>
+      </DeBottomSheet> */}
+      <DeNotification
+        activate={modalActive}
+        text="Some of text"
+        type="error"
+        onClose={() => setModalActive(!modalActive)}
+      />
     </>
   );
 };

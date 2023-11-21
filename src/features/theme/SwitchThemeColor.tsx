@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { BsFillSunFill, BsFillMoonFill } from "react-icons/bs";
 import { toggleThemeMode } from "@/shared/helpers";
-import { DnIconButton } from "@/shared/ui";
+import { DeIconButton } from "@/shared/ui";
 
 function SwitchThemeColor() {
   const localStorageThemeMode = localStorage.getItem("theme") ?? "light";
@@ -27,7 +27,7 @@ function SwitchThemeColor() {
 
   return (
     <>
-      <DnIconButton
+      <DeIconButton
         icon={
           themeMode === "dark" ? (
             <BsFillSunFill className="w-5 h-5" />

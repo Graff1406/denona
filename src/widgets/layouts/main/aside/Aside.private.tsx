@@ -14,7 +14,7 @@ import { signInGoogleWithPopup } from "@/entities/firebase";
 
 // Shared
 
-import { DnIconButton, DnButton, DeImage, DeMenu } from "@/shared/ui";
+import { DeIconButton, DeButton, DeImage, DeMenu } from "@/shared/ui";
 import { useTranslations, useOnlineStatus } from "@/shared/hooks";
 import { path } from "@/shared/constants";
 
@@ -82,7 +82,7 @@ const Aside: FC<Props> = ({ open, spinnerLogout, aside, onUserLogout }) => {
               alt={$t.userProfileImageAlt}
               className="w-6 h-6 rounded-full"
             />
-            <DnIconButton
+            <DeIconButton
               icon={<VscSettings className="w-6 h-6" />}
               className="w-6 h-6"
             />
@@ -94,7 +94,7 @@ const Aside: FC<Props> = ({ open, spinnerLogout, aside, onUserLogout }) => {
         {!user.auth && (
           <DeMenu
             activator={
-              <DnIconButton
+              <DeIconButton
                 icon={<MdLanguage className="h-6 w-6 dark:text-zinc-400" />}
                 title={$t.changeLanguageBtnTitle}
                 areaLabel={$t.changeLanguageBtnAreaLabel}
@@ -116,7 +116,7 @@ const Aside: FC<Props> = ({ open, spinnerLogout, aside, onUserLogout }) => {
                 : "visible opacity-100"
             }`}
           >
-            <DnIconButton icon={<MdHelpOutline className="h-6 w-6" />} />
+            <DeIconButton icon={<MdHelpOutline className="h-6 w-6" />} />
           </Link>
 
           <SwitchThemeColor />
@@ -124,7 +124,7 @@ const Aside: FC<Props> = ({ open, spinnerLogout, aside, onUserLogout }) => {
           {/* User logout button */}
 
           {user.auth && (
-            <DnIconButton
+            <DeIconButton
               icon={<RiLogoutCircleRLine className="h-6 w-6" />}
               title={$t.logoutButtonAreaLabel}
               areaLabel={$t.logoutButtonAreaLabel}
@@ -147,7 +147,7 @@ const Aside: FC<Props> = ({ open, spinnerLogout, aside, onUserLogout }) => {
                 <h2 className="text-center dark:text-zinc-400">
                   {$t.appSignInTitle}
                 </h2>
-                <DnButton
+                <DeButton
                   label={$t.homePageBtnLabelSignInWithGoogle}
                   areaLabel={$t.homePageBtnAreaLabelSignInWithGoogle}
                   icon={<FcGoogle className="icon" />}
@@ -162,7 +162,7 @@ const Aside: FC<Props> = ({ open, spinnerLogout, aside, onUserLogout }) => {
 
               {displayModePWA === "browser" && (
                 <div className="flex items-center justify-center p-3 border-t border-zinc-200 dark:border-zinc-700">
-                  <DnButton
+                  <DeButton
                     areaLabel={$t.appInstallPWAAreaLabel}
                     label={$t.appInstallPWALabel}
                     className="w-full"

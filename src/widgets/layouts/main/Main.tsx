@@ -26,7 +26,7 @@ import { path } from "@/shared/constants";
 // Helpers
 
 import { getCurrentRouteData } from "../helpers";
-import { DnIconButton } from "@/shared/ui";
+import { DeIconButton } from "@/shared/ui";
 
 // Icons
 import { MdOutlineAddTask } from "react-icons/md";
@@ -156,7 +156,7 @@ const MainLayout: FC = (): ReactElement => {
                 <Outlet />
 
                 {path.create !== location.pathname && (
-                  <DnIconButton
+                  <DeIconButton
                     to={path.create}
                     className={[
                       "tablet:hidden fixed bottom-5 right-5 animation",
