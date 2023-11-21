@@ -12,6 +12,7 @@ import {
   DeBottomSheet,
   DeNotification,
   DeLabel,
+  DeModal,
 } from "@/shared/ui";
 import { useTranslations } from "@/shared/hooks";
 
@@ -101,7 +102,7 @@ const Home: FC = () => {
         <p>This is the modal content.</p>
       </DeBottomSheet> */}
 
-      <DeLabel
+      {/* <DeLabel
         text="Label with Icons"
         onClose={() => setModalActive(!modalActive)}
         size="large"
@@ -111,7 +112,14 @@ const Home: FC = () => {
         text="Some of text"
         type="error"
         onClose={() => setModalActive(!modalActive)}
-      />
+      /> */}
+      <DeModal
+        activate={modalActive}
+        title="test"
+        onClose={() => setModalActive(!modalActive)}
+      >
+        test
+      </DeModal>
     </>
   );
 };
