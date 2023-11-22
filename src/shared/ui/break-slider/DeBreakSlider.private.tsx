@@ -55,7 +55,7 @@ const DeBreakSlider: FC<TimeSliderProps> = ({
         className,
       ].join(" ")}
       style={{
-        background: `linear-gradient(to right, #18181b ${
+        background: `linear-gradient(to right, #45BCED ${
           ((value - 5) / (maxDuration - 5)) * 100
         }%, #f4f4f5 ${((value - 5) / (maxDuration - 5)) * 100}%)`,
       }}

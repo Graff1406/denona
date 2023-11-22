@@ -63,7 +63,7 @@
   }
 
   .divider {
-    @apply h-1 w-full border-b border-zinc-200 dark:border-zinc-700;
+    @apply h-1 w-full border-b border-zinc-200 dark:border-zinc-600;
   }
 
   .scrollbar::-webkit-scrollbar-thumb {

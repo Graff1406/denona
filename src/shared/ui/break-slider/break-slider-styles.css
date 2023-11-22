@@ -2,8 +2,8 @@
 input::-webkit-slider-thumb {
   width: 1.2rem;
   height: 1.2rem;
-  background-color: #fff; /* Thumb color */
-  border: 2px solid #18181b; /* Border color */
+  background-color: #45bced; /* Thumb color */
+  border: 2px solid #45bced; /* Border color */
   border-radius: 50%; /* Make it circular */
   appearance: none;
   transition: background-color 0.3s ease-in-out;
@@ -13,8 +13,8 @@ input::-webkit-slider-thumb {
 input::-moz-range-thumb {
   width: 1.2rem;
   height: 1.2rem;
-  background-color: #fff; /* Thumb color */
-  border: 2px solid #18181b; /* Border color */
+  background-color: #45bced; /* Thumb color */
+  border: 2px solid #45bced; /* Border color */
   border-radius: 50%; /* Make it circular */
   appearance: none;
   transition: background-color 0.3s ease-in-out;

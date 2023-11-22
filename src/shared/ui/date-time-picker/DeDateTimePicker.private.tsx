@@ -146,8 +146,7 @@ const DeDateTimePicker: React.FC<DateTimePickerProps> = ({
     selectedTime: string,
     tasks: {
       id: string;
-      duration: { date: Date; time: Time };
-      break?: string;
+      duration: { date: Date; time: Time; break?: string };
     }[]
   ): { items: ItemSegment[]; isHasNextDayTime: boolean } => {
     const timeSegment: ItemSegment[] = [];
@@ -183,16 +182,21 @@ const DeDateTimePicker: React.FC<DateTimePickerProps> = ({
         ) {
           isSlated = true;
         } else if (
-          task.break &&
+          task.duration.date.getTime() === selectedDate?.getTime() &&
+          task.duration.break &&
           localStartTime >= taskEndTime &&
           localStartTime <=
             new Date(
-              `1970-01-01T${addMinutes(taskEndTime, parseBreak(task.break))}`
+              `1970-01-01T${addMinutes(
+                taskEndTime,
+                parseBreak(task.duration.break)
+              )}`
             )
         ) {
           isSlated = true;
         } else if (
-          !task.break &&
+          task.duration.date.getTime() === selectedDate?.getTime() &&
+          !task.duration.break &&
           localStartTime >= taskEndTime &&
           localStartTime <=
             new Date(
@@ -436,12 +440,10 @@ const DeDateTimePicker: React.FC<DateTimePickerProps> = ({
           </div>
         </div>
         {timeRange && (
-          <div className="flex flex-col justify-center items-center h-full">
+          <div className="flex flex-col justify-center items-center">
             <ul
               ref={scrollContainerRef}
-              className={[
-                "w-[68px] h-full flex flex-col px-2 items-center overflow-y-scroll text-sm tablet:text-base relative text-center animation ml-1",
-              ].join(" ")}
+              className={["overflow-y-auto ml-1 space-y-2 pb-1"].join(" ")}
             >
               {selectedHour.length ? (
                 <>
@@ -500,8 +502,10 @@ const DeDateTimePicker: React.FC<DateTimePickerProps> = ({
 
             <div
               className={[
-                "bottom-0 sticky bg-zinc-200 dark:bg-zinc-800 dark:border dark:border-zinc-700 hover:bg-zinc-100 dark:hover:bg-zinc-900 mt-1 cursor-pointer flex justify-center w-[60px] rounded animation overflow-hidden box-border shadow",
-                selectedHour ? "max-h-[80px]" : "max-h-0",
+                "bg-zinc-200 dark:bg-zinc-800 dark:border dark:border-zinc-700 hover:bg-zinc-100 dark:hover:bg-zinc-900 mt-1 cursor-pointer flex justify-center w-[60px] rounded animation shadow",
+                selectedHour
+                  ? "h-[40px] mt-3 visible opacity-100"
+                  : "h-0 mt-0 invisible opacity-0",
                 startTime && finishTime ? "animate-bounce-once" : "",
               ].join(" ")}
             >

@@ -35,7 +35,7 @@ const Home: FC = () => {
     {
       id: "dsgEffDfg",
       duration: {
-        date: new Date(2023, 10, 20),
+        date: new Date(2023, 10, 22),
         time: { start: "08:00", end: "09:00" },
         break: "00:25",
       },
@@ -43,29 +43,29 @@ const Home: FC = () => {
     {
       id: "someId1",
       duration: {
-        date: new Date(2023, 10, 20),
+        date: new Date(2023, 10, 23),
         time: { start: "10:05", end: "11:45" },
+        break: "00:35",
       },
-      break: "00:15",
     },
     {
       id: "someId2",
       duration: {
-        date: new Date(2023, 10, 20),
+        date: new Date(2023, 10, 24),
         time: { start: "12:20", end: "13:00" },
       },
     },
     {
       id: "someId3",
       duration: {
-        date: new Date(2023, 10, 20),
+        date: new Date(2023, 10, 25),
         time: { start: "14:00", end: "15:30" },
       },
     },
     {
       id: "someId4",
       duration: {
-        date: new Date(2023, 10, 20),
+        date: new Date(2023, 10, 22),
         time: { start: "16:30", end: "17:30" },
       },
     },
@@ -90,10 +90,11 @@ const Home: FC = () => {
         onSelect={handleDateSelect}
         defaultBreakRange="00:15"
       />
-      <div className="mt-6">
+      <div className="border"></div>
+      {/* <div className="mt-6">
         <p className="text-center">{$t.appAuthUserHomePageNoExisitContent}</p>
       </div>
-      <button onClick={() => setModalActive(!modalActive)}>Click</button>
+      <button onClick={() => setModalActive(!modalActive)}>Click</button> */}
 
       {/* <DeBottomSheet
         active={modalActive}
@@ -114,7 +115,7 @@ const Home: FC = () => {
         type="error"
         onClose={() => setModalActive(!modalActive)}
       /> */}
-      <DeDropdownButton
+      {/* <DeDropdownButton
         buttonTitle="Click me!"
         options={["button", "dropdown", "dropdown-2"]}
         onSelect={(v) => {
@@ -135,7 +136,7 @@ const Home: FC = () => {
         onClose={() => setModalActive(!modalActive)}
       >
         test
-      </DeModal>
+      </DeModal> */}
     </>
   );
 };
