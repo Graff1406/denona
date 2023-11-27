@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import { FC, useState, useEffect } from "react";
 
 // Feature
 
@@ -10,7 +10,7 @@ import { useTranslations } from "@/shared/hooks";
 
 // Entities
 
-import { Sphere } from "@/entities/models";
+import { Sphere, Goal } from "@/entities/models";
 
 // Shared
 
@@ -18,6 +18,7 @@ import { DeButton } from "@/shared/ui";
 import { useScrollDirection } from "@/shared/hooks";
 
 type LocalLS = Sphere | null;
+type ValidStep = { LS: boolean; goal: boolean };
 
 interface StepComponent {
   component: FC;
@@ -26,12 +27,19 @@ interface StepComponent {
 
 const CreateTask: FC = () => {
   // Use
+
   const scrollDirectionY = useScrollDirection();
   const { $t } = useTranslations();
 
   // State
-  const [choseSL, setChoseSL] = useState<LocalLS>(null);
+
   const [step, setStep] = useState(0);
+  const [choseSL, setChoseSL] = useState<LocalLS>(null);
+  const [goal, setGoal] = useState<Goal>();
+  const [validStep, setValidStep] = useState<ValidStep>({
+    LS: false,
+    goal: false,
+  });
 
   // Method
 
@@ -43,11 +51,21 @@ const CreateTask: FC = () => {
     setStep((prevStep: number) => prevStep - 1);
   };
 
+  const handleValidStep = (prop: "LS" | "goal", value: boolean) => {
+    setValidStep({ ...validStep, [prop]: value });
+  };
+
   const handleChooseSL = (liveSphere: LocalLS) => {
     setChoseSL(liveSphere);
+    handleValidStep("LS", !!liveSphere);
   };
+
+  const handleGoalDataChange = (goal: Goal) => {
+    setGoal(goal);
+  };
+
   const handleCheckInvalid = (isValid: boolean) => {
-    console.log("Is Valid:", isValid);
+    handleValidStep("goal", isValid);
   };
 
   const steps: StepComponent[] = [
@@ -57,7 +75,11 @@ const CreateTask: FC = () => {
     },
     {
       component: DefineGoalByLiveSphere,
-      props: { choseSL, onCheckInvalid: handleCheckInvalid },
+      props: {
+        choseSL,
+        onChange: handleGoalDataChange,
+        onCheckInvalid: handleCheckInvalid,
+      },
     },
   ];
 
@@ -86,7 +108,9 @@ const CreateTask: FC = () => {
             label={$t.createTaskPageNextButtonLabel}
             areaLabel={$t.createTaskPageNextButtonAreaLabel}
             className="w-full"
-            disabled={choseSL === null}
+            disabled={
+              (step === 0 && !validStep.LS) || (step === 1 && !validStep.goal)
+            }
             onClick={handleNextStep}
           />
         </div>

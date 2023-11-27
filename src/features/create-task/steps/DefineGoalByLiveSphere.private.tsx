@@ -38,12 +38,6 @@ type MinMaxDate = {
   maxDate: Date | undefined;
 };
 
-interface DefineGoalProps {
-  choseSL: Sphere;
-  // onChange?: (goal: Goal) => void;
-  onCheckInvalid?: (isValid: boolean) => void;
-}
-
 let datepicker: {
   update: ({
     minDate,
@@ -54,9 +48,15 @@ let datepicker: {
   }) => void;
 };
 
-const DefineGoalByLiveSphere: FC<DefineGoalProps> = ({
+interface Props {
+  choseSL: Sphere;
+  onChange: (goal: Goal) => void;
+  onCheckInvalid?: (isValid: boolean) => void;
+}
+
+const DefineGoalByLiveSphere: FC<Props> = ({
   choseSL,
-  // onChange,
+  onChange,
   onCheckInvalid,
 }) => {
   // Use
@@ -65,6 +65,7 @@ const DefineGoalByLiveSphere: FC<DefineGoalProps> = ({
   const { $t } = useTranslations();
 
   // State
+
   const [printDate, setPrintDate] = useState("");
   const [holdOldTitleForGPT, setHoldOldTitleForGPT] = useState("");
   const [loadingTasksByGoal, setLoadingTasksByGoal] = useState<boolean>(false);
@@ -230,13 +231,13 @@ const DefineGoalByLiveSphere: FC<DefineGoalProps> = ({
   }, []);
 
   useEffect(() => {
-    // onChange(goal);
-
     setInvalid((prevInvalid: InvalidGoal) => ({
       ...prevInvalid,
       title: goal.title.split(" ").length < 3,
       date: !goal?.date?.end,
     }));
+
+    onChange(goal);
   }, [goal]);
 
   useEffect(() => {
@@ -245,7 +246,7 @@ const DefineGoalByLiveSphere: FC<DefineGoalProps> = ({
       .every((value) => value === false);
 
     if (onCheckInvalid) onCheckInvalid(isValid);
-  }, [invalid, onCheckInvalid]);
+  }, [invalid]);
 
   return (
     <div className="flex flex-col gap-4 tablet:gap-6 mb-10">
