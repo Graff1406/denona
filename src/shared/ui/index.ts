@@ -12,13 +12,14 @@ export { default as DeBanner } from "./DeBanner.private";
 export { default as DeSkeletonList } from "./DeSkeletonList.private";
 export { default as DeField } from "./DeField.private";
 export { default as DeTextarea } from "./DeTextarea.private";
-export { default as DeDateTimePicker } from "./date-time-picker/DeDateTimePicker.private";
 export { default as DeBreakSlider } from "./break-slider/DeBreakSlider.private";
 export { default as DeBottomSheet } from "./DeBottomSheet.private";
 export { default as DeNotification } from "./DeNotification.private";
 export { default as DeLabel } from "./DeLabel.private";
 export { default as DeModal } from "./DeModal.private";
 export { default as DeDropdownButton } from "./DeDropdownButton.private";
+
+export { DeDateTimePicker } from "./date-time-picker/index.private";
 
 // export const DeButton = lazy(() => import("./buttons/Btn.private"));
 // export const DeIconButton = lazy(() => import("./buttons/IconBtn.private"));

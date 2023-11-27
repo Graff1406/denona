@@ -33,7 +33,7 @@ import { useTranslations, useOnlineStatus, useLocale } from "@/shared/hooks";
 
 interface Props {
   scrollDirectionY?: "down" | "up" | null;
-  onChange?: (SphereId: string) => void;
+  onChange?: (lifeSphere: Sphere | null) => void;
 }
 
 const LIMIT = 20;
@@ -77,7 +77,7 @@ const DefineLiveSphere: FC<Props> = ({ scrollDirectionY, onChange }) => {
     }
 
     setChoseSL(sphere as (SphereLangItem & { id: string }) | null);
-    if (onChange) onChange(sphere?.id ?? "");
+    if (onChange) onChange(sphere);
   };
 
   const filteredBySearch = () => {
@@ -238,7 +238,6 @@ const DefineLiveSphere: FC<Props> = ({ scrollDirectionY, onChange }) => {
               area-label={$t.createTaskPageAddLifeSphereGenerateinputAreaLabel}
               title={$t.createTaskPageAddLifeSphereGenerateinputAreaLabel}
               value={filterValue}
-              disabled
               onChange={handleFilterChange}
             />
             {!filteredLifeSpheres.length && !loadingListLifeSpheres && (

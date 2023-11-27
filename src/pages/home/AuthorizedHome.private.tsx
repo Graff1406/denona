@@ -91,10 +91,12 @@ const Home: FC = () => {
         defaultBreakRange="00:15"
       />
       <div className="border"></div>
-      {/* <div className="mt-6">
+      <div className="mt-6">
         <p className="text-center">{$t.appAuthUserHomePageNoExisitContent}</p>
       </div>
-      <button onClick={() => setModalActive(!modalActive)}>Click</button> */}
+
+      {/* Test content */}
+      <button onClick={() => setModalActive(!modalActive)}>Click</button>
 
       {/* <DeBottomSheet
         active={modalActive}

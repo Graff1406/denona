@@ -5,4 +5,5 @@ export const lifeSphere = `Conditions:
   4. "hint" is an extended additional description for “label”. "hint" must be a maximum of 150 characters.
 `;
 
-// en: {label: '', hint: ''}, de: {label: '', hint: ''}, ka: {label: '', hint: ''}, ua: {label: '', hint: ''}, ru: {label: '', hint: ''}
+export const goalDescription = `Response must be in JSON format: { "labels": [] }. Use title: {{title}}, life sphere: {{lifeSphere}}, and also if there is the following description: {{description}}. for create an array of keywords, consisting of one word, and push it to the "labels" array with a minimum of 3 items but if the passed context allows you to create more than three keywords, then be sure to add labels to the array. Keywords should be English letters.
+`;

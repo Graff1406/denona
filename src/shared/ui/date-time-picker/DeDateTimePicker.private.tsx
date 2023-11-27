@@ -8,6 +8,7 @@ import "./styles.private.css";
 
 import { DeIconButton, DeBreakSlider } from "@/shared/ui";
 import { useTranslations } from "@/shared/hooks";
+import { dateTimeFormat } from "@/shared/helpers";
 
 // Icons
 
@@ -21,7 +22,7 @@ import {
   ItemSegment,
   TimeSegmentResult,
   CombinedBreakTimeResult,
-} from "./model.private";
+} from "@/entities/models";
 
 interface DateTimePickerProps {
   tasks?: {
@@ -85,7 +86,7 @@ const DeDateTimePicker: React.FC<DateTimePickerProps> = ({
     if (!Array.isArray(date)) {
       setSelectedDate(date);
       setPrintDate(
-        new Intl.DateTimeFormat(navigator.language, {
+        dateTimeFormat({
           weekday: "short",
           year: "numeric",
           month: "short",
@@ -95,7 +96,7 @@ const DeDateTimePicker: React.FC<DateTimePickerProps> = ({
     }
 
     if (Array.isArray(date) && date[1]) {
-      const formatter = new Intl.DateTimeFormat(navigator.language, {
+      const formatter = dateTimeFormat({
         day: "2-digit",
         month: "2-digit",
         year: "numeric",
@@ -239,7 +240,7 @@ const DeDateTimePicker: React.FC<DateTimePickerProps> = ({
     const hours = Math.floor(totalMinutes / 60);
     const minutes = totalMinutes % 60;
 
-    const formatter = new Intl.DateTimeFormat("ru", {
+    const formatter = dateTimeFormat({
       hour: "numeric",
       minute: "numeric",
     });
@@ -414,30 +415,32 @@ const DeDateTimePicker: React.FC<DateTimePickerProps> = ({
               )
             )}
           </div>
-          <div className="flex flex-col gap-3 w-full">
-            <div className="divider"></div>
-            <div className="text-center">
-              <p
-                className={[
-                  "animation overflow-hidden",
-                  finishTime ? "h-6 opacity-100" : "h-0 opacity-0",
-                ].join(" ")}
-              >
-                Break: {`${finishTime} - `}{" "}
-                <span className="inline-block w-12">{taskBreak?.time}</span>
-              </p>
-              <p className="text-sm text-yellow-700">
-                Break duration:{" "}
-                <span className="inline-block w-10">{breakRange}</span>
-              </p>
+          {timeRange && (
+            <div className="flex flex-col gap-3 w-full">
+              <div className="divider"></div>
+              <div className="text-center">
+                <p
+                  className={[
+                    "animation overflow-hidden",
+                    finishTime ? "h-6 opacity-100" : "h-0 opacity-0",
+                  ].join(" ")}
+                >
+                  Break: {`${finishTime} - `}{" "}
+                  <span className="inline-block w-12">{taskBreak?.time}</span>
+                </p>
+                <p className="text-sm text-yellow-700">
+                  Break duration:{" "}
+                  <span className="inline-block w-10">{breakRange}</span>
+                </p>
+              </div>
+              <div className="px-1">
+                <DeBreakSlider
+                  defaultValue={defaultBreakRange}
+                  onChange={handleChangeBreakDuration}
+                />
+              </div>
             </div>
-            <div className="px-1">
-              <DeBreakSlider
-                defaultValue={defaultBreakRange}
-                onChange={handleChangeBreakDuration}
-              />
-            </div>
-          </div>
+          )}
         </div>
         {timeRange && (
           <div className="flex flex-col justify-center items-center">

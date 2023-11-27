@@ -1,13 +1,13 @@
-import { ChangeEvent } from "react";
+import { ChangeEvent, FocusEvent } from "react";
 
 // Shared
 
 import { createRandomId } from "@/shared/helpers";
 
 interface TextareaProps {
-  title: string;
   value: string;
-  placeholder?: string;
+  placeholder: string;
+  title?: string;
   id?: string;
   rows?: number;
   ariaLabel?: string;
@@ -17,6 +17,7 @@ interface TextareaProps {
   errorMessage?: string;
   disabled?: boolean;
   onChange: (event: ChangeEvent<HTMLTextAreaElement>) => void;
+  onBlur?: (event: FocusEvent<HTMLTextAreaElement>) => void;
 }
 
 const DeTextarea: React.FC<TextareaProps> = ({
@@ -32,6 +33,7 @@ const DeTextarea: React.FC<TextareaProps> = ({
   errorMessage,
   disabled,
   onChange,
+  onBlur,
 }) => {
   // Method
   const handleChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
@@ -39,7 +41,7 @@ const DeTextarea: React.FC<TextareaProps> = ({
   };
 
   return (
-    <div className="w-full">
+    <div className="w-full flex flex-col">
       <textarea
         className={`border border-zinc-200 dark:border-zinc-700 dark:bg-zinc-900 px-4 py-3 w-full rounded-md overflow-y-auto ${className}`}
         id={id}
@@ -51,10 +53,11 @@ const DeTextarea: React.FC<TextareaProps> = ({
         placeholder={placeholder}
         disabled={disabled}
         onChange={handleChange}
+        onBlur={onBlur}
       />
       <p
-        className={`text-left text-sm pl-5 animation ${
-          errorMessage ? "text-red-400" : "text-zinc-400"
+        className={`text-left text-xs tablet:text-sm pl-5 animation ${
+          errorMessage ? "text-red-400 animate-bounce-once" : "text-zinc-400"
         }`}
       >
         {errorMessage || hint}

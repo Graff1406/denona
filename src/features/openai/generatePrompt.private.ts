@@ -1,14 +1,19 @@
 // Shared
 // import { useLocale } from "@/shared/hooks";
 
-import { lifeSphere } from "./prompt/prompts.private";
+import { lifeSphere, goalDescription } from "./prompt/prompts.private";
 
-type PromptName = "lifeSphere";
+type PromptName = "lifeSphere" | "goalDescription";
 
 type PlaceholderMap = {
   lifeSphere: {
     length: number;
     value: string;
+  };
+  goalDescription: {
+    lifeSphere: string;
+    title: string;
+    description: string;
   };
 };
 
@@ -18,6 +23,7 @@ type Prompt<T extends PromptName> = {
 
 const prompt: Prompt<PromptName> = {
   lifeSphere,
+  goalDescription,
 };
 
 type Placeholder<T extends PromptName> = PlaceholderMap[T];
@@ -40,7 +46,7 @@ export const generatePrompt = <T extends PromptName>(
   language = "English"
 ) => {
   return replacePlaceholders(
-    `the response from you must be in ${language}. ${prompt[promptName]}`,
+    `Your answer must, without exception, be in ${language}. ${prompt[promptName]}`,
     placeholder
   );
 };

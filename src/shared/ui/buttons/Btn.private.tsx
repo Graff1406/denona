@@ -14,6 +14,7 @@ interface Props {
   cta?: boolean;
   loading?: boolean;
   tabIndex?: number;
+  small?: boolean;
 }
 
 const ZnButton: FC<Props> = ({
@@ -24,6 +25,7 @@ const ZnButton: FC<Props> = ({
   areaLabel,
   cta,
   loading,
+  small,
   tabIndex = 0,
   onClick,
 }): ReactElement => {
@@ -43,6 +45,7 @@ const ZnButton: FC<Props> = ({
         "flex items-center justify-center gap-3 h-10 min-w-min px-2.5 rounded-md font-semibold smooth shadow-sm box-border no-select overflow-hidden whitespace-nowrap truncate relative",
         disabled ? "cursor-not-allowed opacity-40" : "",
         loading ? (cta ? "bg-amber-800" : "bg-zinc-50") : "",
+        small ? "text-sm h-8" : "",
         className,
       ].join(" ")}
       aria-label={areaLabel || label}
