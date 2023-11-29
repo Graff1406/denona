@@ -3,6 +3,9 @@ export { type default as Auth } from "./Auth.private";
 export { type Sphere, type SphereLangItem } from "./Sphere.private";
 export { type Task } from "./Task.private";
 export { type Goal } from "./Goal.private";
+export { type TaskExpectedResult } from "./TaskExpectedResult.private";
+export { type RecommendationsAndPrecautions } from "./RecommendationsAndPrecautions.private";
+
 export {
   type Time,
   type SelectDateTime,

@@ -18,6 +18,7 @@ export { default as DeNotification } from "./DeNotification.private";
 export { default as DeLabel } from "./DeLabel.private";
 export { default as DeModal } from "./DeModal.private";
 export { default as DeDropdownButton } from "./DeDropdownButton.private";
+export { default as DeAlert } from "./DeAlert.private";
 
 export { DeDateTimePicker } from "./date-time-picker/index.private";
 

@@ -5,12 +5,13 @@ import { FC, useState } from "react";
 import {
   DefineLiveSphere,
   DefineGoalByLiveSphere,
+  ExpectedResultTask,
 } from "@/features/create-task";
 import { useTranslations } from "@/shared/hooks";
 
 // Entities
 
-import { Sphere, Goal } from "@/entities/models";
+import { Sphere, Goal, TaskExpectedResult } from "@/entities/models";
 
 // Shared
 
@@ -18,7 +19,8 @@ import { DeButton } from "@/shared/ui";
 import { useScrollDirection } from "@/shared/hooks";
 
 type LocalLS = Sphere | null;
-type ValidStep = { LS: boolean; goal: boolean };
+type ValidPropName = "LS" | "goal" | "expectedResults";
+type ValidStep = { [key in ValidPropName]: boolean };
 
 interface StepComponent {
   component: FC;
@@ -39,7 +41,10 @@ const CreateTask: FC = () => {
   const [validStep, setValidStep] = useState<ValidStep>({
     LS: false,
     goal: false,
+    expectedResults: false,
   });
+  const [expectedTaskResults, setExpectedTaskResults] =
+    useState<TaskExpectedResult[]>();
 
   // Method
 
@@ -51,7 +56,7 @@ const CreateTask: FC = () => {
     setStep((prevStep: number) => prevStep - 1);
   };
 
-  const handleValidStep = (prop: "LS" | "goal", value: boolean) => {
+  const handleValidStep = (prop: ValidPropName, value: boolean) => {
     setValidStep({ ...validStep, [prop]: value });
   };
 
@@ -64,11 +69,28 @@ const CreateTask: FC = () => {
     setGoal(goal);
   };
 
+  const onValidationChange = (valid: boolean) => {
+    handleValidStep("expectedResults", valid);
+  };
+
   const handleCheckInvalid = (isValid: boolean) => {
     handleValidStep("goal", isValid);
   };
 
+  const onExpectedResultsChange = (results: TaskExpectedResult[]) => {
+    setExpectedTaskResults(results);
+  };
+
   const steps: StepComponent[] = [
+    // {
+    // choseSL,
+    //   goal,
+    //   component: ExpectedResultTask,
+    //   props: {
+    //     onExpectedResultsChange,
+    //     onValidationChange,
+    //   },
+    // },
     {
       component: DefineLiveSphere,
       props: { scrollDirectionY, onChange: handleChooseSL },
@@ -79,6 +101,15 @@ const CreateTask: FC = () => {
         choseSL,
         onChange: handleGoalDataChange,
         onCheckInvalid: handleCheckInvalid,
+      },
+    },
+    {
+      component: ExpectedResultTask,
+      props: {
+        choseSL,
+        goal,
+        onExpectedResultsChange,
+        onValidationChange,
       },
     },
   ];
@@ -109,7 +140,9 @@ const CreateTask: FC = () => {
             areaLabel={$t.createTaskPageNextButtonAreaLabel}
             className="w-full"
             disabled={
-              (step === 0 && !validStep.LS) || (step === 1 && !validStep.goal)
+              (step === 0 && !validStep.LS) ||
+              (step === 1 && !validStep.goal) ||
+              (step === 2 && !validStep.expectedResults)
             }
             onClick={handleNextStep}
           />

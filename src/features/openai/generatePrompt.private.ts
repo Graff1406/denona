@@ -1,9 +1,18 @@
 // Shared
 // import { useLocale } from "@/shared/hooks";
 
-import { lifeSphere, goalDescription } from "./prompt/prompts.private";
+import {
+  lifeSphere,
+  goalDescription,
+  taskRecommendationsAndPrecautions,
+  taskRecommendedExpectedResults,
+} from "./prompt/prompts.private";
 
-type PromptName = "lifeSphere" | "goalDescription";
+type PromptName =
+  | "lifeSphere"
+  | "goalDescription"
+  | "taskRecommendationsAndPrecautions"
+  | "taskRecommendedExpectedResults";
 
 type PlaceholderMap = {
   lifeSphere: {
@@ -15,6 +24,14 @@ type PlaceholderMap = {
     title: string;
     description: string;
   };
+  taskRecommendationsAndPrecautions: {
+    LS: string;
+    goal: string;
+  };
+  taskRecommendedExpectedResults: {
+    LS: string;
+    goal: string;
+  };
 };
 
 type Prompt<T extends PromptName> = {
@@ -24,6 +41,8 @@ type Prompt<T extends PromptName> = {
 const prompt: Prompt<PromptName> = {
   lifeSphere,
   goalDescription,
+  taskRecommendationsAndPrecautions,
+  taskRecommendedExpectedResults,
 };
 
 type Placeholder<T extends PromptName> = PlaceholderMap[T];

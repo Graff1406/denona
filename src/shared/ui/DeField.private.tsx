@@ -1,4 +1,4 @@
-import { ChangeEvent, FocusEvent } from "react";
+import { ChangeEvent, FocusEvent, KeyboardEvent } from "react";
 
 // Shared
 
@@ -23,6 +23,7 @@ interface FieldProps {
   loading?: boolean;
   onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
   onBlur?: (event: FocusEvent<HTMLInputElement>) => void;
+  onEnter?: (event: KeyboardEvent<HTMLInputElement>) => void;
 }
 
 const DeField: React.FC<FieldProps> = ({
@@ -40,9 +41,18 @@ const DeField: React.FC<FieldProps> = ({
   loading,
   onChange,
   onBlur,
+  onEnter,
 }) => {
+  // methods
+
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     if (onChange) onChange(event);
+  };
+
+  const handleKeyUp = (event: KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === "Enter" && onEnter) {
+      onEnter(event);
+    }
   };
 
   return (
@@ -68,6 +78,7 @@ const DeField: React.FC<FieldProps> = ({
           disabled={disabled}
           onChange={handleChange}
           onBlur={onBlur}
+          onKeyUp={handleKeyUp}
         />
         <div
           className={[

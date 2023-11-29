@@ -5,12 +5,32 @@ interface SettingsGPT {
   role?: "function" | "user" | "system" | "assistant";
   temperature?: number;
   max_tokens?: number;
+  toJSON?: <T>() => T | null;
 }
 
 const openai = new OpenAI({
   apiKey: import.meta.env.VITE_OPENAI_API_KEY,
   dangerouslyAllowBrowser: true,
 });
+
+const toJSON = function <T>(this: {
+  role: OpenAI.Chat.Completions.ChatCompletionRole;
+  id: string;
+  content: string | null;
+  created: number;
+  toJSON: <T>() => T | null;
+}): T | null {
+  const content = this.content as unknown;
+  try {
+    if (typeof content === "string") {
+      return JSON.parse(content) as T;
+    } else {
+      throw new Error("Invalid content");
+    }
+  } catch (e) {
+    return null;
+  }
+};
 
 export const askGPT = async ({
   content,
@@ -30,5 +50,6 @@ export const askGPT = async ({
     id: res.id,
     content: res.choices[0].message.content,
     created: res.created,
+    toJSON,
   };
 };
