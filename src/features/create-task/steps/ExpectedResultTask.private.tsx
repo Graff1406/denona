@@ -112,13 +112,13 @@ const ExpectedResults: FC<ExpectedResultsProps> = ({
     onExpectedResultsChange(expectedResults);
   }, [expectedResults]);
 
-  useEffect(() => {
-    if (
-      recommendationsAndPrecautions !== null &&
-      !loadingRecommendationsAndPrecautions
-    )
-      getRecommendationAndPrecautions();
-  }, [goal]);
+  // useEffect(() => {
+  //   if (
+  //     recommendationsAndPrecautions !== null &&
+  //     !loadingRecommendationsAndPrecautions
+  //   )
+  //     getRecommendationAndPrecautions();
+  // }, [goal]);
 
   return (
     <div className="my-4">
