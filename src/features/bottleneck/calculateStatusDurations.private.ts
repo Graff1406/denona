@@ -45,7 +45,10 @@ export const calculateStatusDurations = (tasks: Task[]): StatusDurations => {
   const statusDurations: StatusDurations = {};
 
   tasks.forEach((task) => {
-    const duration = calculateDuration(task.duration.start, task.duration.end);
+    const duration = calculateDuration(
+      task.duration.time.start,
+      task.duration.time.end
+    );
 
     if (!statusDurations[task.status]) {
       statusDurations[task.status] = { hours: 0, minutes: 0, milliseconds: 0 };

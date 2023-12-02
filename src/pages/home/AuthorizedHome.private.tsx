@@ -84,12 +84,12 @@ const Home: FC = () => {
         <WelcomeAuthorizedUser />
       )}
       {/* // need to delete this */}
-      <DeDateTimePicker
+      {/* <DeDateTimePicker
         tasks={tasks}
         timeRange
         onSelect={handleDateSelect}
         defaultBreakRange="00:15"
-      />
+      /> */}
       <div className="border"></div>
       <div className="mt-6">
         <p className="text-center">{$t.appAuthUserHomePageNoExisitContent}</p>

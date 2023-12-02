@@ -3,6 +3,7 @@ export { signInGoogleWithPopup, authState, signOut } from "./auth/public";
 
 export {
   addDocument,
+  addDocumentToSubCollection,
   getDocumentById,
   getDocuments,
   getDocumentsByIds,

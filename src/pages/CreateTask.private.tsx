@@ -6,6 +6,7 @@ import {
   DefineLiveSphere,
   DefineGoalByLiveSphere,
   ExpectedResultTask,
+  ChooseDateTimeTask,
 } from "@/features/create-task";
 import { useTranslations } from "@/shared/hooks";
 
@@ -82,15 +83,15 @@ const CreateTask: FC = () => {
   };
 
   const steps: StepComponent[] = [
-    // {
-    // choseSL,
-    //   goal,
-    //   component: ExpectedResultTask,
-    //   props: {
-    //     onExpectedResultsChange,
-    //     onValidationChange,
-    //   },
-    // },
+    {
+      component: ChooseDateTimeTask,
+      props: {
+        goal: {
+          title: "test",
+          date: { start: new Date(2023, 11, 1), end: new Date(2023, 11, 15) },
+        },
+      },
+    },
     {
       component: DefineLiveSphere,
       props: { scrollDirectionY, onChange: handleChooseSL },

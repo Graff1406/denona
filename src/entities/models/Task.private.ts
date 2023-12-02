@@ -1,6 +1,10 @@
-import { Timestamp } from "firebase/firestore";
-
 export type Task = {
-  duration: { date: Date | Timestamp; start: string; end: string };
+  id: string;
+  duration: {
+    date: Date;
+    time: { start: string; end: string };
+    break?: string;
+  };
   status: "draft" | "progress" | "success" | "failed";
+  goalId?: string;
 };

@@ -4,6 +4,10 @@ import AirDatepicker from "air-datepicker";
 import "air-datepicker/air-datepicker.css";
 import "./styles.private.css";
 
+// Entities
+
+import { Task } from "@/entities/models";
+
 // Shared
 
 import { DeIconButton, DeBreakSlider } from "@/shared/ui";
@@ -13,11 +17,11 @@ import { dateTimeFormat } from "@/shared/helpers";
 // Icons
 
 import { MdArrowBackIosNew, MdOutlineTimerOff } from "react-icons/md";
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
 
 // Models
 
 import {
-  Time,
   SelectDateTime,
   ItemSegment,
   TimeSegmentResult,
@@ -25,23 +29,29 @@ import {
 } from "@/entities/models";
 
 interface DateTimePickerProps {
-  tasks?: {
-    id: string;
-    duration: { date: Date; time: Time; break?: string };
-  }[];
+  tasks?: Task[];
+  loadingTasks?: boolean;
   timeRange?: boolean;
   dateRange?: boolean;
   defaultBreakRange?: string;
+  minDate?: Date;
+  maxDate?: Date;
   onSelect: (dateTime: SelectDateTime) => void;
 }
 
-let dateTimePicker: { selectDate: (date: Date) => void };
+let dateTimePicker: {
+  selectDate: (date: Date) => void;
+  update: (options: { minDate: Date; maxDate: Date }) => void;
+};
 
 const DeDateTimePicker: React.FC<DateTimePickerProps> = ({
   tasks,
+  loadingTasks = true,
   timeRange,
   dateRange,
   defaultBreakRange,
+  minDate,
+  maxDate,
   onSelect,
 }) => {
   // Use
@@ -61,7 +71,10 @@ const DeDateTimePicker: React.FC<DateTimePickerProps> = ({
     items: [],
     isHasNextDayTime: false,
   });
-  const [durationTask, setDurationTask] = useState("");
+  const [durationTask, setDurationTask] = useState<{
+    duration: string;
+    type: "normal" | "medium" | "hight";
+  }>();
   const [movedToNexDay, setMovedToNextDay] = useState(false);
   const [preventedHighlightChooseTime, setHighlightPreventedChooseTime] =
     useState(-1);
@@ -145,10 +158,7 @@ const DeDateTimePicker: React.FC<DateTimePickerProps> = ({
 
   const generateTimeSegment = (
     selectedTime: string,
-    tasks: {
-      id: string;
-      duration: { date: Date; time: Time; break?: string };
-    }[]
+    tasks: Task[]
   ): { items: ItemSegment[]; isHasNextDayTime: boolean } => {
     const timeSegment: ItemSegment[] = [];
     const localStartTime = new Date(`1970-01-01T${selectedTime}`);
@@ -326,12 +336,20 @@ const DeDateTimePicker: React.FC<DateTimePickerProps> = ({
   useEffect(() => {
     if (selectedHour.length) {
       setSegment(generateTimeSegment(selectedHour, tasks ?? []));
+      console.log("tasks: ", tasks);
     }
-  }, [selectedHour, selectedDate]);
+  }, [selectedHour, selectedDate, tasks]);
 
   useEffect(() => {
     if (startTime.length && finishTime.length) {
-      setDurationTask(calculateTotalTime());
+      const duration = calculateTotalTime();
+      const type =
+        duration.split(":")[0] === "01"
+          ? "medium"
+          : duration.split(":")[0] >= "02"
+          ? "hight"
+          : "normal";
+      setDurationTask({ duration, type });
     }
     setTaskBreak(combineTimes(finishTime, breakRange || "00:00"));
   }, [finishTime]);
@@ -384,6 +402,11 @@ const DeDateTimePicker: React.FC<DateTimePickerProps> = ({
     onSelect(selected);
   }, [selectedDate, finishTime, breakRange]);
 
+  useEffect(() => {
+    if (minDate && maxDate && dateTimePicker)
+      dateTimePicker.update({ minDate, maxDate });
+  }, [minDate, maxDate]);
+
   return (
     <>
       <div className="flex justify-center h-[470px] overflow-hidden pb-4 gap-1">
@@ -403,9 +426,26 @@ const DeDateTimePicker: React.FC<DateTimePickerProps> = ({
             {startTime && finishTime ? (
               <>
                 <p>{`${startTime} - ${finishTime}`}</p>
-                <p className="text-sm text-yellow-700">
-                  {$t.calendarLabelTimeDuration}: {durationTask}
+                <p className="text-sm">
+                  {$t.calendarLabelTimeDuration}:{" "}
+                  <span
+                    className={[
+                      "text-sm font-semibold",
+                      durationTask?.type === "hight"
+                        ? "text-red-400"
+                        : durationTask?.type === "medium"
+                        ? "text-yellow-400"
+                        : "text-green-400",
+                    ].join(" ")}
+                  >
+                    {durationTask?.duration}
+                  </span>
                 </p>
+                {/* {durationTask?.type === "hight" && (
+                  <p className="text-xs text-red-400">
+                    Рекомендуется сделать перерыв
+                  </p>
+                )} */}
               </>
             ) : (
               timeRange && (
@@ -428,9 +468,11 @@ const DeDateTimePicker: React.FC<DateTimePickerProps> = ({
                   Break: {`${finishTime} - `}{" "}
                   <span className="inline-block w-12">{taskBreak?.time}</span>
                 </p>
-                <p className="text-sm text-yellow-700">
+                <p className="text-sm">
                   Break duration:{" "}
-                  <span className="inline-block w-10">{breakRange}</span>
+                  <span className="inline-block w-10 text-yellow-700 font-semibold">
+                    {breakRange}
+                  </span>
                 </p>
               </div>
               <div className="px-1">
@@ -443,7 +485,7 @@ const DeDateTimePicker: React.FC<DateTimePickerProps> = ({
           )}
         </div>
         {timeRange && (
-          <div className="flex flex-col justify-center items-center">
+          <div className="flex flex-col justify-center items-center relative">
             <ul
               ref={scrollContainerRef}
               className={["overflow-y-auto ml-1 space-y-2 pb-1"].join(" ")}
@@ -455,6 +497,7 @@ const DeDateTimePicker: React.FC<DateTimePickerProps> = ({
                     return (
                       <>
                         <li
+                          key={i}
                           className={[
                             "my-1 p-2 w-[60px] animation rounded border border-zinc-100 dark:border-zinc-700 shadow",
                             el.isSlated
@@ -477,7 +520,10 @@ const DeDateTimePicker: React.FC<DateTimePickerProps> = ({
                           {el?.time}
                         </li>
                         {min === "55" && i !== segment.items.length - 1 && (
-                          <li className="w-[60px] my-3 tablet:my-4">
+                          <li
+                            key={`divider-${i}`}
+                            className="w-[60px] my-3 tablet:my-4"
+                          >
                             {" "}
                             <div className="divider"></div>
                           </li>
@@ -491,10 +537,14 @@ const DeDateTimePicker: React.FC<DateTimePickerProps> = ({
                   const result = i < 10 ? `0${i}:00` : `${i}:00`;
                   return (
                     <li
+                      key={i}
                       className={[
-                        "border border-zinc-100 bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-900 dark:border-zinc-700 my-1 p-2 cursor-pointer w-[60px] animation rounded shadow",
+                        "border border-zinc-100  my-1 p-2 w-[60px] animation rounded shadow",
+                        selectedDate === null
+                          ? "cursor-no-drop text-zinc-300 dark:text-zinc-700 bg-zinc-50 dark:bg-zinc-800"
+                          : "cursor-pointer bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-900 dark:border-zinc-700",
                       ].join(" ")}
-                      onClick={() => showMinutes(result)}
+                      onClick={() => selectedDate && showMinutes(result)}
                     >
                       {result}
                     </li>
@@ -526,6 +576,14 @@ const DeDateTimePicker: React.FC<DateTimePickerProps> = ({
                 />
               )}
             </div>
+
+            {loadingTasks && (
+              <div className="absolute">
+                <AiOutlineLoading3Quarters
+                  className={["animate-spin w-5 h-5 animation"].join(" ")}
+                />
+              </div>
+            )}
           </div>
         )}
       </div>

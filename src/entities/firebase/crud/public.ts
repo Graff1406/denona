@@ -1,6 +1,7 @@
 // Create
 
 export { default as addDocument } from "./add/addDocument.private";
+export { default as addDocumentToSubCollection } from "./add/addDocumentToSubCollection.private";
 
 // Read
 
