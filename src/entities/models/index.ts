@@ -5,6 +5,8 @@ export { type Task } from "./Task.private";
 export { type Goal } from "./Goal.private";
 export { type TaskExpectedResult } from "./TaskExpectedResult.private";
 export { type RecommendationsAndPrecautions } from "./RecommendationsAndPrecautions.private";
+export { type Duration } from "./Duration.private";
+export { type UserSetting } from "./UserSetting.private";
 
 export {
   type Time,

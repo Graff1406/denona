@@ -1,9 +1,4 @@
-import { Task } from "@/entities/models";
-interface Duration {
-  hours: number;
-  minutes: number;
-  milliseconds: number;
-}
+import { Task, Duration } from "@/entities/models";
 
 interface StatusDurations {
   [status: string]: Duration;

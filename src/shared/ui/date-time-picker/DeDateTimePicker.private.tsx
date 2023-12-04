@@ -407,6 +407,10 @@ const DeDateTimePicker: React.FC<DateTimePickerProps> = ({
       dateTimePicker.update({ minDate, maxDate });
   }, [minDate, maxDate]);
 
+  useEffect(() => {
+    setBreakRange(defaultBreakRange);
+  }, [defaultBreakRange]);
+
   return (
     <>
       <div className="flex justify-center h-[470px] overflow-hidden pb-4 gap-1">
@@ -468,14 +472,19 @@ const DeDateTimePicker: React.FC<DateTimePickerProps> = ({
                   Break: {`${finishTime} - `}{" "}
                   <span className="inline-block w-12">{taskBreak?.time}</span>
                 </p>
+              </div>
+              <div
+                className={[
+                  "px-1 animation space-y-4",
+                  defaultBreakRange?.length ? "opacity-100" : "opacity-0",
+                ].join(" ")}
+              >
                 <p className="text-sm">
                   Break duration:{" "}
                   <span className="inline-block w-10 text-yellow-700 font-semibold">
                     {breakRange}
                   </span>
                 </p>
-              </div>
-              <div className="px-1">
                 <DeBreakSlider
                   defaultValue={defaultBreakRange}
                   onChange={handleChangeBreakDuration}

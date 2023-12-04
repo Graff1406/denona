@@ -3,6 +3,7 @@ export const USERS = "users";
 export const GENERATED_LIFE_SPHERES = "lifeSpheres";
 export const GOALS = "goals";
 export const TASKS = "tasks";
+export const USER_SETTINGS = "settings";
 
 // Path
 

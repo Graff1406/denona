@@ -8,7 +8,13 @@ import { calculateStatusDurations } from "@/features/bottleneck";
 
 // Entities
 
-import { Goal, Task, SelectDateTime } from "@/entities/models";
+import {
+  Goal,
+  Task,
+  SelectDateTime,
+  UserSetting,
+  Duration,
+} from "@/entities/models";
 import {
   addDocumentToSubCollection,
   getDocumentsFromSubCollection,
@@ -16,9 +22,10 @@ import {
 
 // Shared
 
-import { DeDateTimePicker } from "@/shared/ui";
-import { USERS, TASKS } from "@/shared/constants";
+import { DeDateTimePicker, DeBottleneck } from "@/shared/ui";
+import { USERS, TASKS, USER_SETTINGS } from "@/shared/constants";
 import { convertTimestampToDate } from "@/shared/helpers";
+import { calculateBreakDuration } from "@/features/bottleneck/calculateBreakDuration.private";
 
 type TaskWithTimestamp = Omit<Task, "duration"> & {
   duration: Omit<Task["duration"], "date"> & {
@@ -45,7 +52,8 @@ const ChooseDateTimeTask: FC<ExpectedResultsProps> = ({ goal }) => {
   const [tasks, setTasks] = useState<Task[]>();
   const [loadingTasks, setLoadingTasks] = useState(false);
   const [selectedDate, setSelectedDate] = useState<SelectDateTime>();
-  const [durationSlatedTime, setDurationSlatedTime] = useState("");
+  const [defaultBreak, setDefaultBreak] = useState("");
+  const [sumTasksAndBreakDuration, setSumTasksAndBreakDuration] = useState(0);
 
   // Method
 
@@ -59,23 +67,33 @@ const ChooseDateTimeTask: FC<ExpectedResultsProps> = ({ goal }) => {
     }));
   };
 
-  const sumAllSlatedTimeTaskInProgress = (tasks: Task[]): string => {
+  const getTasksAndBreakDuration = (tasks: Task[]) => {
     const tasksInProgress = tasks.filter((task) => task.status === "progress");
+    const tasksDuration = calculateStatusDurations(tasksInProgress);
+    const breaksDuration = calculateBreakDuration(
+      tasksInProgress,
+      defaultBreak
+    );
 
-    if (tasksInProgress.length) {
-      const time = calculateStatusDurations(tasksInProgress);
-      const hour =
-        time.progress.hours < 10
-          ? `0${time.progress.hours}`
-          : time.progress.hours;
-      const minutes =
-        time.progress.minutes < 10
-          ? `0${time.progress.minutes}`
-          : time.progress.minutes;
-
-      return `${hour}:${minutes}`;
-    } else return "";
+    return { tasksDuration, breaksDuration };
   };
+
+  // const sumAllSlatedTimeTaskInProgress = (tasksDuration: {
+  //   progress: Duration;
+  // }): string => {
+  //   if (tasksDuration.progress) {
+  //     const hour =
+  //       tasksDuration.progress.hours < 10
+  //         ? `0${tasksDuration.progress.hours}`
+  //         : tasksDuration.progress.hours;
+  //     const minutes =
+  //       tasksDuration.progress.minutes < 10
+  //         ? `0${tasksDuration.progress.minutes}`
+  //         : tasksDuration.progress.minutes;
+
+  //     return `${hour}:${minutes}`;
+  //   } else return "";
+  // };
 
   const getTasks = async (duration: SelectDateTime) => {
     if (user?.auth?.uid) {
@@ -102,15 +120,49 @@ const ChooseDateTimeTask: FC<ExpectedResultsProps> = ({ goal }) => {
             value: duration?.date,
           });
 
-        setTasks(handleTaskDate(dataTasks));
-        setDurationSlatedTime(
-          sumAllSlatedTimeTaskInProgress(handleTaskDate(dataTasks))
+        const { tasksDuration, breaksDuration } = getTasksAndBreakDuration(
+          handleTaskDate(dataTasks)
         );
+
+        setTasks(handleTaskDate(dataTasks));
+
+        if (tasksDuration.progress)
+          setSumTasksAndBreakDuration(
+            tasksDuration.progress.milliseconds +
+              breaksDuration.progress.milliseconds
+          );
+        else setSumTasksAndBreakDuration(0);
       } catch (r) {
         console.log(r);
       } finally {
         setLoadingTasks(false);
       }
+    }
+  };
+
+  const getDefaultBreak = async () => {
+    try {
+      setLoadingTasks(true);
+      if (user?.auth?.uid) {
+        const dataBreak = await getDocumentsFromSubCollection<UserSetting>({
+          parentCollection: USERS,
+          parentId: user?.auth?.uid,
+          subcollection: USER_SETTINGS,
+          field: "name",
+          value: "break",
+        });
+
+        if (dataBreak.length) {
+          const userSettingsBreak = dataBreak.find(
+            (data) => data.name === "break"
+          );
+          setDefaultBreak(userSettingsBreak?.duration ?? "");
+        }
+      }
+    } catch (e) {
+      console.log(e);
+    } finally {
+      setLoadingTasks(false);
     }
   };
 
@@ -120,6 +172,10 @@ const ChooseDateTimeTask: FC<ExpectedResultsProps> = ({ goal }) => {
   };
 
   // Hooks
+
+  useEffect(() => {
+    getDefaultBreak();
+  }, []);
 
   return (
     <div>
@@ -131,16 +187,22 @@ const ChooseDateTimeTask: FC<ExpectedResultsProps> = ({ goal }) => {
         loadingTasks={loadingTasks}
         timeRange
         onSelect={handleDateSelect}
-        defaultBreakRange="00:15"
+        defaultBreakRange={defaultBreak}
         minDate={goal.date.start}
         maxDate={goal.date.end}
       />
-      <div className="divider"></div>
-      {!!tasks?.length && (
-        <section>
-          <p>Total times on chose date: {durationSlatedTime}</p>
-        </section>
-      )}
+      <div className="divider my-6"></div>
+      <div
+        className={[
+          "animation",
+          selectedDate?.date ? "visible opacity-100" : "invisible opacity-0",
+        ].join(" ")}
+      >
+        <DeBottleneck
+          userActivityDuration={57600000}
+          tasksDuration={sumTasksAndBreakDuration}
+        />
+      </div>
     </div>
   );
 };

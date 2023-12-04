@@ -14,10 +14,9 @@ const DeBreakSlider: FC<TimeSliderProps> = ({
   className,
   onChange,
 }) => {
-  const parseTimeToMinutes = (time: string): number => {
-    const [hours, minutes] = time.split(":").map(Number);
-    return hours * 60 + minutes;
-  };
+  const [value, setValue] = useState(parseTimeToMinutes(defaultValue));
+
+  // Methods
 
   const formatMinutesToTime = (minutes: number): string => {
     const hours = Math.floor(minutes / 60);
@@ -27,7 +26,18 @@ const DeBreakSlider: FC<TimeSliderProps> = ({
       .padStart(2, "0")}`;
   };
 
-  const [value, setValue] = useState(parseTimeToMinutes(defaultValue));
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const newValue = parseInt(event.target.value, 10);
+    setValue(newValue);
+    onChange(formatMinutesToTime(newValue));
+  };
+
+  function parseTimeToMinutes(time: string): number {
+    const [hours, minutes] = time.split(":").map(Number);
+    return hours * 60 + minutes;
+  }
+
+  // Hooks
 
   useEffect(() => {
     if (value > maxDuration) {
@@ -36,11 +46,9 @@ const DeBreakSlider: FC<TimeSliderProps> = ({
     }
   }, [value, maxDuration, onChange]);
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const newValue = parseInt(event.target.value, 10);
-    setValue(newValue);
-    onChange(formatMinutesToTime(newValue));
-  };
+  useEffect(() => {
+    setValue(parseTimeToMinutes(defaultValue));
+  }, [defaultValue]);
 
   return (
     <input
@@ -57,7 +65,7 @@ const DeBreakSlider: FC<TimeSliderProps> = ({
       style={{
         background: `linear-gradient(to right, #45BCED ${
           ((value - 5) / (maxDuration - 5)) * 100
-        }%, #f4f4f5 ${((value - 5) / (maxDuration - 5)) * 100}%)`,
+        }%, #e4e4e7 ${((value - 5) / (maxDuration - 5)) * 100}%)`,
       }}
     />
   );
