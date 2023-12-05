@@ -19,9 +19,9 @@ export { default as DeLabel } from "./DeLabel.private";
 export { default as DeModal } from "./DeModal.private";
 export { default as DeDropdownButton } from "./DeDropdownButton.private";
 export { default as DeAlert } from "./DeAlert.private";
-export { default as DeBottleneck } from "./DeBottleneck.private";
 
 export { DeDateTimePicker } from "./date-time-picker/index.private";
+export { DeTaskList } from "./task-list";
 
 // export const DeButton = lazy(() => import("./buttons/Btn.private"));
 // export const DeIconButton = lazy(() => import("./buttons/IconBtn.private"));

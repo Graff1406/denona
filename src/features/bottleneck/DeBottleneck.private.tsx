@@ -9,9 +9,6 @@ const DeBottleneck: FC<BottleneckProps> = ({
   userActivityDuration,
   tasksDuration,
 }) => {
-  // const percentageDifference = (tasksDuration / userActivityDuration) * 100;
-  // const isOverfilled = tasksDuration >= userActivityDuration;
-
   // States
 
   const [percentageDifference, setPercentageDifference] = useState<number>(0);
@@ -41,12 +38,7 @@ const DeBottleneck: FC<BottleneckProps> = ({
           <span className="text-white">{`${percentageDifference} %`}</span>
         )}
       </div>
-      <div
-        className={[
-          "pr-2 animation",
-          percentageDifference ? "text-end" : "text-center",
-        ].join(" ")}
-      >
+      <div className={["pr-2 text-end"].join(" ")}>
         {Math.round(100 - percentageDifference)}%
       </div>
     </div>

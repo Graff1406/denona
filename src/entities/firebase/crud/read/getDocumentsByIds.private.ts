@@ -7,25 +7,30 @@ import {
 } from "firebase/firestore";
 import { db } from "../../app/public";
 
-interface DocumentQueryParams {
+interface DocumentQueryParams<T> {
   collectionName: string;
   documentIds: string[];
+  transform?: (data: DocumentData) => T;
 }
 
-const getDocumentsByIds = async ({
+const getDocumentsByIds = async <T>({
   collectionName,
   documentIds,
-}: DocumentQueryParams): Promise<DocumentData[]> => {
+  transform,
+}: DocumentQueryParams<T>): Promise<T[]> => {
   const q = query(
     collection(db, collectionName),
     where("__name__", "in", documentIds)
   );
 
   const snapshot = await getDocs(q);
-  const documents: DocumentData[] = [];
+  const documents: T[] = [];
 
   snapshot.forEach((doc) => {
-    documents.push({ ...doc.data(), id: doc.id });
+    const transformedData = transform
+      ? transform(doc.data())
+      : (doc.data() as T);
+    documents.push({ ...transformedData, id: doc.id });
   });
 
   return documents;

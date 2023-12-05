@@ -1,4 +1,6 @@
-export type Task = {
+import { Goal, Sphere } from ".";
+
+export type CombinedTask = {
   id: string;
   title: string;
   createAt: Date;
@@ -9,4 +11,7 @@ export type Task = {
     break?: string;
   };
   status: "draft" | "progress" | "success" | "failed";
+  goal?: Goal;
+  lifeSphere?: Sphere;
+  breakInterval: { start: string; end: string };
 };

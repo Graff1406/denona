@@ -10,6 +10,8 @@ export { default as getDocuments } from "./read/getDocuments.private";
 export { default as watchDocumentById } from "./read/watchDocumentById.private";
 export { default as getDocumentsByIds } from "./read/getDocumentsByIds.private";
 export { default as getDocumentsFromSubCollection } from "./read/getDocumentsFromSubCollection.private";
+export { default as getDocumentsFromSubCollectionByIds } from "./read/getDocumentsFromSubCollectionByIds.private";
+
 export {
   default as watchCollection,
   type Translation,

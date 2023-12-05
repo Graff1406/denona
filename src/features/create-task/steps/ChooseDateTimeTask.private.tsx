@@ -4,7 +4,11 @@ import { Timestamp } from "firebase/firestore";
 // Features
 
 import { useUserStore } from "@/features/auth";
-import { calculateStatusDurations } from "@/features/bottleneck";
+import {
+  calculateStatusDurations,
+  calculateBreakDuration,
+  BottleneckProgress,
+} from "@/features/bottleneck";
 
 // Entities
 
@@ -22,10 +26,9 @@ import {
 
 // Shared
 
-import { DeDateTimePicker, DeBottleneck } from "@/shared/ui";
+import { DeDateTimePicker, DeTaskList } from "@/shared/ui";
 import { USERS, TASKS, USER_SETTINGS } from "@/shared/constants";
 import { convertTimestampToDate } from "@/shared/helpers";
-import { calculateBreakDuration } from "@/features/bottleneck/calculateBreakDuration.private";
 
 type TaskWithTimestamp = Omit<Task, "duration"> & {
   duration: Omit<Task["duration"], "date"> & {
@@ -198,11 +201,18 @@ const ChooseDateTimeTask: FC<ExpectedResultsProps> = ({ goal }) => {
           selectedDate?.date ? "visible opacity-100" : "invisible opacity-0",
         ].join(" ")}
       >
-        <DeBottleneck
+        <BottleneckProgress
           userActivityDuration={57600000}
           tasksDuration={sumTasksAndBreakDuration}
         />
       </div>
+
+      {!!tasks?.length && (
+        <>
+          <div className="divider my-6"></div>
+          <DeTaskList tasks={tasks} user={user} defaultBreak={defaultBreak} />
+        </>
+      )}
     </div>
   );
 };

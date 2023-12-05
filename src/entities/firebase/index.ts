@@ -8,6 +8,7 @@ export {
   getDocuments,
   getDocumentsByIds,
   getDocumentsFromSubCollection,
+  getDocumentsFromSubCollectionByIds,
   updateDocument,
   updateSubCollectionDocument,
   deleteDocument,

@@ -8,6 +8,7 @@ export type Goal = {
   successCriteria?: string;
   reward?: string;
   labels?: string[];
-  id?: string;
+  id: string;
   lifeSphereId?: string;
+  status: "draft" | "progress" | "success" | "failed";
 };
