@@ -12,6 +12,7 @@ import {
 
 import { GENERATED_LIFE_SPHERES, GOALS, USERS } from "@/shared/constants";
 import { useTranslations } from "@/shared/hooks";
+import { DeCard } from "@/shared/ui";
 
 // Icons
 
@@ -170,21 +171,14 @@ const DeTaskList: FC<Props> = ({ tasks, user, defaultBreak }) => {
   }, [tasks]);
 
   return (
-    <ul className="space-y-3 mb-6 text-start">
-      {!loading ? (
-        combinedTasks?.map((task) => (
-          <li
-            key={task.id}
-            className={[
-              "border dark:border-zinc-700 rounded-md shadow-md p-2",
-            ].join(" ")}
-          >
-            <ul>
-              <li className="text-base tablet:text-lg truncate text-center">
-                {task.title}
-              </li>
-              <li className="divider my-2"></li>
-              <li className="text-sm tablet:text-base py-1.5">
+    <>
+      {combinedTasks?.map((task) => (
+        <DeCard
+          loading={loading}
+          header={<p>{task.title}</p>}
+          content={
+            <>
+              <div className="text-sm tablet:text-base text-start py-1.5">
                 <p>
                   <span className="font-semibold truncate pr-1">
                     {$t.createTaskCalendarSingleTaskGoalLabel}:{" "}
@@ -197,26 +191,22 @@ const DeTaskList: FC<Props> = ({ tasks, user, defaultBreak }) => {
                   </span>
                   {task.lifeSphere?.en.label}
                 </p>
-              </li>
-              <li className="text-end text-sm">
-                <p>${$t.taskStatus}</p>
+              </div>
+              <div className="text-end text-sm">
+                <p>{$t.taskStatus}</p>
                 <p className="text-green-500 dark:text-green-800">{`${task.duration.time.start} - ${task.duration.time.end}`}</p>
-              </li>
-
-              <li className="divider my-2"></li>
-              <li className="text-end text-sm">
-                <p>{$t.appTaskBreakLabel}</p>
-                <p className="text-yellow-500 dark:text-yellow-800">{`${task.breakInterval.start} - ${task.breakInterval.end}`}</p>
-              </li>
-            </ul>
-          </li>
-        ))
-      ) : (
-        <li className="flex items-center justify-center">
-          <AiOutlineLoading3Quarters className="w-6 h-6 animate-spin" />
-        </li>
-      )}
-    </ul>
+              </div>
+            </>
+          }
+          footer={
+            <div className="text-end text-sm">
+              <p>{$t.appTaskBreakLabel}</p>
+              <p className="text-yellow-500 dark:text-yellow-800">{`${task.breakInterval.start} - ${task.breakInterval.end}`}</p>
+            </div>
+          }
+        />
+      ))}
+    </>
   );
 };
 
