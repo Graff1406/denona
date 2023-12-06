@@ -5,6 +5,7 @@ import { IoIosArrowDown } from "react-icons/io";
 
 interface DeDropdownButtonProps {
   icon?: React.ReactNode;
+  small?: boolean;
   buttonTitle: string;
   options: string[];
   onSelect: (selectedOption: string) => void;
@@ -12,6 +13,7 @@ interface DeDropdownButtonProps {
 
 const DeDropdownButton: React.FC<DeDropdownButtonProps> = ({
   icon,
+  small,
   buttonTitle,
   options,
   onSelect,
@@ -47,19 +49,27 @@ const DeDropdownButton: React.FC<DeDropdownButtonProps> = ({
   }, [isDropdownOpen]);
 
   return (
-    <div className="relative inline-block text-left" onBlur={handleBlur}>
+    <div
+      className={["relative inline-block text-left"].join(" ")}
+      onBlur={handleBlur}
+    >
       <button
         ref={dropdownButtonRef}
         type="button"
-        className="inline-flex justify-between items-center py-2 px-3 dark:text-zinc-400 focus:outline-none border border-zinc-200 dark:border-zinc-600 hover:bg-zinc-100 dark:hover:bg-zinc-900 animation rounded"
+        className={[
+          "inline-flex justify-between items-center dark:text-zinc-400 focus:outline-none border border-zinc-200 dark:border-zinc-600 hover:bg-zinc-100 dark:hover:bg-zinc-900 animation rounded",
+          small ? "text-sm  py-1 px-2" : "py-2 px-3",
+        ].join(" ")}
         onClick={handleButtonClick}
       >
         {icon && <span className="mr-2">{icon}</span>}
-        <span className="mr-2">{buttonTitle}</span>
+        <span className={["mr-2"].join(" ")}>{buttonTitle}</span>
         <IoIosArrowDown
-          className={`w-6 h-6 animation text-zinc-500 dark:text-zinc-400 ${
-            isDropdownOpen ? "rotate-180" : ""
-          }`}
+          className={[
+            "animation text-zinc-500 dark:text-zinc-400",
+            isDropdownOpen ? "rotate-180" : "",
+            small ? "w-5 h-5" : "w-6 h-6",
+          ].join(" ")}
         />
       </button>
 

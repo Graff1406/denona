@@ -12,23 +12,15 @@ import {
 
 // Entities
 
-import {
-  Goal,
-  Task,
-  SelectDateTime,
-  UserSetting,
-  Duration,
-} from "@/entities/models";
-import {
-  addDocumentToSubCollection,
-  getDocumentsFromSubCollection,
-} from "@/entities/firebase";
+import { Goal, Task, SelectDateTime, UserSetting } from "@/entities/models";
+import { getDocumentsFromSubCollection } from "@/entities/firebase";
 
 // Shared
 
 import { DeDateTimePicker, DeTaskList } from "@/shared/ui";
 import { USERS, TASKS, USER_SETTINGS } from "@/shared/constants";
 import { convertTimestampToDate } from "@/shared/helpers";
+import { useTranslations } from "@/shared/hooks";
 
 type TaskWithTimestamp = Omit<Task, "duration"> & {
   duration: Omit<Task["duration"], "date"> & {
@@ -49,6 +41,7 @@ const ChooseDateTimeTask: FC<ExpectedResultsProps> = ({ goal }) => {
   // Use
 
   const { user } = useUserStore();
+  const { $t } = useTranslations();
 
   // State
 
@@ -81,37 +74,8 @@ const ChooseDateTimeTask: FC<ExpectedResultsProps> = ({ goal }) => {
     return { tasksDuration, breaksDuration };
   };
 
-  // const sumAllSlatedTimeTaskInProgress = (tasksDuration: {
-  //   progress: Duration;
-  // }): string => {
-  //   if (tasksDuration.progress) {
-  //     const hour =
-  //       tasksDuration.progress.hours < 10
-  //         ? `0${tasksDuration.progress.hours}`
-  //         : tasksDuration.progress.hours;
-  //     const minutes =
-  //       tasksDuration.progress.minutes < 10
-  //         ? `0${tasksDuration.progress.minutes}`
-  //         : tasksDuration.progress.minutes;
-
-  //     return `${hour}:${minutes}`;
-  //   } else return "";
-  // };
-
   const getTasks = async (duration: SelectDateTime) => {
     if (user?.auth?.uid) {
-      // await addDocumentToSubCollection({
-      //   parentCollection: USERS,
-      //   parentId: user?.auth?.uid,
-      //   subCollection: TASKS,
-      //   data: {
-      //     status: "success",
-      //     duration: {
-      //       date: duration.date,
-      //       time: { start: "07:00", end: "07:30" },
-      //     },
-      //   },
-      // });
       try {
         setLoadingTasks(true);
         const dataTasks =
@@ -181,24 +145,13 @@ const ChooseDateTimeTask: FC<ExpectedResultsProps> = ({ goal }) => {
   }, []);
 
   return (
-    <div>
-      {/* <h2>Choose Date and time for execution the task</h2> */}
-      {/* <div className="divider my-4 tablet:my-6"></div> */}
-
-      <DeDateTimePicker
-        tasks={tasks}
-        loadingTasks={loadingTasks}
-        timeRange
-        onSelect={handleDateSelect}
-        defaultBreakRange={defaultBreak}
-        minDate={goal.date.start}
-        maxDate={goal.date.end}
-      />
-      <div className="divider my-6"></div>
+    <div className="space-y-3">
       <div
         className={[
           "animation",
-          selectedDate?.date ? "visible opacity-100" : "invisible opacity-0",
+          selectedDate?.date
+            ? "visible opacity-100 max-h-40"
+            : "invisible opacity-0 max-h-0",
         ].join(" ")}
       >
         <BottleneckProgress
@@ -207,12 +160,29 @@ const ChooseDateTimeTask: FC<ExpectedResultsProps> = ({ goal }) => {
         />
       </div>
 
-      {!!tasks?.length && (
-        <>
-          <div className="divider my-6"></div>
-          <DeTaskList tasks={tasks} user={user} defaultBreak={defaultBreak} />
-        </>
-      )}
+      <div className="border dark:border-zinc-700 rounded-md shadow-md py-3">
+        <DeDateTimePicker
+          tasks={tasks}
+          loadingTasks={loadingTasks}
+          timeRange
+          onSelect={handleDateSelect}
+          defaultBreakRange={defaultBreak}
+          minDate={goal.date.start}
+          maxDate={goal.date.end}
+        />
+      </div>
+
+      <div className="space-y-3 pb-4">
+        {!!tasks?.length && (
+          <>
+            <div className="divider my-6"></div>
+            <p className="text-end font-semibold">
+              {$t.createTaskCalendarAllTasksTitle}
+            </p>
+            <DeTaskList tasks={tasks} user={user} defaultBreak={defaultBreak} />
+          </>
+        )}
+      </div>
     </div>
   );
 };

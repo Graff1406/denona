@@ -11,6 +11,7 @@ import {
 // Shared
 
 import { GENERATED_LIFE_SPHERES, GOALS, USERS } from "@/shared/constants";
+import { useTranslations } from "@/shared/hooks";
 
 // Icons
 
@@ -29,6 +30,10 @@ const DeTaskList: FC<Props> = ({ tasks, user, defaultBreak }) => {
   const [lifeSpheres, setLifeSpheres] = useState<Sphere[]>();
   const [combinedTasks, setCombinedTasks] = useState<CombinedTask[]>();
   const [loading, setLoading] = useState(false);
+
+  // use
+
+  const { $t } = useTranslations();
 
   // Methods
 
@@ -62,8 +67,6 @@ const DeTaskList: FC<Props> = ({ tasks, user, defaultBreak }) => {
     fieldName: string,
     localObjects?: any[]
   ): string[] => {
-    // console.log(array, fieldName, localObjects);
-
     return localObjects?.length
       ? Array.from(
           new Set(
@@ -165,6 +168,7 @@ const DeTaskList: FC<Props> = ({ tasks, user, defaultBreak }) => {
   useEffect(() => {
     initData();
   }, [tasks]);
+
   return (
     <ul className="space-y-3 mb-6 text-start">
       {!loading ? (
@@ -180,24 +184,28 @@ const DeTaskList: FC<Props> = ({ tasks, user, defaultBreak }) => {
                 {task.title}
               </li>
               <li className="divider my-2"></li>
-              <li className="text-base tablet:text-lg">
+              <li className="text-sm tablet:text-base py-1.5">
                 <p>
-                  <span className="font-semibold truncate pr-1">Goal: </span>
+                  <span className="font-semibold truncate pr-1">
+                    {$t.createTaskCalendarSingleTaskGoalLabel}:{" "}
+                  </span>
                   {task.goal?.title}
                 </p>
                 <p>
-                  <span className="font-semibold truncate pr-1">Sphere: </span>
+                  <span className="font-semibold truncate pr-1">
+                    {$t.createTaskCalendarSingleTaskSphereLabel}:{" "}
+                  </span>
                   {task.lifeSphere?.en.label}
                 </p>
               </li>
               <li className="text-end text-sm">
-                <p>In progress</p>
+                <p>${$t.taskStatus}</p>
                 <p className="text-green-500 dark:text-green-800">{`${task.duration.time.start} - ${task.duration.time.end}`}</p>
               </li>
 
               <li className="divider my-2"></li>
               <li className="text-end text-sm">
-                <p>Break</p>
+                <p>{$t.appTaskBreakLabel}</p>
                 <p className="text-yellow-500 dark:text-yellow-800">{`${task.breakInterval.start} - ${task.breakInterval.end}`}</p>
               </li>
             </ul>

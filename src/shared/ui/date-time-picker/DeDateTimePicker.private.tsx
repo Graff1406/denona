@@ -413,13 +413,13 @@ const DeDateTimePicker: React.FC<DateTimePickerProps> = ({
 
   return (
     <>
-      <div className="flex justify-center h-[470px] overflow-hidden pb-4 gap-1">
+      <div className="flex justify-center max-h-[440px] overflow-hidden gap-1">
         <div className="h-full flex flex-col items-center">
-          <div className="w-[250px] min-h-[267px]">
+          <div className="w-[250px]">
             <div id="date-time-picker"></div>
           </div>
           <div className="divider"></div>
-          <div className="py-3 flex flex-col items-center justify-center h-full">
+          <div className="flex flex-col items-center justify-center pt-2">
             {selectedDate ? (
               <p>{printDate}</p>
             ) : (
@@ -445,11 +445,6 @@ const DeDateTimePicker: React.FC<DateTimePickerProps> = ({
                     {durationTask?.duration}
                   </span>
                 </p>
-                {/* {durationTask?.type === "hight" && (
-                  <p className="text-xs text-red-400">
-                    Рекомендуется сделать перерыв
-                  </p>
-                )} */}
               </>
             ) : (
               timeRange && (
@@ -460,13 +455,13 @@ const DeDateTimePicker: React.FC<DateTimePickerProps> = ({
             )}
           </div>
           {timeRange && (
-            <div className="flex flex-col gap-3 w-full">
-              <div className="divider"></div>
+            <div className="flex flex-col w-full">
+              <div className="divider my-2"></div>
               <div className="text-center">
                 <p
                   className={[
                     "animation overflow-hidden",
-                    finishTime ? "h-6 opacity-100" : "h-0 opacity-0",
+                    finishTime ? "max-h-6 opacity-100" : "max-h-0 opacity-0",
                   ].join(" ")}
                 >
                   Break: {`${finishTime} - `}{" "}
