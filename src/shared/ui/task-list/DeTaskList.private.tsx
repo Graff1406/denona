@@ -14,10 +14,6 @@ import { GENERATED_LIFE_SPHERES, GOALS, USERS } from "@/shared/constants";
 import { useTranslations } from "@/shared/hooks";
 import { DeCard } from "@/shared/ui";
 
-// Icons
-
-import { AiOutlineLoading3Quarters } from "react-icons/ai";
-
 interface Props {
   tasks: Task[];
   user: Auth;
