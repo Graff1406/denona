@@ -176,8 +176,6 @@ const DefineLiveSphere: FC<Props> = ({ scrollDirectionY, onChange }) => {
     const lastItem = lifeSpheres[lifeSpheres.length - 1];
 
     if (inView && lastItem) {
-      console.log("lastItem", lastItem);
-
       getLifeSpheres(lastItem);
     }
   }, [inView]);

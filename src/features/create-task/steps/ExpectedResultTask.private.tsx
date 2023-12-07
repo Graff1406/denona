@@ -121,7 +121,7 @@ const ExpectedResults: FC<ExpectedResultsProps> = ({
   // }, [goal]);
 
   return (
-    <div className="my-4">
+    <div className="my-4 w-full">
       <h2 className="text-lg font-semibold mb-4">
         {$t.createTaskExpectedResults}
       </h2>

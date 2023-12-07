@@ -12,7 +12,13 @@ import {
 
 // Entities
 
-import { Goal, Task, SelectDateTime, UserSetting } from "@/entities/models";
+import {
+  Goal,
+  Task,
+  SelectDateTime,
+  UserSetting,
+  DateTimeTask,
+} from "@/entities/models";
 import { getDocumentsFromSubCollection } from "@/entities/firebase";
 
 // Shared
@@ -30,14 +36,15 @@ type TaskWithTimestamp = Omit<Task, "duration"> & {
 
 interface ExpectedResultsProps {
   goal: Goal;
-  duration?: {
-    date: Date;
-    start: string;
-    end: string;
-  };
+  onSelectDuration: (duration: DateTimeTask | null) => void;
+  onValidationChange: (validationResult: boolean) => void;
 }
 
-const ChooseDateTimeTask: FC<ExpectedResultsProps> = ({ goal }) => {
+const ChooseDateTimeTask: FC<ExpectedResultsProps> = ({
+  goal,
+  onSelectDuration,
+  onValidationChange,
+}) => {
   // Use
 
   const { user } = useUserStore();
@@ -133,9 +140,21 @@ const ChooseDateTimeTask: FC<ExpectedResultsProps> = ({ goal }) => {
     }
   };
 
+  const handleSelectTaskDateTime = (duration: SelectDateTime) => {
+    const { date, time } = duration;
+    const valid = !!date && !!time;
+
+    onValidationChange(valid);
+
+    if (date instanceof Date && time) onSelectDuration({ date, ...time });
+    else onSelectDuration(null);
+  };
+
   const handleDateSelect = (duration: SelectDateTime) => {
     setSelectedDate(duration);
     getTasks(duration);
+
+    handleSelectTaskDateTime(duration);
   };
 
   // Hooks
@@ -145,7 +164,7 @@ const ChooseDateTimeTask: FC<ExpectedResultsProps> = ({ goal }) => {
   }, []);
 
   return (
-    <div className="space-y-3 relative">
+    <div className="space-y-3 relative w-full">
       <div
         className={[
           "animation sticky top-4 z-10 bg-white dark:bg-zinc-800",
@@ -157,17 +176,19 @@ const ChooseDateTimeTask: FC<ExpectedResultsProps> = ({ goal }) => {
         <BottleneckProgress tasksDuration={sumTasksAndBreakDuration} />
       </div>
 
-      <div className="border dark:border-zinc-700 rounded-md shadow-md py-3">
-        <DeDateTimePicker
-          tasks={tasks}
-          loadingTasks={loadingTasks}
-          timeRange
-          onSelect={handleDateSelect}
-          defaultBreakRange={defaultBreak}
-          minDate={goal.date.start}
-          maxDate={goal.date.end}
-        />
-      </div>
+      {goal && (
+        <div className="border dark:border-zinc-700 rounded-md shadow-md py-3">
+          <DeDateTimePicker
+            tasks={tasks}
+            loadingTasks={loadingTasks}
+            timeRange
+            onSelect={handleDateSelect}
+            defaultBreakRange={defaultBreak}
+            minDate={goal.date.start}
+            maxDate={goal.date.end}
+          />
+        </div>
+      )}
 
       <div className="space-y-3 pb-4">
         {!!tasks?.length && (

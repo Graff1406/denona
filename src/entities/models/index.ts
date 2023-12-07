@@ -8,6 +8,7 @@ export { type RecommendationsAndPrecautions } from "./RecommendationsAndPrecauti
 export { type Duration } from "./Duration.private";
 export { type UserSetting } from "./UserSetting.private";
 export { type CombinedTask } from "./CombinedTask.private";
+export { type DateTimeTask } from "./DateTimeTaskSelect.private";
 
 export {
   type Time,

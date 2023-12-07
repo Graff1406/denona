@@ -94,11 +94,12 @@ const DefineGoalByLiveSphere: FC<Props> = ({
   ) => {
     setGoal((prevGoal: Goal) => ({ ...prevGoal, [prop]: event.target.value }));
   };
+
   const handleDateSelect = ({ date }: { date: Date | Date[] }) => {
     if (Array.isArray(date) && date.length === 2) {
       setGoal((prevGoal: Goal) => ({
         ...prevGoal,
-        date: { start: date[0], end: date[0] },
+        date: { start: date[0], end: date[1] },
       }));
       const formatter = dateTimeFormat({
         day: "2-digit",
@@ -187,7 +188,7 @@ const DefineGoalByLiveSphere: FC<Props> = ({
   const initCalendar = () => {
     const picker = document.querySelector(".air-datepicker");
     if (!picker)
-      datepicker = new AirDatepicker("#date-time-picker", {
+      datepicker = new AirDatepicker("#date-time-picker-goal", {
         range: true,
         minDate: new Date(),
         multipleDatesSeparator: " - ",
@@ -267,7 +268,7 @@ const DefineGoalByLiveSphere: FC<Props> = ({
         hint={$t.goalPeriodHint}
         disabled={loadingTasksByGoal}
         loading={loadingTasksByGoal}
-        id="date-time-picker"
+        id="date-time-picker-goal"
         onBlur={() => handleInvalidDirty("date")}
       />
       <DeTextarea

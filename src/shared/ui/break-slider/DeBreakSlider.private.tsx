@@ -34,7 +34,7 @@ const DeBreakSlider: FC<TimeSliderProps> = ({
 
   function parseTimeToMinutes(time: string): number {
     const [hours, minutes] = time.split(":").map(Number);
-    return hours * 60 + minutes;
+    return isNaN(hours) || isNaN(minutes) ? 0 : hours * 60 + minutes;
   }
 
   // Hooks

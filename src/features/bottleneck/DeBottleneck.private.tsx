@@ -121,8 +121,6 @@ const DeBottleneck: FC<BottleneckProps> = ({ tasksDuration }) => {
           );
           setEndHourList(filterAndGenerateHourStrings(setting.start));
         }
-
-        console.log(111, setting.start, setting.end);
       } catch (err) {
         console.log(err);
       } finally {

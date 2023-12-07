@@ -12,7 +12,7 @@ import { Task } from "@/entities/models";
 
 import { DeIconButton, DeBreakSlider } from "@/shared/ui";
 import { useTranslations } from "@/shared/hooks";
-import { dateTimeFormat } from "@/shared/helpers";
+import { createRandomId, dateTimeFormat } from "@/shared/helpers";
 
 // Icons
 
@@ -84,6 +84,7 @@ const DeDateTimePicker: React.FC<DateTimePickerProps> = ({
   // Ref
 
   const scrollContainerRef = useRef<HTMLUListElement | null>(null);
+  const datePickerId = `date-time-picker-${createRandomId()}`;
 
   // Method
 
@@ -322,7 +323,7 @@ const DeDateTimePicker: React.FC<DateTimePickerProps> = ({
     tomorrow.setDate(today.getDate() + 1);
     const picker = document.querySelector(".air-datepicker");
     if (!picker)
-      dateTimePicker = new AirDatepicker("#date-time-picker", {
+      dateTimePicker = new AirDatepicker(`#${datePickerId}`, {
         range: dateRange,
         inline: true,
         minDate: Date.now(),
@@ -336,7 +337,6 @@ const DeDateTimePicker: React.FC<DateTimePickerProps> = ({
   useEffect(() => {
     if (selectedHour.length) {
       setSegment(generateTimeSegment(selectedHour, tasks ?? []));
-      console.log("tasks: ", tasks);
     }
   }, [selectedHour, selectedDate, tasks]);
 
@@ -416,7 +416,7 @@ const DeDateTimePicker: React.FC<DateTimePickerProps> = ({
       <div className="flex justify-center max-h-[440px] overflow-hidden gap-1">
         <div className="h-full flex flex-col items-center">
           <div className="w-[250px]">
-            <div id="date-time-picker"></div>
+            <div id={datePickerId}></div>
           </div>
           <div className="divider"></div>
           <div className="flex flex-col items-center justify-center pt-2">
