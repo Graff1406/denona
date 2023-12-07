@@ -2,10 +2,12 @@ import React, { useState, useRef, useEffect } from "react";
 
 // Icon
 import { IoIosArrowDown } from "react-icons/io";
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
 
 interface DeDropdownButtonProps {
   icon?: React.ReactNode;
   small?: boolean;
+  loading?: boolean;
   buttonTitle: string;
   options: string[];
   onSelect: (selectedOption: string) => void;
@@ -14,6 +16,7 @@ interface DeDropdownButtonProps {
 const DeDropdownButton: React.FC<DeDropdownButtonProps> = ({
   icon,
   small,
+  loading,
   buttonTitle,
   options,
   onSelect,
@@ -53,6 +56,14 @@ const DeDropdownButton: React.FC<DeDropdownButtonProps> = ({
       className={["relative inline-block text-left"].join(" ")}
       onBlur={handleBlur}
     >
+      <div
+        className={[
+          "absolute rounded z-10 inset-0 bg-zinc-100 dark:bg-zinc-500 flex items-center justify-center opacity-80 animation",
+          loading ? "visible" : "invisible",
+        ].join(" ")}
+      >
+        <AiOutlineLoading3Quarters className="animate-spin text-gray-700" />
+      </div>
       <button
         ref={dropdownButtonRef}
         type="button"
@@ -77,16 +88,21 @@ const DeDropdownButton: React.FC<DeDropdownButtonProps> = ({
         ref={dropdownOptionsRef}
         tabIndex={-1}
         className={[
-          "origin-top-right absolute right-0 mt-2 w-max rounded-md shadow-lg bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-600 ring-1 ring-black ring-opacity-5 animation transform",
+          "origin-top-right absolute right-0 mt-2 w-max rounded-md shadow-lg bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-600 ring-1 ring-black ring-opacity-5 animation transform z-10 scrollbar dark:scrollbar-dark max-h-40 overflow-y-auto",
           isDropdownOpen ? "opacity-100 scale-y-100" : "opacity-0 scale-y-0",
         ].join(" ")}
       >
-        <div className="py-1">
+        <div className={["py-1"].join(" ")}>
           {options.map((option) => (
             <button
               key={option}
               onClick={() => handleOptionClick(option)}
-              className="block px-4 py-2 text-sm dark:text-zinc-400 dark:hover:bg-zinc-900 hover:bg-zinc-100 w-full text-left"
+              className={[
+                "block px-4 py-2 text-sm  w-full text-left",
+                buttonTitle === option
+                  ? "bg-blue-50 dark:bg-zinc-900"
+                  : "dark:text-zinc-400 dark:hover:bg-zinc-900 hover:bg-zinc-100",
+              ].join(" ")}
             >
               {option}
             </button>

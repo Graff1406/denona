@@ -145,19 +145,16 @@ const ChooseDateTimeTask: FC<ExpectedResultsProps> = ({ goal }) => {
   }, []);
 
   return (
-    <div className="space-y-3">
+    <div className="space-y-3 relative">
       <div
         className={[
-          "animation",
+          "animation sticky top-4 z-10 bg-white dark:bg-zinc-800",
           selectedDate?.date
             ? "visible opacity-100 max-h-40"
             : "invisible opacity-0 max-h-0",
         ].join(" ")}
       >
-        <BottleneckProgress
-          userActivityDuration={57600000}
-          tasksDuration={sumTasksAndBreakDuration}
-        />
+        <BottleneckProgress tasksDuration={sumTasksAndBreakDuration} />
       </div>
 
       <div className="border dark:border-zinc-700 rounded-md shadow-md py-3">
