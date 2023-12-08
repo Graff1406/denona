@@ -55,8 +55,36 @@ const CreateTask: FC = () => {
   // State
 
   const [step, setStep] = useState(0);
-  const [choseSL, setChoseSL] = useState<Sphere | null>(null);
-  const [goal, setGoal] = useState<Goal | null>(null);
+  const [choseSL, setChoseSL] = useState<Sphere | null>({
+    id: "test",
+    en: {
+      label: "Sports and Physical Activity",
+      hint: "Engaging in sports, physical activity, and physical fitness.",
+    },
+    de: {
+      label: "Sports and Physical Activity",
+      hint: "Engaging in sports, physical activity, and physical fitness.",
+    },
+    ka: {
+      label: "Sports and Physical Activity",
+      hint: "Engaging in sports, physical activity, and physical fitness.",
+    },
+    ua: {
+      label: "Sports and Physical Activity",
+      hint: "Engaging in sports, physical activity, and physical fitness.",
+    },
+    ru: {
+      label: "Sports and Physical Activity",
+      hint: "Engaging in sports, physical activity, and physical fitness.",
+    },
+  });
+  const [goal, setGoal] = useState<Goal | null>({
+    title: "Pump up your abdominal muscles in two weeks",
+    date: {
+      start: new Date(2023, 11, 8),
+      end: new Date(2023, 12, 8),
+    },
+  });
   const [dateTimeTask, setDateTimeTask] = useState<DateTimeTask | null>();
   const [validStep, setValidStep] = useState<ValidStep>({
     LS: false,
@@ -142,7 +170,7 @@ const CreateTask: FC = () => {
   return (
     <div className="flex flex-col justify-between h-full text-center relative">
       <section className="grow flex flex-col items-center gap-10">
-        <StepWrapper show={step === 0}>
+        <StepWrapper show={step === 3}>
           <DefineLiveSphere
             scrollDirectionY={scrollDirectionY}
             onChange={handleChooseSL}
@@ -165,7 +193,7 @@ const CreateTask: FC = () => {
           />
         </StepWrapper>
 
-        <StepWrapper show={step === 3 && !!choseSL && !!goal}>
+        <StepWrapper show={step === 0 && !!choseSL && !!goal}>
           <ExpectedResultTask
             choseSL={choseSL}
             goal={goal}

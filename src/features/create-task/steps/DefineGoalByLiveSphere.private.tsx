@@ -188,17 +188,15 @@ const DefineGoalByLiveSphere: FC<Props> = ({
   };
 
   const initCalendar = () => {
-    const picker = document.querySelector(".air-datepicker");
-    if (!picker)
-      datepicker = new AirDatepicker("#date-time-picker-goal", {
-        range: true,
-        minDate: new Date(),
-        multipleDatesSeparator: " - ",
-        isMobile: true,
-        buttons: ["today", "clear"],
-        autoClose: true,
-        onSelect: (date) => handleDateSelect(date),
-      });
+    datepicker = new AirDatepicker("#date-time-picker-goal", {
+      range: true,
+      minDate: new Date(),
+      multipleDatesSeparator: " - ",
+      isMobile: true,
+      buttons: ["today", "clear"],
+      autoClose: true,
+      onSelect: (date) => handleDateSelect(date),
+    });
   };
 
   const getTasksByGoalId = async (): Promise<void> => {

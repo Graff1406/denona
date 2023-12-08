@@ -10,4 +10,4 @@ export const goalDescription = `Response must be in JSON format: { "labels": [] 
 
 export const taskRecommendationsAndPrecautions = `Response must be in JSON format: { "recommendations": [], "precautions": [] }. Each array must contain 5 elements. recommendations and precautions must be based on and related to the area of life: {{LS}}, as well as for the purpose: {{goal}}. `;
 
-export const taskRecommendedExpectedResults = `Response must be in JSON format: { "recommendations": [] }. The expected results array must contain 10 elements. Each item must be based on and related to the area of life: {{LS}}, as well as for the goal: {{goal}} and each item must associated with possible options for expected results from the current goal`;
+export const taskRecommendedExpectedResults = `Response must be in JSON format: { "recommendations": [] }. The expected results array must contain 10 elements. Each item must be based on and related to the area of life: {{LS}}, as well as for the goal: {{goal}}. What specific results can be obtained by achieving the goal?`;

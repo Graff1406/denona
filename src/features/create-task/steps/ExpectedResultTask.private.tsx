@@ -92,13 +92,27 @@ const ExpectedResults: FC<ExpectedResultsProps> = ({
           max_tokens: 1000,
         });
         const data = res.toJSON<RecommendationsAndPrecautions>();
-        if (data?.recommendations) setRecommendationsAndPrecautions(data);
-        console.log(data);
+        if (!!data?.recommendations && Array.isArray(data?.recommendations))
+          setRecommendationsAndPrecautions(data);
       } catch (error) {
         console.log(error);
       } finally {
         setLoadingRecommendationsAndPrecautions(false);
       }
+  };
+
+  const handleAddRecommendedToExpectedResult = (recommendation: string) => {
+    const recommendations =
+      recommendationsAndPrecautions?.recommendations.filter(
+        (result) => result !== recommendation
+      ) as string[];
+
+    setExpectedResults([
+      ...expectedResults,
+      { status: "pending", text: recommendation },
+    ]);
+
+    setRecommendationsAndPrecautions({ recommendations });
   };
 
   // Hooks
@@ -113,22 +127,35 @@ const ExpectedResults: FC<ExpectedResultsProps> = ({
   }, [expectedResults]);
 
   useEffect(() => {
-    console.log("ExpectedResultTask");
-  }, []);
-
-  // useEffect(() => {
-  //   if (
-  //     recommendationsAndPrecautions !== null &&
-  //     !loadingRecommendationsAndPrecautions
-  //   )
-  //     getRecommendationAndPrecautions();
-  // }, [goal]);
+    if (
+      recommendationsAndPrecautions !== null &&
+      !loadingRecommendationsAndPrecautions
+    )
+      getRecommendationAndPrecautions();
+  }, [goal]);
 
   return (
-    <div className="my-4 w-full">
+    <div className="my-4 w-full relative">
       <h2 className="text-lg font-semibold mb-4">
         {$t.createTaskExpectedResults}
       </h2>
+
+      <div className="flex flex-col tablet:flex-row tablet:items-center gap-3 sticky top-0 bg-white dark:bg-zinc-800 py-2">
+        <DeField
+          value={newResult}
+          placeholder="Result"
+          onChange={handleInputChange}
+          onEnter={handleAddResult}
+        />
+
+        <DeButton
+          label={$t.createTaskExpectedResultItemButtonAddLabel}
+          areaLabel={$t.createTaskExpectedResultItemButtonAddAreaLabel}
+          disabled={newResult.trim().length <= 3}
+          onClick={handleAddResult}
+        />
+      </div>
+
       <div>
         {expectedResults.map((result, index) => (
           <div
@@ -165,49 +192,37 @@ const ExpectedResults: FC<ExpectedResultsProps> = ({
           />
         </div>
       </div>
-      {expectedResults.length > 0 && (
-        <div className="divider my-6 tablet:my-8"></div>
-      )}
-
-      <div className="flex flex-col tablet:flex-row tablet:items-center gap-3">
-        <DeField
-          value={newResult}
-          placeholder="Result"
-          onChange={handleInputChange}
-          onEnter={handleAddResult}
-        />
-
-        <DeButton
-          label={$t.createTaskExpectedResultItemButtonAddLabel}
-          areaLabel={$t.createTaskExpectedResultItemButtonAddAreaLabel}
-          disabled={newResult.trim().length <= 3}
-          onClick={handleAddResult}
-        />
-      </div>
 
       <div className="divider my-6 tablet:my-8"></div>
 
       <div className="space-y-4">
         <section className="space-y-3">
-          <h3 className="text-start flex items-center gap-4">
+          <h3 className="flex items-center justify-center gap-4">
             <span>{$t.createTaskExpectedResultRecommendations}</span>
-            {loadingRecommendationsAndPrecautions && (
+            {loadingRecommendationsAndPrecautions ? (
               <AiOutlineLoading3Quarters className="animate-spin h-5 w-5" />
+            ) : (
+              `(${recommendationsAndPrecautions?.recommendations.length})`
             )}
           </h3>
 
-          <ul className="space-y-2">
-            {recommendationsAndPrecautions?.recommendations.map(
-              (recommendation: string, i: number) => (
-                <li
-                  key={i}
-                  className="flex items-center text-start gap-2 bg-green-50 rounded-md p-2"
-                >
-                  <DeAlert type="success" text={recommendation} />
-                </li>
-              )
-            )}
-          </ul>
+          {!loadingRecommendationsAndPrecautions && (
+            <ul className="space-y-2">
+              {recommendationsAndPrecautions?.recommendations.map(
+                (recommendation: string, i: number) => (
+                  <li
+                    key={i}
+                    className="flex items-center text-start gap-2 bg-green-50 rounded-md p-2 cursor-pointer"
+                    onClick={() =>
+                      handleAddRecommendedToExpectedResult(recommendation)
+                    }
+                  >
+                    <DeAlert type="success" text={recommendation} />
+                  </li>
+                )
+              )}
+            </ul>
+          )}
         </section>
         {/* <section className="space-y-4">
           <h3 className="text-start flex items-center gap-4">

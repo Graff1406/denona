@@ -23,6 +23,7 @@ interface FieldProps {
   loading?: boolean;
   onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
   onBlur?: (event: FocusEvent<HTMLInputElement>) => void;
+  onFocus?: (event: FocusEvent<HTMLInputElement>) => void;
   onEnter?: (event: KeyboardEvent<HTMLInputElement>) => void;
 }
 
@@ -41,6 +42,7 @@ const DeField: React.FC<FieldProps> = ({
   loading,
   onChange,
   onBlur,
+  onFocus,
   onEnter,
 }) => {
   // methods
@@ -78,6 +80,7 @@ const DeField: React.FC<FieldProps> = ({
           disabled={disabled}
           onChange={handleChange}
           onBlur={onBlur}
+          onFocus={onFocus}
           onKeyUp={handleKeyUp}
         />
         <div
