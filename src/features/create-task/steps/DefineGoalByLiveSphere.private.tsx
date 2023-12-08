@@ -49,7 +49,7 @@ let datepicker: {
 };
 
 interface Props {
-  choseSL: Sphere;
+  choseSL: Sphere | null;
   onChange: (goal: Goal) => void;
   onCheckInvalid?: (isValid: boolean) => void;
 }
@@ -114,10 +114,11 @@ const DefineGoalByLiveSphere: FC<Props> = ({
 
   const handleGenerateDescription = async (): Promise<void> => {
     const prompt = generatePrompt("goalDescription", {
-      lifeSphere: `${choseSL.en.label}. ${choseSL.en.hint}`,
+      lifeSphere: `${choseSL?.en.label}. ${choseSL?.en.hint}`,
       title: goal.title,
       description: goal.description ?? "",
     });
+
     try {
       const res = await askGPT({
         content: prompt,
@@ -146,11 +147,12 @@ const DefineGoalByLiveSphere: FC<Props> = ({
 
   const handleTitleBlur = () => {
     handleInvalidDirty("title");
-    if (!invalid.title && goal.title !== holdOldTitleForGPT) {
+    if (!invalid.title && goal.title !== holdOldTitleForGPT && choseSL) {
       setHoldOldTitleForGPT(goal.title);
       handleGenerateDescription();
     }
   };
+
   const findMinMaxDates = (
     documents: Task[]
   ): { minDate?: Date; maxDate?: Date } | null => {

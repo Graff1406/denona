@@ -112,6 +112,7 @@ const DefineLiveSphere: FC<Props> = ({ scrollDirectionY, onChange }) => {
       setLoadingResGPT(false);
     }
   };
+
   const getLifeSpheres = async (lastItem?: Sphere) => {
     try {
       const data = await getDocuments({
@@ -181,7 +182,6 @@ const DefineLiveSphere: FC<Props> = ({ scrollDirectionY, onChange }) => {
   }, [inView]);
 
   useEffect(() => {
-    // if (!inProgressSpheres.length) getInProgressSpheres();
     if (user.auth?.inProgressLifeSpheres?.length) {
       initSpheres();
     } else {
@@ -193,7 +193,7 @@ const DefineLiveSphere: FC<Props> = ({ scrollDirectionY, onChange }) => {
   return (
     <>
       {/* <DeButton label="Add to col" onClick={temporary} /> */}
-      <div className="mb-8">
+      <div className="mb-8 w-full">
         <h2 className="mb-4">
           {$t.createTaskPageAddLifeSphereProggressListTitle}
         </h2>

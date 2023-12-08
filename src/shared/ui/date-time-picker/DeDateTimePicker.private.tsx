@@ -413,28 +413,30 @@ const DeDateTimePicker: React.FC<DateTimePickerProps> = ({
 
   return (
     <>
-      <div className="flex justify-center max-h-[440px] overflow-hidden gap-1">
+      <div className="flex justify-center max-h-[350px] overflow-hidden gap-1">
         <div className="h-full flex flex-col items-center">
           <div className="w-[250px]">
             <div id={datePickerId}></div>
           </div>
           <div className="divider"></div>
           <div className="flex flex-col items-center justify-center pt-2">
-            {selectedDate ? (
+            {/* {selectedDate ? (
               <p>{printDate}</p>
             ) : (
               <p className="text-red-500 text-sm">
                 {$t.calendarSelectDateAppeal}
               </p>
-            )}
+            )} */}
             {startTime && finishTime ? (
               <>
-                <p>{`${startTime} - ${finishTime}`}</p>
-                <p className="text-sm">
-                  {$t.calendarLabelTimeDuration}:{" "}
+                <p className="text-sm tablet:text-base space-x-1">
+                  <span>{`${$t.calendarLabelTimeDuration}: ${startTime} - ${finishTime}`}</span>
+
+                  <span className="font-semibold">|</span>
+
                   <span
                     className={[
-                      "text-sm font-semibold",
+                      "font-semibold",
                       durationTask?.type === "hight"
                         ? "text-red-400"
                         : durationTask?.type === "medium"
@@ -457,29 +459,21 @@ const DeDateTimePicker: React.FC<DateTimePickerProps> = ({
           {timeRange && (
             <div className="flex flex-col w-full">
               <div className="divider my-2"></div>
-              <div className="text-center">
-                <p
-                  className={[
-                    "animation overflow-hidden",
-                    finishTime ? "max-h-6 opacity-100" : "max-h-0 opacity-0",
-                  ].join(" ")}
-                >
-                  Break: {`${finishTime} - `}{" "}
-                  <span className="inline-block w-12">{taskBreak?.time}</span>
-                </p>
-              </div>
-              <div
+              <p
                 className={[
-                  "px-1 animation space-y-4",
-                  defaultBreakRange?.length ? "opacity-100" : "opacity-0",
+                  "animation overflow-hidden text-sm tablet:text-base space-x-1",
+                  finishTime ? "max-h-6 opacity-100" : "max-h-0 opacity-0",
                 ].join(" ")}
               >
-                <p className="text-sm">
-                  Break duration:{" "}
-                  <span className="inline-block w-10 text-yellow-700 font-semibold">
-                    {breakRange}
-                  </span>
-                </p>
+                <span>Break time: {`${finishTime} - ${taskBreak?.time}`}</span>
+
+                <span className="font-semibold">|</span>
+
+                <span className="inline-block w-10 text-yellow-700 font-semibold">
+                  {breakRange}
+                </span>
+              </p>
+              <div className="mt-1 px-1">
                 <DeBreakSlider
                   defaultValue={defaultBreakRange}
                   onChange={handleChangeBreakDuration}

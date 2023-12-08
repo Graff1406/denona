@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import { FC, useState, ReactNode } from "react";
 
 // Feature
 
@@ -32,6 +32,20 @@ interface StepComponent {
   props?: Record<string, any>;
 }
 
+const StepWrapper = ({
+  children,
+  show,
+}: {
+  children: ReactNode;
+  show: boolean;
+}) => {
+  return (
+    <div className={["w-full", show ? "block" : "hidden"].join(" ")}>
+      {children}
+    </div>
+  );
+};
+
 const CreateTask: FC = () => {
   // Use
 
@@ -41,8 +55,8 @@ const CreateTask: FC = () => {
   // State
 
   const [step, setStep] = useState(0);
-  const [choseSL, setChoseSL] = useState<Sphere | null>();
-  const [goal, setGoal] = useState<Goal>();
+  const [choseSL, setChoseSL] = useState<Sphere | null>(null);
+  const [goal, setGoal] = useState<Goal | null>(null);
   const [dateTimeTask, setDateTimeTask] = useState<DateTimeTask | null>();
   const [validStep, setValidStep] = useState<ValidStep>({
     LS: false,
@@ -128,37 +142,37 @@ const CreateTask: FC = () => {
   return (
     <div className="flex flex-col justify-between h-full text-center relative">
       <section className="grow flex flex-col items-center gap-10">
-        {step === 0 && (
+        <StepWrapper show={step === 0}>
           <DefineLiveSphere
             scrollDirectionY={scrollDirectionY}
             onChange={handleChooseSL}
           />
-        )}
+        </StepWrapper>
 
-        {step === 1 && !!choseSL && (
+        <StepWrapper show={step === 1 && !!choseSL}>
           <DefineGoalByLiveSphere
             choseSL={choseSL}
             onChange={handleGoalDataChange}
             onCheckInvalid={handleCheckInvalid}
           />
-        )}
+        </StepWrapper>
 
-        {step === 2 && !!goal && (
+        <StepWrapper show={step === 2 && !!goal}>
           <ChooseDateTimeTask
             goal={goal}
             onSelectDuration={handleDateTimeTaskSelect}
             onValidationChange={handleChooseDateTimeTaskValidation}
           />
-        )}
+        </StepWrapper>
 
-        {step === 3 && !!choseSL && !!goal && (
+        <StepWrapper show={step === 3 && !!choseSL && !!goal}>
           <ExpectedResultTask
             choseSL={choseSL}
             goal={goal}
             onExpectedResultsChange={onExpectedResultsChange}
             onValidationChange={onValidationChange}
           />
-        )}
+        </StepWrapper>
 
         {/* {steps.map((stepItem, i: number) => (
           <div

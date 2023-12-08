@@ -25,8 +25,8 @@ import { GiSandsOfTime } from "react-icons/gi";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 
 interface ExpectedResultsProps {
-  choseSL: Sphere;
-  goal: Goal;
+  choseSL: Sphere | null;
+  goal: Goal | null;
   onExpectedResultsChange: (results: TaskExpectedResult[]) => void;
   onValidationChange: (validationResult: boolean) => void;
 }
@@ -80,12 +80,12 @@ const ExpectedResults: FC<ExpectedResultsProps> = ({
   };
 
   const getRecommendationAndPrecautions = async (): Promise<void> => {
-    if (choseSL)
+    if (choseSL && goal)
       try {
         setLoadingRecommendationsAndPrecautions(true);
         const prompt = generatePrompt("taskRecommendedExpectedResults", {
           LS: `${choseSL.en.label}. ${choseSL.en.hint}`,
-          goal: `${goal.title}. ${goal.description}`,
+          goal: `${goal?.title}. ${goal?.description}`,
         });
         const res = await askGPT({
           content: prompt,
@@ -111,6 +111,10 @@ const ExpectedResults: FC<ExpectedResultsProps> = ({
   useEffect(() => {
     onExpectedResultsChange(expectedResults);
   }, [expectedResults]);
+
+  useEffect(() => {
+    console.log("ExpectedResultTask");
+  }, []);
 
   // useEffect(() => {
   //   if (

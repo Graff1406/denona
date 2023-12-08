@@ -35,7 +35,7 @@ type TaskWithTimestamp = Omit<Task, "duration"> & {
 };
 
 interface ExpectedResultsProps {
-  goal: Goal;
+  goal: Goal | null;
   onSelectDuration: (duration: DateTimeTask | null) => void;
   onValidationChange: (validationResult: boolean) => void;
 }
@@ -165,6 +165,7 @@ const ChooseDateTimeTask: FC<ExpectedResultsProps> = ({
 
   return (
     <div className="space-y-3 relative w-full">
+      <h2>{$t.createTaskDefineTimeDurationStepTitle}</h2>
       <div
         className={[
           "animation sticky top-4 z-10 bg-white dark:bg-zinc-800",
