@@ -11,6 +11,7 @@ interface AlertProps {
 }
 
 const Alert: FC<AlertProps> = ({ type, text }) => {
+  console.log("🚀 ~ file: DeAlert.private.tsx:14 ~ text:", text);
   let bgColor = "";
   let iconColor = "";
   let Icon: React.ElementType = RiErrorWarningFill;
@@ -35,7 +36,10 @@ const Alert: FC<AlertProps> = ({ type, text }) => {
 
   return (
     <div
-      className={`flex items-center text-start gap-3 rounded-md p-2 ${bgColor}`}
+      className={[
+        "flex items-center text-start gap-3 rounded-md p-2 w-full",
+        bgColor,
+      ].join(" ")}
     >
       <span className="w-7 h-7">
         <Icon className={`${iconColor} w-7 h-7`} />

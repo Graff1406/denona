@@ -170,7 +170,7 @@ const CreateTask: FC = () => {
   return (
     <div className="flex flex-col justify-between h-full text-center relative">
       <section className="grow flex flex-col items-center gap-10">
-        <StepWrapper show={step === 3}>
+        <StepWrapper show={step === 0}>
           <DefineLiveSphere
             scrollDirectionY={scrollDirectionY}
             onChange={handleChooseSL}
@@ -193,7 +193,7 @@ const CreateTask: FC = () => {
           />
         </StepWrapper>
 
-        <StepWrapper show={step === 0 && !!choseSL && !!goal}>
+        <StepWrapper show={step === 3 && !!choseSL && !!goal}>
           <ExpectedResultTask
             choseSL={choseSL}
             goal={goal}

@@ -11,12 +11,14 @@ import {
   Sphere,
   Goal,
   RecommendationsAndPrecautions,
+  Task,
 } from "@/entities/models";
 
 // Shared
 
 import { DeButton, DeField, DeIconButton, DeAlert } from "@/shared/ui";
 import { useTranslations } from "@/shared/hooks";
+import { PENDING } from "@/shared/constants";
 
 // Icon
 
@@ -27,6 +29,7 @@ import { AiOutlineLoading3Quarters } from "react-icons/ai";
 interface ExpectedResultsProps {
   choseSL: Sphere | null;
   goal: Goal | null;
+  task: Task | null;
   onExpectedResultsChange: (results: TaskExpectedResult[]) => void;
   onValidationChange: (validationResult: boolean) => void;
 }
@@ -34,6 +37,7 @@ interface ExpectedResultsProps {
 const ExpectedResults: FC<ExpectedResultsProps> = ({
   choseSL,
   goal,
+  task,
   onExpectedResultsChange,
   onValidationChange,
 }) => {
@@ -47,12 +51,9 @@ const ExpectedResults: FC<ExpectedResultsProps> = ({
     []
   );
   const [newResult, setNewResult] = useState<string>("");
-  const [
-    loadingRecommendationsAndPrecautions,
-    setLoadingRecommendationsAndPrecautions,
-  ] = useState(false);
-  const [recommendationsAndPrecautions, setRecommendationsAndPrecautions] =
-    useState<RecommendationsAndPrecautions | null>();
+  const [loadingRecommend, setLoadingRecommendationsAndPrecautions] =
+    useState(false);
+  const [recommend, setRecommend] = useState<string[]>();
 
   // methods
 
@@ -64,7 +65,7 @@ const ExpectedResults: FC<ExpectedResultsProps> = ({
     if (newResult.trim().length > 3) {
       setExpectedResults([
         ...expectedResults,
-        { status: "pending", text: newResult },
+        { status: PENDING, text: newResult },
       ]);
       setNewResult("");
     }
@@ -84,16 +85,21 @@ const ExpectedResults: FC<ExpectedResultsProps> = ({
       try {
         setLoadingRecommendationsAndPrecautions(true);
         const prompt = generatePrompt("taskRecommendedExpectedResults", {
-          LS: `${choseSL.en.label}. ${choseSL.en.hint}`,
-          goal: `${goal?.title}. ${goal?.description}`,
+          LS: choseSL.en.label,
+          goal: goal?.title,
+          task: task?.title,
         });
         const res = await askGPT({
           content: prompt,
           max_tokens: 1000,
         });
         const data = res.toJSON<RecommendationsAndPrecautions>();
-        if (!!data?.recommendations && Array.isArray(data?.recommendations))
-          setRecommendationsAndPrecautions(data);
+        if (
+          !!data?.recommendations &&
+          Array.isArray(data?.recommendations) &&
+          data?.recommendations.every((item) => typeof item === "string")
+        )
+          setRecommend(data?.recommendations);
       } catch (error) {
         console.log(error);
       } finally {
@@ -102,17 +108,16 @@ const ExpectedResults: FC<ExpectedResultsProps> = ({
   };
 
   const handleAddRecommendedToExpectedResult = (recommendation: string) => {
-    const recommendations =
-      recommendationsAndPrecautions?.recommendations.filter(
-        (result) => result !== recommendation
-      ) as string[];
+    const recommendations = recommend?.filter(
+      (result) => result !== recommendation
+    ) as string[];
 
     setExpectedResults([
       ...expectedResults,
-      { status: "pending", text: recommendation },
+      { status: PENDING, text: recommendation },
     ]);
 
-    setRecommendationsAndPrecautions({ recommendations });
+    setRecommend(recommendations);
   };
 
   // Hooks
@@ -126,13 +131,10 @@ const ExpectedResults: FC<ExpectedResultsProps> = ({
     onExpectedResultsChange(expectedResults);
   }, [expectedResults]);
 
-  useEffect(() => {
-    if (
-      recommendationsAndPrecautions !== null &&
-      !loadingRecommendationsAndPrecautions
-    )
-      getRecommendationAndPrecautions();
-  }, [goal]);
+  // useEffect(() => {
+  //   getRecommendationAndPrecautions();
+  //   console.log("getRecommendationAndPrecautions");
+  // }, [goal]);
 
   return (
     <div className="my-4 w-full relative">
@@ -140,7 +142,7 @@ const ExpectedResults: FC<ExpectedResultsProps> = ({
         {$t.createTaskExpectedResults}
       </h2>
 
-      <div className="flex flex-col tablet:flex-row tablet:items-center gap-3 sticky top-0 bg-white dark:bg-zinc-800 py-2">
+      <div className="flex flex-col tablet:flex-row tablet:items-center gap-3 sticky top-0 bg-white dark:bg-zinc-800 py-2 z-10">
         <DeField
           value={newResult}
           placeholder="Result"
@@ -199,51 +201,29 @@ const ExpectedResults: FC<ExpectedResultsProps> = ({
         <section className="space-y-3">
           <h3 className="flex items-center justify-center gap-4">
             <span>{$t.createTaskExpectedResultRecommendations}</span>
-            {loadingRecommendationsAndPrecautions ? (
+            {loadingRecommend ? (
               <AiOutlineLoading3Quarters className="animate-spin h-5 w-5" />
             ) : (
-              `(${recommendationsAndPrecautions?.recommendations.length})`
+              !!recommend && `(${recommend?.length})`
             )}
           </h3>
 
-          {!loadingRecommendationsAndPrecautions && (
+          {!loadingRecommend && !!recommend?.length && (
             <ul className="space-y-2">
-              {recommendationsAndPrecautions?.recommendations.map(
-                (recommendation: string, i: number) => (
-                  <li
-                    key={i}
-                    className="flex items-center text-start gap-2 bg-green-50 rounded-md p-2 cursor-pointer"
-                    onClick={() =>
-                      handleAddRecommendedToExpectedResult(recommendation)
-                    }
-                  >
-                    <DeAlert type="success" text={recommendation} />
-                  </li>
-                )
-              )}
+              {recommend?.map((recommendation: string, i: number) => (
+                <li
+                  key={i}
+                  className="flex items-center text-start gap-2 rounded-md cursor-pointer"
+                  onClick={() =>
+                    handleAddRecommendedToExpectedResult(recommendation)
+                  }
+                >
+                  <DeAlert type="success" text={recommendation} />
+                </li>
+              ))}
             </ul>
           )}
         </section>
-        {/* <section className="space-y-4">
-          <h3 className="text-start flex items-center gap-4">
-            <span>Precautions</span>
-            {loadingRecommendationsAndPrecautions && (
-              <AiOutlineLoading3Quarters className="animate-spin h-5 w-5" />
-            )}
-          </h3>
-          <ul className="space-y-2">
-            {recommendationsAndPrecautions?.precautions.map(
-              (precaution: string, i: number) => (
-                <li
-                  key={i}
-                  className="flex items-center text-start gap-2 bg-orange-50 rounded-md p-2"
-                >
-                  <DeAlert type="warning" text={precaution} />
-                </li>
-              )
-            )}
-          </ul>
-        </section> */}
       </div>
     </div>
   );

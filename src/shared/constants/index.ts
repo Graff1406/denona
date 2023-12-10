@@ -5,6 +5,10 @@ export const GOALS = "goals";
 export const TASKS = "tasks";
 export const USER_SETTINGS = "settings";
 
+// Status
+
+export const PENDING = "pending";
+
 // Path
 
 export const path: {
