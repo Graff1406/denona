@@ -1,4 +1,4 @@
-import { FC, useState, useEffect, ChangeEvent } from "react";
+import { FC, useState, ChangeEvent } from "react";
 
 // Feature
 
@@ -7,11 +7,8 @@ import { askGPT, generatePrompt } from "@/features/openai";
 // Entities
 
 import {
-  TaskExpectedResult,
-  Sphere,
-  Goal,
+  SuccessCriteria,
   RecommendationsAndPrecautions,
-  Task,
 } from "@/entities/models";
 
 // Shared
@@ -24,22 +21,19 @@ import { PENDING } from "@/shared/constants";
 
 import { MdDelete } from "react-icons/md";
 import { GiSandsOfTime } from "react-icons/gi";
-import { AiOutlineLoading3Quarters } from "react-icons/ai";
 
-interface ExpectedResultsProps {
-  choseSL: Sphere | null;
-  goal: Goal | null;
-  task: Task | null;
-  onExpectedResultsChange: (results: TaskExpectedResult[]) => void;
-  onValidationChange: (validationResult: boolean) => void;
+interface Props {
+  successCriteria?: SuccessCriteria[];
+  lifeSphereTitle: string;
+  goalTitle: string;
+  onChange: (results: SuccessCriteria[]) => void;
 }
 
-const ExpectedResults: FC<ExpectedResultsProps> = ({
-  choseSL,
-  goal,
-  task,
-  onExpectedResultsChange,
-  onValidationChange,
+const GoalExpectedResult: FC<Props> = ({
+  lifeSphereTitle,
+  goalTitle,
+  successCriteria = [],
+  onChange,
 }) => {
   // Use
 
@@ -47,9 +41,6 @@ const ExpectedResults: FC<ExpectedResultsProps> = ({
 
   // State
 
-  const [expectedResults, setExpectedResults] = useState<TaskExpectedResult[]>(
-    []
-  );
   const [newResult, setNewResult] = useState<string>("");
   const [loadingRecommend, setLoadingRecommendationsAndPrecautions] =
     useState(false);
@@ -63,31 +54,27 @@ const ExpectedResults: FC<ExpectedResultsProps> = ({
 
   const handleAddResult = () => {
     if (newResult.trim().length > 3) {
-      setExpectedResults([
-        ...expectedResults,
-        { status: PENDING, text: newResult },
-      ]);
+      onChange([...successCriteria, { status: PENDING, text: newResult }]);
       setNewResult("");
     }
   };
 
   const handleRemoveResult = (index: number) => {
-    const updatedResults = expectedResults.filter((_, i) => i !== index);
-    setExpectedResults(updatedResults);
+    const updatedResults = successCriteria.filter((_, i) => i !== index);
+    onChange(updatedResults);
   };
 
   const handleClearAllResults = () => {
-    setExpectedResults([]);
+    onChange([]);
   };
 
   const getRecommendationAndPrecautions = async (): Promise<void> => {
-    if (choseSL && goal)
+    if (lifeSphereTitle && goalTitle)
       try {
         setLoadingRecommendationsAndPrecautions(true);
         const prompt = generatePrompt("taskRecommendedExpectedResults", {
-          LS: choseSL.en.label,
-          goal: goal?.title,
-          task: task?.title,
+          LS: lifeSphereTitle,
+          goal: goalTitle,
         });
         const res = await askGPT({
           content: prompt,
@@ -112,40 +99,20 @@ const ExpectedResults: FC<ExpectedResultsProps> = ({
       (result) => result !== recommendation
     ) as string[];
 
-    setExpectedResults([
-      ...expectedResults,
-      { status: PENDING, text: recommendation },
-    ]);
+    onChange([...successCriteria, { status: PENDING, text: recommendation }]);
 
     setRecommend(recommendations);
   };
 
-  // Hooks
-
-  useEffect(() => {
-    const isValid = expectedResults.length > 0;
-    onValidationChange(isValid);
-  }, [expectedResults]);
-
-  useEffect(() => {
-    onExpectedResultsChange(expectedResults);
-  }, [expectedResults]);
-
-  // useEffect(() => {
-  //   getRecommendationAndPrecautions();
-  //   console.log("getRecommendationAndPrecautions");
-  // }, [goal]);
-
   return (
-    <div className="my-4 w-full relative">
-      <h2 className="text-lg font-semibold mb-4">
-        {$t.createTaskExpectedResults}
-      </h2>
+    <div className="w-full relative space-y-3">
+      <div className="divider"></div>
+      <p className="text-sm tablet:text-lg">{$t.successCriteriaHint}</p>
 
-      <div className="flex flex-col tablet:flex-row tablet:items-center gap-3 sticky top-0 bg-white dark:bg-zinc-800 py-2 z-10">
+      <div className="flex flex-col tablet:flex-row tablet:items-center gap-3  bg-white dark:bg-zinc-800 py-2">
         <DeField
           value={newResult}
-          placeholder="Result"
+          placeholder="Add a new criteria"
           onChange={handleInputChange}
           onEnter={handleAddResult}
         />
@@ -159,17 +126,17 @@ const ExpectedResults: FC<ExpectedResultsProps> = ({
       </div>
 
       <div>
-        {expectedResults.map((result, index) => (
+        {successCriteria.map((result, index) => (
           <div
             key={index}
             className="flex items-center gap-2 justify-between w-full bg-zinc-50 mt-2 hover:bg-zinc-100 p-2 rounded-md animation"
           >
             <p className="text-start flex gap-2 items-center">
-              <GiSandsOfTime />
+              <GiSandsOfTime className="w-4 h-4" />
               <span>{result.text}</span>
             </p>
             <DeIconButton
-              className="w-7 h-7 text-red-500"
+              className="text-red-500"
               icon={<MdDelete />}
               title={$t.createTaskExpectedResultItemDeleteButtonTitle}
               areaLabel={$t.createTaskExpectedResultItemDeleteAreaLabel}
@@ -181,7 +148,7 @@ const ExpectedResults: FC<ExpectedResultsProps> = ({
         <div
           className={[
             "flex justify-end animation box-border",
-            expectedResults.length > 1
+            successCriteria.length > 1
               ? "visible opacity-100 max-h-40 overflow-auto mt-4"
               : "invisible opacity-0 max-h-0 overflow-hidden mt-0",
           ].join(" ")}
@@ -195,21 +162,28 @@ const ExpectedResults: FC<ExpectedResultsProps> = ({
         </div>
       </div>
 
-      <div className="divider my-6 tablet:my-8"></div>
-
-      <div className="space-y-4">
+      <div className="pb-10">
         <section className="space-y-3">
-          <h3 className="flex items-center justify-center gap-4">
-            <span>{$t.createTaskExpectedResultRecommendations}</span>
-            {loadingRecommend ? (
-              <AiOutlineLoading3Quarters className="animate-spin h-5 w-5" />
-            ) : (
-              !!recommend && `(${recommend?.length})`
-            )}
-          </h3>
+          <div className="space-y-6">
+            <div className="flex gap-4 items-center">
+              <div className="divider"></div>
+              <p>OR</p>
+              <div className="divider"></div>
+            </div>
+            <div className="flex justify-center">
+              <DeButton
+                label="Generate criteria"
+                areaLabel="Generate criteria"
+                className="w-full tablet:w-1/2"
+                loading={loadingRecommend}
+                onClick={getRecommendationAndPrecautions}
+              />
+            </div>
+            {/* <div className="divider"></div> */}
+          </div>
 
           {!loadingRecommend && !!recommend?.length && (
-            <ul className="space-y-2">
+            <ul className="space-y-2 pt-4">
               {recommend?.map((recommendation: string, i: number) => (
                 <li
                   key={i}
@@ -229,4 +203,4 @@ const ExpectedResults: FC<ExpectedResultsProps> = ({
   );
 };
 
-export default ExpectedResults;
+export default GoalExpectedResult;

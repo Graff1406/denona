@@ -30,6 +30,22 @@ export const getCurrentRouteData = (
       },
       title: $t.pageCreateTaskHeadTitle,
     };
+  else if (path.defineLifeSphere === route)
+    return {
+      head: {
+        title: $t.appPageLifeSphereTitle,
+        description: $t.appPageLifeSphereDescription,
+      },
+      title: $t.appPageLifeSphereTitle,
+    };
+  else if (path.goal === route)
+    return {
+      head: {
+        title: $t.createTaskCalendarSingleTaskGoalLabel,
+        description: $t.goalDescription,
+      },
+      title: $t.createTaskCalendarSingleTaskGoalLabel,
+    };
 
   return {
     head: {

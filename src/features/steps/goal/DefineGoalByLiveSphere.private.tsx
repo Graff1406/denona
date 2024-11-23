@@ -251,7 +251,6 @@ const DefineGoalByLiveSphere: FC<Props> = ({
 
   return (
     <div className="flex flex-col gap-4 tablet:gap-6 mb-10">
-      <h2>{$t.createTaskPageAddNewGoal}</h2>
       <DeField
         value={goal.title}
         errorMessage={invalid.title && invalid.dirty.title ? $t.isRequired : ""}

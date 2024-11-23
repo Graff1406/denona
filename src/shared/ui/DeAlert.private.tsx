@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, ReactNode, ElementType } from "react";
 
 // Icons
 
@@ -8,13 +8,13 @@ import { RiErrorWarningFill } from "react-icons/ri";
 interface AlertProps {
   type: "success" | "warning" | "error";
   text: string;
+  icon?: ReactNode;
 }
 
-const Alert: FC<AlertProps> = ({ type, text }) => {
-  console.log("🚀 ~ file: DeAlert.private.tsx:14 ~ text:", text);
+const Alert: FC<AlertProps> = ({ type, text, icon }) => {
   let bgColor = "";
   let iconColor = "";
-  let Icon: React.ElementType = RiErrorWarningFill;
+  let Icon: ElementType = RiErrorWarningFill;
   switch (type) {
     case "success":
       bgColor = "bg-green-50";
@@ -42,7 +42,7 @@ const Alert: FC<AlertProps> = ({ type, text }) => {
       ].join(" ")}
     >
       <span className="w-7 h-7">
-        <Icon className={`${iconColor} w-7 h-7`} />
+        {icon ? icon : <Icon className={`${iconColor} w-7 h-7`} />}
       </span>
       <span>{text}</span>
     </div>

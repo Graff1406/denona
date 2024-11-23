@@ -7,7 +7,9 @@ import {
   DocumentData,
 } from "firebase/firestore";
 
-interface AddDocumentToSubCollection<T extends WithFieldValue<DocumentData>> {
+interface AddDocumentToSubCollection<
+  T extends WithFieldValue<DocumentData> | null
+> {
   parentCollection: string;
   parentId: string;
   subCollection: string;
@@ -15,15 +17,18 @@ interface AddDocumentToSubCollection<T extends WithFieldValue<DocumentData>> {
 }
 
 export default async function addDocumentToSubCollection<
-  T extends WithFieldValue<DocumentData>
+  T extends WithFieldValue<DocumentData> | null
 >({
   parentCollection,
   parentId,
   subCollection,
   data,
-}: AddDocumentToSubCollection<T>): Promise<void> {
+}: AddDocumentToSubCollection<T>): Promise<{ id: string } | null> {
   const parentDocRef = doc(db, parentCollection, parentId);
   const subCollectionRef = collection(parentDocRef, subCollection);
 
-  await addDoc(subCollectionRef, data);
+  if (data !== null) {
+    const docRef = await addDoc(subCollectionRef, data);
+    return { id: docRef.id };
+  } else return null;
 }

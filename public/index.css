@@ -75,6 +75,9 @@
   .skeleton {
     @apply bg-zinc-100 dark:bg-zinc-800 animate-pulse;
   }
+  .step-hint {
+    @apply text-start text-sm tablet:text-lg;
+  }
   @screen tablet {
     .h-content {
       height: calc(100vh - 72px);

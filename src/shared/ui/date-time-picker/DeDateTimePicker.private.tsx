@@ -61,7 +61,7 @@ const DeDateTimePicker: React.FC<DateTimePickerProps> = ({
   //State
 
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
-  const [printDate, setPrintDate] = useState("");
+  // const [printDate, setPrintDate] = useState("");
   const [selectedHour, setSelectedHour] = useState("");
   const [startTime, setStartTime] = useState("");
   const [startTimeIndex, setStartTimeIndex] = useState<number>(-1);
@@ -99,26 +99,26 @@ const DeDateTimePicker: React.FC<DateTimePickerProps> = ({
   const handleDateSelect = ({ date }: { date: Date | Date[] }) => {
     if (!Array.isArray(date)) {
       setSelectedDate(date);
-      setPrintDate(
-        dateTimeFormat({
-          weekday: "short",
-          year: "numeric",
-          month: "short",
-          day: "numeric",
-        }).format(date)
-      );
+      // setPrintDate(
+      //   dateTimeFormat({
+      //     weekday: "short",
+      //     year: "numeric",
+      //     month: "short",
+      //     day: "numeric",
+      //   }).format(date)
+      // );
     }
 
     if (Array.isArray(date) && date[1]) {
-      const formatter = dateTimeFormat({
-        day: "2-digit",
-        month: "2-digit",
-        year: "numeric",
-      });
-      const startDate = formatter.format(date[0]);
-      const endDate = formatter.format(date[1]);
       setSelectedDate(date[0]);
-      setPrintDate(`${startDate} - ${endDate}`);
+      // const formatter = dateTimeFormat({
+      //   day: "2-digit",
+      //   month: "2-digit",
+      //   year: "numeric",
+      // });
+      // const startDate = formatter.format(date[0]);
+      // const endDate = formatter.format(date[1]);
+      // setPrintDate(`${startDate} - ${endDate}`);
     }
 
     if (date === undefined) {
@@ -182,43 +182,43 @@ const DeDateTimePicker: React.FC<DateTimePickerProps> = ({
       let isSlated = false;
 
       tasks.forEach((task) => {
-        const taskStartTime = new Date(
-          `1970-01-01T${task.duration.time.start}`
-        );
-        const taskEndTime = new Date(`1970-01-01T${task.duration.time.end}`);
+        if (task) {
+          const taskStartTime = new Date(`1970-01-01T${task.duration.start}`);
+          const taskEndTime = new Date(`1970-01-01T${task.duration.end}`);
 
-        if (
-          task.duration.date.getTime() === selectedDate?.getTime() &&
-          localStartTime >= taskStartTime &&
-          localStartTime <= taskEndTime
-        ) {
-          isSlated = true;
-        } else if (
-          task.duration.date.getTime() === selectedDate?.getTime() &&
-          task.duration.break &&
-          localStartTime >= taskEndTime &&
-          localStartTime <=
-            new Date(
-              `1970-01-01T${addMinutes(
-                taskEndTime,
-                parseBreak(task.duration.break)
-              )}`
-            )
-        ) {
-          isSlated = true;
-        } else if (
-          task.duration.date.getTime() === selectedDate?.getTime() &&
-          !task.duration.break &&
-          localStartTime >= taskEndTime &&
-          localStartTime <=
-            new Date(
-              `1970-01-01T${addMinutes(
-                taskEndTime,
-                parseBreak(defaultBreakRange || "00:00")
-              )}`
-            )
-        ) {
-          isSlated = true;
+          if (
+            task.duration.date.getTime() === selectedDate?.getTime() &&
+            localStartTime >= taskStartTime &&
+            localStartTime <= taskEndTime
+          ) {
+            isSlated = true;
+          } else if (
+            task.duration.date.getTime() === selectedDate?.getTime() &&
+            task.duration.break &&
+            localStartTime >= taskEndTime &&
+            localStartTime <=
+              new Date(
+                `1970-01-01T${addMinutes(
+                  taskEndTime,
+                  parseBreak(task.duration.break)
+                )}`
+              )
+          ) {
+            isSlated = true;
+          } else if (
+            task.duration.date.getTime() === selectedDate?.getTime() &&
+            !task.duration.break &&
+            localStartTime >= taskEndTime &&
+            localStartTime <=
+              new Date(
+                `1970-01-01T${addMinutes(
+                  taskEndTime,
+                  parseBreak(defaultBreakRange || "00:00")
+                )}`
+              )
+          ) {
+            isSlated = true;
+          }
         }
       });
 
@@ -398,8 +398,7 @@ const DeDateTimePicker: React.FC<DateTimePickerProps> = ({
 
     if (finishTime) selected.time = { start: startTime, end: finishTime };
     if (breakRange !== defaultBreakRange) selected.break = breakRange;
-
-    onSelect(selected);
+    if (onSelect) onSelect(selected);
   }, [selectedDate, finishTime, breakRange]);
 
   useEffect(() => {
@@ -413,7 +412,7 @@ const DeDateTimePicker: React.FC<DateTimePickerProps> = ({
 
   return (
     <>
-      <div className="flex justify-center max-h-[350px] overflow-hidden gap-1">
+      <div className="flex justify-center max-h-[335px] overflow-hidden gap-1">
         <div className="h-full flex flex-col items-center">
           <div className="w-[250px]">
             <div id={datePickerId}></div>
@@ -429,10 +428,10 @@ const DeDateTimePicker: React.FC<DateTimePickerProps> = ({
             )} */}
             {startTime && finishTime ? (
               <>
-                <p className="text-sm tablet:text-base space-x-1">
+                <p className="text-sm space-x-1">
                   <span>{`${$t.calendarLabelTimeDuration}: ${startTime} - ${finishTime}`}</span>
 
-                  <span className="font-semibold">|</span>
+                  <span>|</span>
 
                   <span
                     className={[
@@ -457,17 +456,17 @@ const DeDateTimePicker: React.FC<DateTimePickerProps> = ({
             )}
           </div>
           {timeRange && (
-            <div className="flex flex-col w-full">
+            <div
+              className={[
+                "flex flex-col w-full animation",
+                finishTime ? "max-h-20 opacity-100" : "max-h-0 opacity-0",
+              ].join(" ")}
+            >
               <div className="divider my-2"></div>
-              <p
-                className={[
-                  "animation overflow-hidden text-sm tablet:text-base space-x-1",
-                  finishTime ? "max-h-6 opacity-100" : "max-h-0 opacity-0",
-                ].join(" ")}
-              >
+              <p className={["overflow-hidden text-sm space-x-1"].join(" ")}>
                 <span>Break time: {`${finishTime} - ${taskBreak?.time}`}</span>
 
-                <span className="font-semibold">|</span>
+                <span>|</span>
 
                 <span className="inline-block w-10 text-yellow-700 font-semibold">
                   {breakRange}

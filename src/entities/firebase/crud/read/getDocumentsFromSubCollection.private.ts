@@ -22,7 +22,7 @@ const getDocumentsFromSubCollection = async <T>({
   parentCollection,
   parentId,
   subcollection,
-  field = "id",
+  field = "__name__",
   value,
   converter,
 }: SubcollectionQueryParams<T>): Promise<T[]> => {

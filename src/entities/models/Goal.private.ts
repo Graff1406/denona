@@ -1,14 +1,20 @@
-export type Goal = {
+import { SuccessCriteria } from "./index";
+
+export type DurationGoal = {
+  start?: Date;
+  end?: Date;
+};
+
+type GoalBody = {
   title: string;
-  date: {
-    start?: Date;
-    end?: Date;
-  };
+  date: DurationGoal;
   description?: string;
-  successCriteria?: string;
+  successCriteria?: SuccessCriteria[];
   reward?: string;
   labels?: string[];
   lifeSphereId?: string;
   status?: "draft" | "progress" | "success" | "failed";
   id?: string;
 };
+
+export type Goal = GoalBody | null;

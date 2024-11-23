@@ -16,9 +16,13 @@ export const path: {
   settings: string;
   help: string;
   create: string;
+  defineLifeSphere: string;
+  goal: string;
 } = {
   home: "/",
   settings: "/settings",
   help: "/help",
   create: "/create",
+  defineLifeSphere: "/life-sphere",
+  goal: "/goal",
 };

@@ -1,5 +1,4 @@
 import { FC, useState, useEffect } from "react";
-import { Timestamp } from "firebase/firestore";
 
 // Features
 
@@ -28,12 +27,6 @@ import { USERS, TASKS, USER_SETTINGS } from "@/shared/constants";
 import { convertTimestampToDate } from "@/shared/helpers";
 import { useTranslations } from "@/shared/hooks";
 
-type TaskWithTimestamp = Omit<Task, "duration"> & {
-  duration: Omit<Task["duration"], "date"> & {
-    date: Timestamp;
-  };
-};
-
 interface ExpectedResultsProps {
   goal: Goal | null;
   onSelectDuration: (duration: DateTimeTask | null) => void;
@@ -60,18 +53,26 @@ const ChooseDateTimeTask: FC<ExpectedResultsProps> = ({
 
   // Method
 
-  const handleTaskDate = (tasks: TaskWithTimestamp[]) => {
-    return tasks.map((task) => ({
-      ...task,
-      duration: {
-        ...task.duration,
-        date: convertTimestampToDate(task.duration.date),
-      },
-    }));
+  const handleTaskDate = (tasks: Task[]) => {
+    return tasks.map((task) => {
+      if (task) {
+        return {
+          ...task,
+          duration: {
+            ...task.duration,
+            date: convertTimestampToDate(task.duration.date),
+          },
+        };
+      } else {
+        return task; // Return the null value as is
+      }
+    });
   };
 
   const getTasksAndBreakDuration = (tasks: Task[]) => {
-    const tasksInProgress = tasks.filter((task) => task.status === "progress");
+    const tasksInProgress = tasks?.filter(
+      (task) => task?.status === "progress"
+    );
     const tasksDuration = calculateStatusDurations(tasksInProgress);
     const breaksDuration = calculateBreakDuration(
       tasksInProgress,
@@ -85,14 +86,13 @@ const ChooseDateTimeTask: FC<ExpectedResultsProps> = ({
     if (user?.auth?.uid) {
       try {
         setLoadingTasks(true);
-        const dataTasks =
-          await getDocumentsFromSubCollection<TaskWithTimestamp>({
-            parentCollection: USERS,
-            parentId: user?.auth?.uid,
-            subcollection: TASKS,
-            field: "duration.date",
-            value: duration?.date,
-          });
+        const dataTasks = await getDocumentsFromSubCollection<Task>({
+          parentCollection: USERS,
+          parentId: user?.auth?.uid,
+          subcollection: TASKS,
+          field: "duration.date",
+          value: duration?.date,
+        });
 
         const { tasksDuration, breaksDuration } = getTasksAndBreakDuration(
           handleTaskDate(dataTasks)
@@ -165,10 +165,9 @@ const ChooseDateTimeTask: FC<ExpectedResultsProps> = ({
 
   return (
     <div className="space-y-3 relative w-full">
-      <h2>{$t.createTaskDefineTimeDurationStepTitle}</h2>
       <div
         className={[
-          "animation sticky top-4 z-10 bg-white dark:bg-zinc-800",
+          "animation bg-white dark:bg-zinc-800",
           selectedDate?.date
             ? "visible opacity-100 max-h-40"
             : "invisible opacity-0 max-h-0",
@@ -178,15 +177,15 @@ const ChooseDateTimeTask: FC<ExpectedResultsProps> = ({
       </div>
 
       {goal && (
-        <div className="border dark:border-zinc-700 rounded-md shadow-md py-3">
+        <div className="border dark:border-zinc-700 rounded-md py-3">
           <DeDateTimePicker
             tasks={tasks}
             loadingTasks={loadingTasks}
             timeRange
             onSelect={handleDateSelect}
             defaultBreakRange={defaultBreak}
-            minDate={goal.date.start}
-            maxDate={goal.date.end}
+            minDate={goal.date?.start}
+            maxDate={goal.date?.end}
           />
         </div>
       )}
@@ -194,8 +193,8 @@ const ChooseDateTimeTask: FC<ExpectedResultsProps> = ({
       <div className="space-y-3 pb-4">
         {!!tasks?.length && (
           <>
-            <div className="divider my-6"></div>
-            <p className="text-end font-semibold">
+            {/* <div className="divider my-6"></div> */}
+            <p className="text-center text-xl font-semibold">
               {$t.createTaskCalendarAllTasksTitle}
             </p>
             <DeTaskList tasks={tasks} user={user} defaultBreak={defaultBreak} />

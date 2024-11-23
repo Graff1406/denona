@@ -10,6 +10,8 @@ const S = lazy(() => import("./Settings.private"));
 const H = lazy(() => import("./help/Help.private"));
 const AH = lazy(() => import("./home/AuthorizedHome.private"));
 const CR = lazy(() => import("./CreateTask.private"));
+const LS = lazy(() => import("./LifeSphere.private"));
+const GL = lazy(() => import("./Goal.private"));
 
 // Exports
 
@@ -18,6 +20,8 @@ export const AuthorizedHome = () => SetSuspense(AH);
 export const Settings = () => SetSuspense(S);
 export const Help = () => SetSuspense(H);
 export const CreateTask = () => SetSuspense(CR);
+export const LifeSphere = () => SetSuspense(LS);
+export const Goal = () => SetSuspense(GL);
 
 function SetSuspense(C: FC) {
   return (

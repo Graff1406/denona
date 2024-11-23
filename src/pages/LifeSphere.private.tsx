@@ -10,11 +10,10 @@ import { StepWrapper, Step } from "@/widgets/stepper";
 import {
   DefineLiveSphere,
   // DefineGoalByLiveSphere,
-  ExpectedResultTask,
+  // ExpectedResultTask,
   ChooseDateTimeTask,
   TaskDescription,
-  TaskRecommendAndPrecaution,
-  TaskExternalFactors,
+  TaskSuccessCriteria,
   // DefineLifeSphereAndGoal,
   GoalPool,
   GoalDescription,
@@ -164,8 +163,6 @@ const LifeSpherePage: FC = () => {
     if (s === 7 && createGoal) {
       setStep(1);
       initCreatedGoal();
-    } else if (s === 7 && !createGoal) {
-      console.log(222);
     } else setStep(s);
   };
 
@@ -209,25 +206,16 @@ const LifeSpherePage: FC = () => {
     dispatchGoal(joinGoalData({ reward }));
   };
 
-  // Task
-
-  const updateTask = <T extends Partial<Task>>(data: T) => {
-    const updatedTask = { ...storeStep.task, ...data } as Task;
-    dispatchTask(updatedTask);
-  };
-
   const handleChangeTaskSuccessCriteria = (
     successCriteria: SuccessCriteria[]
   ) => {
-    updateTask({ successCriteria });
+    const updatedTask = { ...storeStep.task, successCriteria } as Task;
+    dispatchTask(updatedTask);
   };
 
-  const handleDateTimeTaskSelect = (duration: DateTimeTask) => {
-    updateTask({ duration });
-  };
-
-  const handleChangeTaskExternalFactors = (externalFactor: number) => {
-    updateTask({ externalFactor });
+  const handleDateTimeTaskSelect = (duration: DateTimeTask | null) => {
+    const task = { ...storeStep.task, duration } as Task;
+    dispatchTask(task);
   };
 
   const handleChooseDateTimeTaskValidation = (isValid: boolean) => {
@@ -237,11 +225,11 @@ const LifeSpherePage: FC = () => {
   const handleChooseLifeSphere = () => {
     navigate(path.defineLifeSphere);
   };
-
   // Hooks
 
   useEffect(() => {
     dispatchHistory("sphere", step);
+    console.log(111, storeStep.goal);
   }, [step]);
 
   useEffect(() => {
@@ -253,7 +241,6 @@ const LifeSpherePage: FC = () => {
       parentStep={step}
       prevButtonDisabled={step == 0}
       nextButtonDisabled={stepValid}
-      nextButtonLabel={step === 6 && !createGoal ? "Завершить" : ""}
       onGetStep={handleStep}
     >
       <Step
@@ -362,7 +349,7 @@ const LifeSpherePage: FC = () => {
         </>
       ) : (
         <>
-          <Step active={step === 2} title="Описание задачи">
+          <Step active={step === 2} title={$t.appFormCreateTaskLabel}>
             <TaskDescription
               title={storeStep.task?.title ?? ""}
               description={storeStep.task?.description ?? ""}
@@ -370,23 +357,7 @@ const LifeSpherePage: FC = () => {
             />
           </Step>
 
-          <Step active={step === 3} title="Ожидаемые результаты">
-            <ExpectedResultTask
-              successCriteria={storeStep.goal?.successCriteria}
-              lifeSphereTitle={storeStep.sphere?.en.label ?? ""}
-              goalTitle={storeStep.goal?.title ?? ""}
-              onChange={handleChangeGoalSuccessCriteria}
-            />
-          </Step>
-
-          <Step active={step === 4} title="Внешние факторы и обстоятельства">
-            <TaskExternalFactors
-              goalTitle={storeStep.goal?.title ?? ""}
-              onChange={handleChangeTaskExternalFactors}
-            />
-          </Step>
-
-          <Step active={step === 5} title="Когда выпольнить задачу?">
+          <Step active={step === 3} title={$t.appFormCreateTaskLabel}>
             <ChooseDateTimeTask
               goal={storeStep.goal}
               onSelectDuration={handleDateTimeTaskSelect}
@@ -394,11 +365,10 @@ const LifeSpherePage: FC = () => {
             />
           </Step>
 
-          <Step active={step === 6} title="Рекомандации и предосторожности">
-            <TaskRecommendAndPrecaution
-              sphere={storeStep.sphere}
-              goal={storeStep.goal}
-              onChange={handleChangeTaskExternalFactors}
+          <Step active={step === 4} title={$t.appFormCreateTaskLabel}>
+            <TaskSuccessCriteria
+              successCriteria={storeStep.task?.successCriteria ?? ""}
+              onChange={handleChangeTaskSuccessCriteria}
             />
           </Step>
         </>

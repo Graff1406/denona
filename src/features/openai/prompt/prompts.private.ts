@@ -5,7 +5,7 @@ export const lifeSphere = `Conditions:
   4. "hint" is an extended additional description for “label”. "hint" must be a maximum of 150 characters.
 `;
 
-export const goalDescription = `Response must be in JSON format: { "labels": [] }. Use title: {{title}}, life sphere: {{lifeSphere}}, and also if there is the following description: {{description}}. for create an array of keywords, consisting of one word, and push it to the "labels" array with a minimum of 3 items but if the passed context allows you to create more than three keywords, then be sure to add labels to the array. Keywords should be English letters.
+export const goalLabels = `Response must be in JSON format: { "labels": [] }. Use title: {{title}}, life sphere: {{lifeSphere}} for create an array of keywords, consisting of one word, and push it to the "labels" array with a minimum of 3 items but if the passed context allows you to create more than three keywords, then be sure to add labels to the array. Keywords should be English letters.
 `;
 
 export const taskRecommendedExpectedResults = `Provide a summary of the specific benefits of completing the task in 3 sentences with a maximum of 70 characters per sentence. The sentences should be relevant to the {{LS}}, {{goal}}, and {{task}}. The response should be formatted as JSON with the following structure: {"recommendations": []}`;

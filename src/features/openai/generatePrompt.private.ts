@@ -3,7 +3,7 @@
 
 import {
   lifeSphere,
-  goalDescription,
+  goalLabels,
   taskRecommendationsAndPrecautions,
   taskRecommendedExpectedResults,
   cautious,
@@ -12,7 +12,7 @@ import {
 
 type PromptName =
   | "lifeSphere"
-  | "goalDescription"
+  | "goalLabels"
   | "taskRecommendationsAndPrecautions"
   | "taskRecommendedExpectedResults"
   | "cautious"
@@ -29,10 +29,9 @@ type PlaceholderMap = {
     length: number;
     value: string;
   };
-  goalDescription: {
+  goalLabels: {
     lifeSphere: string;
     title: string;
-    description: string;
   };
   taskRecommendationsAndPrecautions: Results;
   taskRecommendedExpectedResults: Results;
@@ -46,7 +45,7 @@ type Prompt<T extends PromptName> = {
 
 const prompt: Prompt<PromptName> = {
   lifeSphere,
-  goalDescription,
+  goalLabels,
   taskRecommendationsAndPrecautions,
   taskRecommendedExpectedResults,
   cautious,

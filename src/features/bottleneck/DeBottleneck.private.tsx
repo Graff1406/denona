@@ -170,7 +170,7 @@ const DeBottleneck: FC<BottleneckProps> = ({ tasksDuration }) => {
   }, [tasksDuration]);
 
   return (
-    <div className="relative border dark:border-zinc-700 rounded-md p-3 space-y-3 shadow-md">
+    <div className="relative border dark:border-zinc-700 rounded-md p-3 space-y-3">
       <div className="relative w-full h-6 rounded text-xs font-semibold">
         <div
           className={[

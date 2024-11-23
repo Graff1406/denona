@@ -3,8 +3,8 @@ import { useInView } from "react-intersection-observer";
 
 // Component
 
-import ListItem from "./ListItem.private";
-import List from "./List.private";
+import ListItem from "../list/ListItem.private";
+import List from "../list/List.private";
 
 // Feature
 
@@ -194,9 +194,6 @@ const DefineLiveSphere: FC<Props> = ({ scrollDirectionY, onChange }) => {
     <>
       {/* <DeButton label="Add to col" onClick={temporary} /> */}
       <div className="mb-8 w-full">
-        <h2 className="mb-4">
-          {$t.createTaskPageAddLifeSphereProggressListTitle}
-        </h2>
         <DeSkeletonList loading={loadingInProgressSpheres} limit={5}>
           {!loadingInProgressSpheres && inProgressSpheres.length ? (
             <List items={inProgressSpheres}>
@@ -213,7 +210,7 @@ const DefineLiveSphere: FC<Props> = ({ scrollDirectionY, onChange }) => {
               )}
             </List>
           ) : (
-            <p className="p-3 bg-zinc-100 rounded-md">
+            <p className="p-3 bg-zinc-100 dark:bg-zinc-600 rounded-md">
               {$t.createTaskPageAddLifeSphereProggressListNoyetSpheres}
             </p>
           )}

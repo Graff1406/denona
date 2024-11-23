@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, ReactNode } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 
 // Shared
@@ -9,6 +9,8 @@ import { useTranslations } from "@/shared/hooks";
 // Icon
 
 import { IoHome } from "react-icons/io5";
+import { GiLifeInTheBalance, GiStairsGoal } from "react-icons/gi";
+import { MdOutlineAddTask } from "react-icons/md";
 
 const Menu: FC = () => {
   interface Menu {
@@ -16,7 +18,7 @@ const Menu: FC = () => {
     label: string;
     areaLabel: string;
     route: string;
-    icon: string;
+    icon: ReactNode;
   }
 
   // Use
@@ -30,7 +32,28 @@ const Menu: FC = () => {
       label: $t.appMenuLinkHomeLabel,
       areaLabel: $t.appMenuLinkHomeAreaLabel,
       route: path.home,
-      icon: "home",
+      icon: <IoHome />,
+    },
+    {
+      id: 2,
+      label: $t.appPageTaskTitle,
+      areaLabel: $t.appPageTaskDescription,
+      route: path.create,
+      icon: <MdOutlineAddTask />,
+    },
+    {
+      id: 3,
+      label: $t.createTaskCalendarSingleTaskGoalLabel,
+      areaLabel: $t.goalDescription,
+      route: path.goal,
+      icon: <GiStairsGoal />,
+    },
+    {
+      id: 4,
+      label: $t.createTaskCalendarSingleTaskSphereLabel,
+      areaLabel: $t.createTaskPageAddLifeSphereProggressListNoyetSpheres,
+      route: path.defineLifeSphere,
+      icon: <GiLifeInTheBalance />,
     },
   ];
 
@@ -54,9 +77,7 @@ const Menu: FC = () => {
               tabIndex={0}
               aria-current={location.pathname === el.route ? "page" : undefined}
             >
-              <span className="text-2xl">
-                <IoHome />
-              </span>
+              <span className="text-2xl">{el.icon}</span>
               <span>{el.label}</span>
             </NavLink>
           </li>

@@ -1,5 +1,6 @@
 export type SphereLangItem = { label: string; hint: string };
-export type Sphere = {
+
+type SphereBody = {
   id: string;
   created?: string;
   en: SphereLangItem;
@@ -8,3 +9,5 @@ export type Sphere = {
   ua: SphereLangItem;
   ru: SphereLangItem;
 };
+
+export type Sphere = SphereBody | null;

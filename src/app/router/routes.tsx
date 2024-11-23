@@ -7,7 +7,14 @@ import { MainLayout } from "@/widgets/layouts";
 
 // Pages
 
-import { AuthorizedHome, Settings, Help, CreateTask } from "@/pages";
+import {
+  AuthorizedHome,
+  Settings,
+  Help,
+  CreateTask,
+  LifeSphere,
+  Goal,
+} from "@/pages";
 
 // Shared
 
@@ -39,6 +46,14 @@ const routes: Route[] = [
       {
         path: path.create,
         element: <AuthorizedRoute component={CreateTask} />,
+      },
+      {
+        path: path.defineLifeSphere,
+        element: <AuthorizedRoute component={LifeSphere} />,
+      },
+      {
+        path: path.goal,
+        element: <AuthorizedRoute component={Goal} />,
       },
     ],
   },

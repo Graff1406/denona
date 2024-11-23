@@ -21,6 +21,7 @@ export { default as DeDropdownButton } from "./DeDropdownButton.private";
 export { default as DeAlert } from "./DeAlert.private";
 export { default as DeCard } from "./DeCard.private";
 export { default as DeCautiousRecommender } from "./DeCautiousRecommender.private";
+export { default as DeLoadingBanner } from "./DeLoadingBanner.private";
 
 export { DeDateTimePicker } from "./date-time-picker/index.private";
 export { DeTaskList } from "./task-list";
